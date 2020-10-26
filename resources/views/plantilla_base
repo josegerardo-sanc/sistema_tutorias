@@ -1,0 +1,16 @@
+@extends('layouts.body')
+@section('css')
+    {{-- <link rel="stylesheet" href="{{asset('dashboard_assets/css/pages/account.css')}}"> --}}
+
+@endsection
+
+@section('contenido_page')
+
+
+@endsection
+
+
+@section('script')
+´
+{{-- <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script> --}}
+@endsection

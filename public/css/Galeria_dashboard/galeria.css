@@ -1,0 +1,91 @@
+.conte_drag_drop{
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+    border-radius: .25rem;
+    background-color: white;
+    color: #ADADAD;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 1rem;
+    height: 150px;
+    min-height: 80px;
+    padding: 5px;
+    position: relative;
+    border: 2px dotted #dddd;
+}
+
+.file-upload{
+   position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    opacity: 0;
+    background-color:transparent;
+}
+
+/*estilo de la info del contendor padre drag_drop*/
+.info-conte_file-upload {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+}
+
+/*icono de la nube upload/ contendor padre drag_drop*/
+#icono-conte_file-upload {
+width: 100%;
+font-size:20px;
+text-align: center;
+}
+
+/*efecto cuando entro dentro de mi contendedor padre*/
+.drog_file.over_leave_drag {
+background-color: #E6E6E6;
+}
+
+.Drag_over_leave {
+width: 100%;
+height: 100%;
+background-color: red;
+}
+
+/*      estilos de los imagemes en minuatura*/
+.width_conte_galery{
+  border: 1px solid #cccc;
+  position: relative;
+}
+
+.width_conte_galery img{
+  display: block;
+  padding: 2px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  
+}
+.btn_delete_galary_single{
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border: none;
+  border-radius: 4px;
+  background-color: darkgoldenrod;
+  color: white;
+}
+.scroll_::-webkit-scrollbar {
+width: 8px;     /* Tamaño del scroll en vertical */
+height: 8px;    /* Tamaño del scroll en horizontal */
+background-color:#d8d8d8;
+}
+
+
+.image_select_id{
+-webkit-box-shadow: 0px 0px 5px 2px rgba(34,75,179,0.62);
+-moz-box-shadow: 0px 0px 5px 2px rgba(8, 63, 202, 0.62);
+box-shadow: 0px 0px 5px 2px rgba(34,75,179,0.62);
+
+}
