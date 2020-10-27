@@ -13,9 +13,10 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('tipo_usuario',['administrador','alumno', 'tutor','asesor','director','subdirector']);
+            $table->enum('tipo_usuario',['tutor','asesor', 'alumno','director','subdirector','administrador']);
             $table->string('curp')->unique();
             $table->string('rfc');
             $table->string('nombre');

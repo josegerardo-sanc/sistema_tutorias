@@ -112,6 +112,7 @@
     <!-- Demo -->
     <script src="{{asset('dashboard_assets/js/demo.js')}}"></script>
 
+    <script src="{{asset('js/helpers/Ajax_fail.js')}}"></script>
     <script>
 
         let csrf_token=$('meta[name="csrf-token"]').attr('content');

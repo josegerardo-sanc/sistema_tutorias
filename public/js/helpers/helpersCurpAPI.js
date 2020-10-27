@@ -15,7 +15,8 @@ function  AJAXgetDataCurp(this_element,curp){
 
     $.ajax(
         {
-          url :'http://localhost:3000/validarCurpApi',
+          //url :'http://localhost:3000/validarCurpApi',
+          url :'https://api.granbazarmexico.store/validarCurpApi',
           type: "POST",
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -60,10 +61,14 @@ function  AJAXgetDataCurp(this_element,curp){
 
             }
 
-        })
-        .fail(function(data) {
-            $(this_element).html('Validar Curp').removeAttr('disabled');
-            alert( "error" );
+        }).fail(function(jqXHR,textStatus) {
+            /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
+             incluyendo la propiedad jqXHR.status que contiene,
+             entre otros posibles, el código de estado HTTP de la respuesta. */
+             ajax_fails(jqXHR.status,textStatus,jqXHR.responseText);
+
+             $(this_element).html('Validar Curp').removeAttr('disabled');
+
          })
 
 }
@@ -76,8 +81,6 @@ $('.input_curp_validar').on('keyup',function(e){
     if (keycode == '13') {
 
         let btn=$(this).parents('.contenedor_referencia_btn_this').find('button.btn_validar_curp_api').click();
-
-        console.log(btn)
     }else{
 
         var curp=$(this).val();
@@ -93,9 +96,7 @@ $('.input_curp_validar').on('keyup',function(e){
             $('.input_curp_validar').addClass('is-invalid');
             $('.content_error_curp').addClass('invalid-feedback').html('<strong>Curp InValida</strong>');
         }
-
-        console.log("keyup"+status);
-
+        //console.log("keyup"+status);
         $(this).val(curp);
     }
 

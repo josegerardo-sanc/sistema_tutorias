@@ -31,6 +31,11 @@
        @include('admin.helpers.formularioPreRegistro')
         {{-- end modal PREREGISTRO --}}
 
+        <div class="row">
+            <div class="col-sm-12 list_error">
+                <!--ampos invalidos o valor-->
+            </div>
+        </div>
         <div class="nav-tabs-top">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -44,21 +49,18 @@
                 <div class="tab-pane fade show active" id="user-edit-account">
                     <div class="card-body">
                         <div class="media align-items-center">
-                            <img src="{{asset('storage').'/Recursos_sistema/upload_image.png'}}" alt="upload_image" class="d-block ui-w-80">
-                            <div class="media-body ml-3">
-                                <label class="form-label d-block mb-2">Foto Perfil</label>
-                                <label class="btn btn-outline-primary btn-sm">
-                                    Buscar
-                                    <input type="file" class="user-edit-fileinput" id="file_perfil_img" name="file_perfil_img">
-                                </label>&nbsp;
-                            </div>
+                            <img src="{{asset('storage').'/Recursos_sistema/upload_image.png'}}" alt="upload_image" class="d-block ui-w-80 image_perfil">
+                                <div class="media-body ml-3">
+                                    <label class="form-label d-block mb-2">Foto Perfil</label>
+                                    <label class="btn btn-outline-primary btn-sm">
+                                        Buscar
+                                        <input type="file" class="user-edit-fileinput file_usuario_image_search"  name="file_perfil_img" accept="image/x-png, image/gif, image/jpeg">
+                                    </label>&nbsp;
+                                </div>
                         </div>
+                        <div class="Mensaje_Subida_Image"></div>
                     </div>
                     <hr class="border-light m-0">
-                    <div class="list_error">
-                        <!--ampos invalidos o valor-->
-                    </div>
-
                     <form action="#" id="formData_DatosPersonales">
                         <div class="card-body pb-2">
 
@@ -66,18 +68,19 @@
                                 <label class="form-label">Tipos De Usuarios</label>
                                 <select class="form-control" name="tipo_usuario" id="tipo_usuario">
                                     <option selected disabled value="0">Seleccione  Tipo  Usuario</option>
-                                    <option value="1">Tutor</option>
-                                    <option value="2">Asesor</option>
-                                    <option value="3">Alumno</option>
-                                    <option value="4">Director Academico</option>
-                                    <option value="5">SubDirector Academico</option>
-                                    <option value="6">Administrador</option>
+                                    <option value="tutor">Tutor</option>
+                                    <option value="asesor">Asesor</option>
+                                    <option value="alumno">Alumno</option>
+                                    <option value="director">Director Academico</option>
+                                    <option value="subdirector">SubDirector Academico</option>
+                                    <option value="administrador">Administrador</option>
                                 </select>
+                                <div id="content_error_tipo_usuario"></div>
                             </div>
                             <div class="row form-group contenedor_referencia_btn_this">
                                 <div class="col-sm-6 form-group">
                                     <label class="form-label">Curp</label>
-                                    <input name="curp" id="curp" type="text" class="form-control input_curp_validar "  mamaxlength="20">
+                                    <input name="curp" id="curp" type="text" class="form-control input_curp_validar "  mamaxlength="18">
                                     <div class="content_error_curp">info de validacion de la curp</div>
                                 </div>
                                 <div class="col-sm-2 form-group">
@@ -125,9 +128,10 @@
                                     <label class="form-label">Fecha Nacimiento</label>
                                     <input name="fecha_nacimiento" id="fecha_nacimiento" type="date" class="form-control">
                                 </div>
-                                <div class="col-sm-4 form-group">
+                                <div class="col-sm-4 form-group contenedor_principal_validar">
                                     <label class="form-label">Telefono</label>
-                                    <input name="telefono" id="telefono" type="text" class="form-control"  maxlength="10">
+                                    <input name="telefono" id="telefono" type="text" class="form-control validate_telefono_lada validar_numeric_input"  maxlength="10">
+                                    <div class="content_error_validar_lada"></div>
                                 </div>
                                 <div class="col-sm-4 form-group conte_email_validar">
                                     <label class="form-label">Correo</label>
@@ -144,7 +148,7 @@
                             <div class="form-group">
                                 <label class="form-label">Código Postal</label>
                                 <div class="display:flex">
-                                    <input name="codigo_postal" id="codigo_postal" type="text" class="form-control mb-1 inputBuscarCodigoPostal" value="86800" maxlength="5">
+                                    <input name="codigo_postal" id="codigo_postal" type="text" class="form-control mb-1 inputBuscarCodigoPostal"  maxlength="5">
                                     <div class="alert alert-success conte_spiner_codePostal" style="display:none">Espere <i class="fas fa-spinner fa-spin"></i> ......</div>
                                     <div class="alert alert-danger conte_spiner_codePostal_error" style="display:none"><i class="fas fa-exclamation-triangle"></i> Verifique CodigoPostal ,No encontramos resultados  </div>
                                 </div>
@@ -177,66 +181,71 @@
                 </div>
                 <div class="tab-pane fade" id="user-edit-info">
                      {{-- datos del alumno --}}
-                     <div class="card-body pb-2 ocultar_conte_usuario_" id="conte_alumno_academico">
-                        <div class="row form-group">
-                            <div class="col-sm-12 form-group">
-                                    <label class="form-label">Matricula</label>
-                                    <input name="matricula_escolar" id="matricula_escolar" type="text"  class="form-control">
-                            </div>
-                        </div>
+                     <form action="#" id="formData_Datos_alumno">
+                        <div class="card-body pb-2 ocultar_conte_usuario_" id="conte_alumno_academico">
                             <div class="row form-group">
                                 <div class="col-sm-12 form-group">
-                                        <label class="form-label">Semestre</label>
-                                        <select  name="semestre_escolar" id="semestre_escolar" class="form-control">
-                                            <option value="0" disabled selected>Seleccione Semestre</option>
-                                            <option value="1">1º Semestre</option>
-                                            <option value="2">2º Semestre</option>
-                                            <option value="3">3º Semestre</option>
-                                            <option value="4">4º Semestre</option>
-                                            <option value="5">5º Semestre</option>
-                                            <option value="6">6º Semestre</option>
-                                            <option value="7">8º Semestre</option>
-                                            <option value="8">9º Semestre</option>
-                                        </select>
+                                    <label class="form-label">Matricula</label>
+                                    <input name="matricula" id="matricula_escolar" type="text"  class="form-control">
                                 </div>
                             </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-12 form-group">
+                                            <label class="form-label">Semestre</label>
+                                            <select  name="semestre_escolar" id="semestre_escolar" class="form-control">
+                                                <option value="0" disabled selected>Seleccione Semestre</option>
+                                                <option value="1">1º Semestre</option>
+                                                <option value="2">2º Semestre</option>
+                                                <option value="3">3º Semestre</option>
+                                                <option value="4">4º Semestre</option>
+                                                <option value="5">5º Semestre</option>
+                                                <option value="6">6º Semestre</option>
+                                                <option value="7">8º Semestre</option>
+                                                <option value="8">9º Semestre</option>
+                                            </select>
+                                    </div>
+                                </div>
 
+                                <div class="row form-group">
+                                    <div class="col-sm-4 form-group">
+                                        <label class="form-label">Periodo</label>
+                                        <select class="form-control" name="periodo_escolar" id="periodo_escolar">
+                                            <option value="0" disabled selected>Seleccione Periodo</option>
+                                            <option value="1">FEBRERO-JULIO</option>
+                                            <option value="2">AGOSTO-DICIEMBRE</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label class="form-label">Turno</label>
+                                        <select class="form-control" name="turno_escolar" id="turno_escolar">
+                                            <option value="0" disabled selected>Seleccione Turno/option>
+                                            <option value="1">Vespertino</option>
+                                            <option value="2">Matutino</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label class="form-label">Grupo</label>
+                                        <select class="form-control" name="grupo_escolar" id="grupo_escolar">
+                                            <option value="0" disabled selected>Seleccione Grupo</option>
+                                            <option value="1">A</option>
+                                            <option value="2">B</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            {{-- datos del docente --}}
+                        </div>
+                     </form>
+
+                     <form action="#" id="formData_Datos_docente">
+                        <div  class="card-body pb-2 ocultar_conte_usuario_" id="conte_docente_academico">
                             <div class="row form-group">
                                 <div class="col-sm-4 form-group">
-                                    <label class="form-label">Periodo</label>
-                                    <select class="form-control" name="periodo_escolar" id="periodo_escolar">
-                                        <option value="0" disabled selected>Seleccione Periodo</option>
-                                        <option value="1">FEBRERO-JULIO</option>
-                                        <option value="2">AGOSTO-DICIEMBRE</option>
-                                    </select>
+                                    <label class="form-label">Cedula Profesional</label>
+                                    <input  name="cedula_profesional" id="cedula_profesioanl" type="text" class="form-control">
                                 </div>
-                                <div class="col-sm-4 form-group">
-                                    <label class="form-label">Turno</label>
-                                    <select class="form-control" name="turno_escolar" id="turno_escolar">
-                                        <option value="0" disabled selected>Seleccione Turno/option>
-                                        <option value="1">Vespertino</option>
-                                        <option value="2">Matutino</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4 form-group">
-                                    <label class="form-label">Grupo</label>
-                                    <select class="form-control" name="grupo_escolar" id="grupo_escolar">
-                                        <option value="0" disabled selected>Seleccione Grupo</option>
-                                        <option value="1">A</option>
-                                        <option value="2">B</option>
-                                    </select>
-                                </div>
-                            </div>
-                        {{-- datos del docente --}}
-                    </div>
-                    <div  class="card-body pb-2 ocultar_conte_usuario_" id="conte_docente_academico">
-                        <div class="row form-group">
-                            <div class="col-sm-4 form-group">
-                                <label class="form-label">Cedula Profesional</label>
-                                <input  name="cedula_profesioanl" id="cedula_profesioanl" type="text" class="form-control">
                             </div>
                         </div>
-                    </div>
+                     </form>
                 </div>
         </div>
         <div class="text-right mt-3">
@@ -253,6 +262,8 @@
 
 @section('script')
 
+
+<script src="{{asset('js/helpers/verificarLada.js')}}"></script>
 
 <script src="{{asset('dashboard_assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
 <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>

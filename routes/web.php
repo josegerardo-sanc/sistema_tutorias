@@ -20,7 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('Admin/Usuario/', function () {
-
     return view('admin.usuario.index');
 });
 
