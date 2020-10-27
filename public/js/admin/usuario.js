@@ -9,7 +9,7 @@ $('#tipo_usuario').on('change',function(){
    var tipo_user= $(this).val();
    $('.ocultar_conte_usuario_').hide();
 
-   if(tipo_user=="3"){
+   if(tipo_user=="alumno"){
     // formulario academico alumno
      $('#conte_alumno_academico').show();
    }else{
@@ -41,6 +41,7 @@ $('#Admin_btnRegisterUser').on('click',function(e){
 
 
     let formData_DatosPersonales=new FormData($('#formData_DatosPersonales')[0]);
+        formData_DatosPersonales.append('img_perfil',$('.file_usuario_image_search')[0].files[0]);
 
 
     if(TIPO_USER==0){
@@ -60,15 +61,14 @@ $('#Admin_btnRegisterUser').on('click',function(e){
         object_data[entry[0]] =entry[1];
     }
 
-
-    if(TIPO_USER==3){
+    if(TIPO_USER=="alumno"){
         let formData_Datos_alumno=new FormData($('#formData_Datos_alumno')[0]);
 
         for (let entry of formData_Datos_alumno.entries()){
             object_data[entry[0]] =entry[1].trim();
         }
     }
-    if(TIPO_USER!=3 && TIPO_USER!=6){
+    if(TIPO_USER!="alumno" && TIPO_USER!="administrador"){
         let formData_Datos_docente=new FormData($('#formData_Datos_docente')[0]);
         for (let entry of formData_Datos_docente.entries()){
             object_data[entry[0]] =entry[1].trim();
@@ -82,10 +82,13 @@ $('#Admin_btnRegisterUser').on('click',function(e){
 
     $.ajax(
         {
-          url :'/AdminRegisterUser',
+          url :'/Admin/user/Register',
           type: "POST",
           headers:{"X-CSRF-Token": csrf_token},
           data :JSON.stringify(object_data),
+          enctype: 'multipart/form-data',
+          processData: false,
+          contentType: false,
           beforeSend:function(){
              $(this_element).html('<i class="fas fa-sync fa-spin"></i> Cargando.......').attr('disabled','disabled');          }
 
@@ -175,23 +178,35 @@ $('#Admin_btnRegisterUser').on('click',function(e){
         var file_input = picture.files[0];
         var ext = ['jpeg', 'jpg', 'png'];
         var name = file_input.name.split('.').pop().toLocaleLowerCase();
-
+        var archivo_permitidos="";
         //1 kilobyte multiplica el valor de tamaño de datos por 1000
 
-        // peso permitido 3 MEGABYTE
-        if(siezekiloByte>3072){
-            $('.Mensaje_Subida_Image').html('warning','Error','El tamaño supera el limite permitido');
-            $('.image_perfil').attr("src",img_perfil);
-            $('.file_usuario_image_search').val("");
+        // peso permitido 2 MEGABYTE
+        var list_errors="";
+        if(siezekiloByte>2048){
+           var megaByte=(siezekiloByte/1024).toFixed();
+            list_errors+=`<li>El archivo supera el limite (${megaByte})MB permitido 2MB</li>`;
         }
 
         if (ext.indexOf(name) == -1) {
-            var archivo_permitidos = ext.toString().toUpperCase();
-            $('.Mensaje_Subida_Image').html('danger','Error','Archivos permitidos '+archivo_permitidos);
+            archivo_permitidos = ext.toString().toUpperCase();
+            list_errors+=`<li>Archivos permitidos ${archivo_permitidos}</li>`;
+        }
+        if(list_errors!=""){
+            $('.Mensaje_Subida_Image').html(`
+                 <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                    ${list_errors}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `);
             $('.image_perfil').attr("src",img_perfil);
             $('.file_usuario_image_search').val("");
+
             return false;
         }
+
 
         var img=URL.createObjectURL(picture.files[0]);
             //console.log(file_input.parentElement);

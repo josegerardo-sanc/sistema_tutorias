@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 
 class UsuarioController extends Controller
@@ -16,6 +17,20 @@ class UsuarioController extends Controller
     public function create(Request $request){
 
       $data = json_decode($request->getContent(), true);
+
+      return json_encode(['$_post'=>$data,'files'=>$data['img_perfil'] ]);
+
+
+      return false;
+      $info=false;
+      if(!empty($_FILES['img_perfil'])){
+        $info=$this->Image_validar($_FILES);
+      }
+      if($info['validacion']==true){
+            return json_encode(['info'=>$info['info'] ]);
+      }
+      return json_encode(['info'=>'stop']);
+
         // validacion datos personales
        $validatedData = Validator::make($data, [
             'tipo_usuario'=>'required',
@@ -55,7 +70,7 @@ class UsuarioController extends Controller
         $turno_escolar=isset($data['turno_escolar'])?$data['turno_escolar']:"";
         $grupo_escolar=isset($data['grupo_escolar'])?$data['grupo_escolar']:"";
 
-        if($tipo_usuario==3){
+        if($tipo_usuario=="alumno"){
             // alumno
             $validatedDatos_complementarios = Validator::make($data, [
                 'matricula'=>['required','string','max:10','unique:datos_alumnos'],
@@ -68,7 +83,7 @@ class UsuarioController extends Controller
 
          // validacion datos_academicos_alumno
         $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
-        if($tipo_usuario!=3 && $tipo_usuario!=6){
+        if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
             // diferente de alumno y administardior, solictar cedula profesional etc.
             $validatedDatos_complementarios = Validator::make($data, [
                 'cedula_profesional'=>['required','string','max:10','unique:datos_docentes']
@@ -111,7 +126,7 @@ class UsuarioController extends Controller
                  throw new Exception ("NO SE PUDO REALIZAR EL REGISTRO DE USUARIO, EXEPTION");
             }
 
-            if($tipo_usuario=="3"){
+            if($tipo_usuario=="alumno"){
                 $status=DB::table('datos_alumnos')->insert([
                     [
                         'matricula'=>$matricula,
@@ -126,7 +141,7 @@ class UsuarioController extends Controller
                   throw new Exception("NO SE PUDO REALIZAR EL REGISTRO DE DATOS DEL ALUMNO, EXEPTION");
               }
             }
-            if($tipo_usuario!="3" && $tipo_usuario!="6"){
+            if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
                 $status=DB::table('datos_docentes')->insert([
                     [
                         'cedula_profesional'=>$cedula_profesional,
@@ -145,5 +160,36 @@ class UsuarioController extends Controller
             DB::rollBack();
             return json_encode(['status'=>"400",'info'=>"se produjo un problema de comunicación con los servidor",'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
         }
+    }
+
+    public static function Image_validar($FILES){
+        $validator=false;
+        $arreglo=[];
+        foreach ($FILES as $key => $file) {
+            // # code...;
+                $formato_image_ERROR='';
+                $peso_image_ERROR='';
+
+                $formatos_permitidos =  array('jpg','jpeg' ,'png');
+                $archivo= $file['name'];
+                $peso_byte=$file['size'];
+                $extension =strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+                if($formatos_permitidos!=""&&$archivo!=""&&$peso_byte!=""){
+                    if(!in_array($extension, $formatos_permitidos) ) {
+                        $formato_image_ERROR='Formato no permitido: '.strtoupper($extension);
+                    }
+                    if($peso_byte>2097152){
+                        $peso_image_ERROR="Peso Permitido:2MB, Peso Actual ".number_format(($peso_byte/1048576),2).'MB';
+                    }
+                    if($formato_image_ERROR!=""||$peso_image_ERROR!=""){
+                        $arreglo=["info"=>"Intentelo de nuevo","status"=>400,"formato"=>$formato_image_ERROR,"peso"=>$peso_image_ERROR,"image"=>'Nombre del archivo: '.$file['name']];
+                        $validator=true;
+                    }
+
+                }
+           }
+
+            $info=['info'=>$arreglo,'validacion'=>$validator];
+            return $info;
     }
 }

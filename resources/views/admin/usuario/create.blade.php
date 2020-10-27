@@ -49,7 +49,10 @@
                 <div class="tab-pane fade show active" id="user-edit-account">
                     <div class="card-body">
                         <div class="media align-items-center">
-                            <img src="{{asset('storage').'/Recursos_sistema/upload_image.png'}}" alt="upload_image" class="d-block ui-w-80 image_perfil">
+                            <img src="{{asset('storage').'/Recursos_sistema/upload_image.png'}}" alt="upload_image"
+                            class="d-block ui-w-80 image_perfil"
+                            style="max-width: 80px;"
+                            >
                                 <div class="media-body ml-3">
                                     <label class="form-label d-block mb-2">Foto Perfil</label>
                                     <label class="btn btn-outline-primary btn-sm">

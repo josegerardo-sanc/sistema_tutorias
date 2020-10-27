@@ -96,11 +96,8 @@
 
     <!-- Core scripts -->
     <script src="{{asset('dashboard_assets/js/jquery-3.2.1.min.js')}}"></script>
-
     <script src="{{asset('dashboard_assets/js/pace.js')}}"></script>
-
-
-     <script src="{{asset('dashboard_assets/libs/popper/popper.js')}}"></script>
+    <script src="{{asset('dashboard_assets/libs/popper/popper.js')}}"></script>
     <script src="{{asset('dashboard_assets/js/bootstrap.js')}}"></script>
     <script src="{{asset('dashboard_assets/js/sidenav.js')}}"></script>
     <script src="{{asset('dashboard_assets/js/layout-helpers.js')}}"></script>
@@ -114,11 +111,8 @@
 
     <script src="{{asset('js/helpers/Ajax_fail.js')}}"></script>
     <script>
-
         let csrf_token=$('meta[name="csrf-token"]').attr('content');
         const headers_config={"Content-Type": "application/json","Accept": "application/json","X-Requested-With": "XMLHttpRequest","X-CSRF-Token":csrf_token};
-
-
     </script>
     @yield('script')
 

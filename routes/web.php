@@ -19,15 +19,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('Admin/Usuario/', function () {
-    return view('admin.usuario.index');
-});
 
+
+// admin-form-usuaurio-register
 Route::get('Admin/Usuario/Nuevo', function () {
     return view('admin.usuario.create');
 });
 
-Route::post('/AdminRegisterUser', 'Admin\Usuario\UsuarioController@create');
+
+Route::get('/Admin/user','Admin\Usuario\UsuarioController@index');
+Route::post('/Admin/user/Register', 'Admin\Usuario\UsuarioController@create');
 
 
 
