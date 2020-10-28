@@ -77,6 +77,7 @@ class UsuarioController extends Controller
         // validacion datos_academicos_alumno
         $matricula=isset($data['matricula'])?$data['matricula']:"";
         $semestre_escolar=isset($data['semestre_escolar'])?$data['semestre_escolar']:"";
+        $carrera_escolar=isset($data['carrera_escolar'])?$data['carrera_escolar']:"";
         $periodo_escolar=isset($data['periodo_escolar'])?$data['periodo_escolar']:"";
         $turno_escolar=isset($data['turno_escolar'])?$data['turno_escolar']:"";
         $grupo_escolar=isset($data['grupo_escolar'])?$data['grupo_escolar']:"";
@@ -86,6 +87,7 @@ class UsuarioController extends Controller
             $validatedDatos_complementarios = Validator::make($data, [
                 'matricula'=>['required','string','max:10','unique:datos_alumnos'],
                 'semestre_escolar'=>'required',
+                'carrera_escolar'=>'required',
                 'periodo_escolar'=>'required',
                 'turno_escolar'=>'required',
                 'grupo_escolar'=>'required'
@@ -145,6 +147,7 @@ class UsuarioController extends Controller
                         'matricula'=>$matricula,
                         'periodo'=> $periodo_escolar ,
                         'semestre'=>$semestre_escolar ,
+                        'carrera'=>$carrera_escolar ,
                         'grupo'=> $grupo_escolar,
                         'turno'=> $turno_escolar,
                         'user_id_alumno'=> $user_id_created

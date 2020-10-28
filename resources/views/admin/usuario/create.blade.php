@@ -181,15 +181,16 @@
                 <div class="tab-pane fade" id="user-edit-info">
                      {{-- datos del alumno --}}
                      <form action="#" id="formData_Datos_alumno">
-                        <div class="card-body pb-2 ocultar_conte_usuario_" id="conte_alumno_academico">
-                            <div class="row form-group">
+                        <div class="card-body pb-2 ocultar_conte_usuario_ " id="conte_alumno_academico">
+                            <div class="row form-group conte_referencs_matricula">
                                 <div class="col-sm-12 form-group">
                                     <label class="form-label">Matricula</label>
-                                    <input name="matricula" id="matricula_escolar" type="text"  class="form-control">
+                                    <input name="matricula" id="matricula_escolar" type="text"  class="form-control matricula_escolar_validar">
+                                    <div class="contenedor_input_matricula_alumno"></div>
                                 </div>
                             </div>
                                 <div class="row form-group">
-                                    <div class="col-sm-12 form-group">
+                                    <div class="col-sm-6 form-group">
                                             <label class="form-label">Semestre</label>
                                             <select  name="semestre_escolar" id="semestre_escolar" class="form-control">
                                                 <option value="0" disabled selected>Seleccione Semestre</option>
@@ -203,6 +204,17 @@
                                                 <option value="8">9º Semestre</option>
                                             </select>
                                     </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label class="form-label">Carrera</label>
+                                        <select  name="carrera_escolar" id="carrera_escolar" class="form-control">
+                                            <option value="0" disabled selected>Seleccione Carrera</option>
+                                            <option value="informatica">Ing.informática</option>
+                                            <option value="administracion">Ing.administración</option>
+                                            <option value="renovable">Ing.renovable</option>
+                                            <option value="bioquimica">Ing.bioquimíca</option>
+                                            <option value="electromecanica">Ing.electromecánica </option>
+                                        </select>
+                                     </div>
                                 </div>
 
                                 <div class="row form-group">
@@ -271,7 +283,8 @@
 <script src="{{asset('js/helpers/helpersCurpAPI.js')}}"></script>
 <script src="{{asset('js/helpers/codepostal.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarEMAIL_TELEFONO.js')}}"></script>
-<script src="{{asset('js/admin/usuarioRegistroRapido.js')}}"></script>
+<script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
+
 <script src="{{asset('js/admin/usuario.js')}}"></script>
 
 

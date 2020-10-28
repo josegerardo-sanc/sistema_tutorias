@@ -57,6 +57,7 @@ function loadUuser(){
 /*REGISTRAR USUARIO*/
 /*REGISTRAR USUARIO*/
 
+
 var OBJ_DATA_USUARIO_NEW={};
 
 let TIPO_USER=0;

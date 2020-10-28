@@ -129,3 +129,4 @@ function digitoVerificador(curp17) {
     if (lngDigito == 10) return 0;
     return lngDigito;
 }
+

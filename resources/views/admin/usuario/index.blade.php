@@ -41,7 +41,7 @@
                                             <option value="administrador">Administrador</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-8 row form-group">
+                                    {{-- <div class="col-sm-8 row form-group">
                                         <div class="col-sm-6">
                                             <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;width:100%">Fecha desde</label>
                                             <input type="date" class="form-control">
@@ -50,11 +50,70 @@
                                             <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;width:100%">Fecha hasta</label>
                                             <input type="date" class="form-control">
                                         </div>
+                                    </div> --}}
+
+                                    <div class="col-sm-4 form-group conte_filtro_clave" style="display:none" >
+                                        <label for="" class="col-form-label d-flex justify-content-start text_filtro_clave" style="color:#1D62D3;">tipo_clave</label>
+                                        <input type="text" class="form-control" name="clave_search" id="clave_search" placeholder="Opcional">
                                     </div>
-                                    <div class="col-sm-4 form-group" style="display:none">
-                                        <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;">"Matricula"</label>
-                                        <input type="text" class="form-control" name="clave_search" id="clave_search">
+                                    <div class="col-sm-12 form-group filtro_alumno">
+                                        <div class="row form-group">
+                                            <div class="col-sm-6 form-group">
+                                                    <label class="form-label">Semestre</label>
+                                                    <select  name="semestre_escolar" id="semestre_escolar" class="form-control">
+                                                        <option value="0" disabled selected>Seleccione Semestre</option>
+                                                        <option value="1">1º Semestre</option>
+                                                        <option value="2">2º Semestre</option>
+                                                        <option value="3">3º Semestre</option>
+                                                        <option value="4">4º Semestre</option>
+                                                        <option value="5">5º Semestre</option>
+                                                        <option value="6">6º Semestre</option>
+                                                        <option value="7">8º Semestre</option>
+                                                        <option value="8">9º Semestre</option>
+                                                    </select>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label class="form-label">Carrera</label>
+                                                <select  name="semestre_escolar" id="semestre_escolar" class="form-control">
+                                                    <option value="0" disabled selected>Seleccione Carrera</option>
+                                                    <option value="informatica">Ing.informática</option>
+                                                    <option value="administracion">Ing.administración</option>
+                                                    <option value="renovable">Ing.renovable</option>
+                                                    <option value="bioquimica">Ing.bioquimíca</option>
+                                                    <option value="electromecanica">Ing.electromecánica </option>
+                                                </select>
+                                             </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col-sm-4 form-group">
+                                                <label class="form-label">Periodo</label>
+                                                <select class="form-control" name="periodo_escolar" id="periodo_escolar">
+                                                    <option value="0" disabled selected>Seleccione Periodo</option>
+                                                    <option value="1">FEBRERO-JULIO</option>
+                                                    <option value="2">AGOSTO-DICIEMBRE</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label class="form-label">Turno</label>
+                                                <select class="form-control" name="turno_escolar" id="turno_escolar">
+                                                    <option value="0" disabled selected>Seleccione Turno/option>
+                                                    <option value="1">Vespertino</option>
+                                                    <option value="2">Matutino</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4 form-group">
+                                                <label class="form-label">Grupo</label>
+                                                <select class="form-control" name="grupo_escolar" id="grupo_escolar">
+                                                    <option value="0" disabled selected>Seleccione Grupo</option>
+                                                    <option value="1">A</option>
+                                                    <option value="2">B</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                     </div>
+
                                     <div class="col-sm-12 mt-4">
                                         <button class="btn float-right" style="background-color:#1050B9;color:white">Consultar</button>
                                     </div>
@@ -188,7 +247,35 @@
 @section('script')
 
 <script src="{{asset('js/admin/usuario.js')}}"></script>
+<script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
 <script>
+
+
+
+
+
+
+var TIPO_USER_SEARCH="";
+  $('#tipo_usuario_search').on('change',function(){
+
+        TIPO_USER_SEARCH=$(this).val();
+        $('.conte_filtro_clave').css({'display':'none'});
+
+        var text_filtro_clave="";
+
+        if(TIPO_USER_SEARCH=="alumno"){
+            text_filtro_clave="Matricula";
+        }else if(TIPO_USER_SEARCH!="alumno"&&TIPO_USER_SEARCH!="administrador"){
+            text_filtro_clave="Cedula Profesional";
+        }
+        if(TIPO_USER_SEARCH!="administrador"){
+            $('.conte_filtro_clave').css({'display':''});
+        }
+        $('.text_filtro_clave').html(text_filtro_clave);
+
+    });
+
+
 
     $('.btn_search_abc').on('click',function(){
 

@@ -18,6 +18,7 @@ class DatosAlumnos extends Migration
         $table->string('matricula')->unique();
         $table->enum('periodo',['FEBRERO-JULIO','AGOSTO-DICIEMBRE']);
         $table->string('semestre');
+        $table->string('carrera');
         $table->string('grupo');
         $table->string('turno');
         $table->unsignedBigInteger('user_id_alumno');
