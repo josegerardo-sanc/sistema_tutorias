@@ -27,9 +27,10 @@ class CreateUsersTable extends Migration
             $table->string('localidad');
             $table->string('telefono')->unique();
             $table->string('email')->unique();
-            $table->string('active');
+            $table->string('active')->comment('1:active 2:inactivo 3:pendiente');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('photo');
             $table->rememberToken();
             $table->timestamps();
         });

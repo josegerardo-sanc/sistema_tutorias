@@ -13,13 +13,8 @@
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
         <h4 class="font-weight-bold py-3 mb-0">Nuevo Usuario</h4>
-        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#"><i class="feather icon-user"></i></a></li>
-                <li class="breadcrumb-item active">Nuevo usuario</li>
-                <li class="breadcrumb-item">Registro Rapido</li>
-            </ol>
-        </div>
+
+        @include('admin.usuario.navar')
 
         <div class="row justify-content-end form-group">
             <div class="col-sm-2">
@@ -65,6 +60,7 @@
                     </div>
                     <hr class="border-light m-0">
                     <form action="#" id="formData_DatosPersonales">
+                        {{ csrf_field() }}
                         <div class="card-body pb-2">
 
                             <div class="form-group">

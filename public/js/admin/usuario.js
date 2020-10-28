@@ -1,5 +1,61 @@
 
-console.log("mi token es"+csrf_token);
+/*CONSULTAR USUARIO*/
+/*CONSULTAR USUARIO*/
+/*CONSULTAR USUARIO*/
+/*CONSULTAR USUARIO*/
+/*CONSULTAR USUARIO*/
+/*CONSULTAR USUARIO*/
+
+
+/*
+$('#producto_fisico').on('click',function(){
+    if($("#producto_fisico").is(':checked')) {
+            $('#conte_producto_fisico').fadeIn();
+    } else {
+        $('#conte_producto_fisico').fadeOut();
+    }
+});
+*/
+
+
+
+
+function loadUuser(){
+
+    $.ajax({
+        url :'/Admin/user',
+        type: "GET",
+        headers:{"X-CSRF-Token": csrf_token},
+        data :{},
+        beforeSend:function(){
+           $('.conte_loader_MyStyle').css({display:'flex'});
+          }
+
+    }).done(function(){
+
+    }).fail(function(jqXHR,textStatus) {
+
+        /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
+         incluyendo la propiedad jqXHR.status que contiene,
+         entre otros posibles, el código de estado HTTP de la respuesta. */
+         ajax_fails(jqXHR.status,textStatus,jqXHR.responseText);
+         $('.conte_loader_MyStyle').css({display:'none'});
+     })
+
+
+}
+
+
+
+
+
+/*REGISTRAR USUARIO*/
+/*REGISTRAR USUARIO*/
+/*REGISTRAR USUARIO*/
+/*REGISTRAR USUARIO*/
+/*REGISTRAR USUARIO*/
+/*REGISTRAR USUARIO*/
+/*REGISTRAR USUARIO*/
 
 var OBJ_DATA_USUARIO_NEW={};
 
@@ -33,16 +89,10 @@ $('.reset_formulario').on('click',function(){
 $('#Admin_btnRegisterUser').on('click',function(e){
     e.preventDefault();
 
-
     //var file=$('.file_usuario_image_search')[0].files[0];
 
     $('#tipo_usuario').removeClass('is-invalid is-valid');
     $('#content_error_tipo_usuario').removeClass('invalid-feedback valid-feedback').css({'color':'#F9F5F6'});
-
-
-    let formData_DatosPersonales=new FormData($('#formData_DatosPersonales')[0]);
-        formData_DatosPersonales.append('img_perfil',$('.file_usuario_image_search')[0].files[0]);
-
 
     if(TIPO_USER==0){
         $('#tipo_usuario').addClass('is-invalid');
@@ -53,53 +103,52 @@ $('#Admin_btnRegisterUser').on('click',function(e){
     }
 
 
-    let object_data={
-        '_token':csrf_token,
-    };
+    let formData_DatosPersonales=new FormData($('#formData_DatosPersonales')[0]);
+        formData_DatosPersonales.append('img_perfil',$('.file_usuario_image_search')[0].files[0]);
 
-    for (let entry of formData_DatosPersonales.entries()){
-        object_data[entry[0]] =entry[1];
-    }
 
     if(TIPO_USER=="alumno"){
         let formData_Datos_alumno=new FormData($('#formData_Datos_alumno')[0]);
-
         for (let entry of formData_Datos_alumno.entries()){
-            object_data[entry[0]] =entry[1].trim();
+            formData_DatosPersonales.append(entry[0],entry[1]);
         }
     }
     if(TIPO_USER!="alumno" && TIPO_USER!="administrador"){
         let formData_Datos_docente=new FormData($('#formData_Datos_docente')[0]);
         for (let entry of formData_Datos_docente.entries()){
-            object_data[entry[0]] =entry[1].trim();
+            formData_DatosPersonales.append(entry[0],entry[1]);
         }
+
     }
 
-    console.log(object_data);
+    /*
+    //ver datos que serane nviados al backen
+    for (let entry of formData_DatosPersonales.entries()){
+        console.log("clave: "+entry[0]+"valor: "+entry[1]);
+    }*/
 
     let this_element=$(this);
     $('.list_error').html('');
 
     $.ajax(
         {
-          url :'/Admin/user/Register',
+          url :'/Admin/user',
+          //url :'/Admin/user/Register',
           type: "POST",
           headers:{"X-CSRF-Token": csrf_token},
-          data :JSON.stringify(object_data),
-          enctype: 'multipart/form-data',
+          data :formData_DatosPersonales,
           processData: false,
           contentType: false,
           beforeSend:function(){
-             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Cargando.......').attr('disabled','disabled');          }
+             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Cargando.......').attr('disabled','disabled');
+             $('.conte_loader_MyStyle').css({display:'flex'});
+            }
 
         })
         .done(function(data) {
-
-            console.log(data);
-
+            $('.conte_loader_MyStyle').css({display:'none'});
+            // console.log(data)
             $(this_element).html('Registar Usuario').removeAttr('disabled');
-
-            console.log("json.parse")
             var data=JSON.parse(data);
             console.log(data);
 
@@ -126,11 +175,22 @@ $('#Admin_btnRegisterUser').on('click',function(e){
             }
 
             if(data.status=="400"){
-                $('.list_error').html("<div class='alert alert-warning alert-dismissible fade show'>se produjo un problema de comunicación con los servidor <li>Favor de recargar la pagina (F5)</li></div>");
-                return false;
+                var errors_list="";
+
+                if(data.file_error){
+
+                        for (const item in data.info) {
+                            errors_list+=`<li><strong style="color:#FF334C">${item.toUpperCase()} : </strong> ${data.info[item]}</li>`;
+                        }
+                }else{
+                    errors_list="se produjo un problema de comunicación con los servidor <li>Favor de recargar la pagina (F5)</li>";
+                }
+                $('.list_error').html(`<div class='alert alert-warning alert-dismissible fade show'>${errors_list}  ${btn_close_Alert}</div>`);
             }
             if(data.status=="200"){
                 $('.list_error').html(`<div class='alert alert-success alert-dismissible fade show'>Registro Exitoso ${btn_close_Alert}</div>`);
+
+                $('.reset_formulario').click();
             }
 
         }).fail(function(jqXHR,textStatus) {
@@ -139,81 +199,206 @@ $('#Admin_btnRegisterUser').on('click',function(e){
              incluyendo la propiedad jqXHR.status que contiene,
              entre otros posibles, el código de estado HTTP de la respuesta. */
              ajax_fails(jqXHR.status,textStatus,jqXHR.responseText);
-
+             $('.conte_loader_MyStyle').css({display:'none'});
             $(this_element).html('Registar Usuario').removeAttr('disabled');
 
          })
 });
 
 
-    /*
-    $('#producto_fisico').on('click',function(){
-        if($("#producto_fisico").is(':checked')) {
-             $('#conte_producto_fisico').fadeIn();
-        } else {
-            $('#conte_producto_fisico').fadeOut();
-        }
-    });
-    */
+var img_perfil=$('.image_perfil').attr("src");
 
-    var img_perfil=$('.image_perfil').attr("src");
+$('.image_perfil').on('click',function(){
+    $('.file_usuario_image_search').click();
+});
 
-    $('.file_usuario_image_search').on('change', function() {
-        $('.Mensaje_Subida_Image').html('');
+$('.file_usuario_image_search').on('change', function() {
+    $('.Mensaje_Subida_Image').html('');
 
-        var picture=this;
-        console.log(picture.files[0]);
+    var picture=this;
+    //console.log(picture.files[0]);
 
-        var sizeByte = picture.files[0].size;
+    var sizeByte = picture.files[0].size;
 
-        // 640 x 480 = 307200
-        // 307200 x 3 = 921600 bytes 921600 / 1024 = 900 KB
-        // 1kb ==1024 bytes
+    // 640 x 480 = 307200
+    // 307200 x 3 = 921600 bytes 921600 / 1024 = 900 KB
+    // 1kb ==1024 bytes
 
 
-        // ejemplo si pesa 3mg es igual a 3kb
+    // ejemplo si pesa 3mg es igual a 3kb
 
-        var siezekiloByte = parseInt(sizeByte/1024);
-        //2. tipo_archivo
-        var file_input = picture.files[0];
-        var ext = ['jpeg', 'jpg', 'png'];
-        var name = file_input.name.split('.').pop().toLocaleLowerCase();
-        var archivo_permitidos="";
-        //1 kilobyte multiplica el valor de tamaño de datos por 1000
+    var siezekiloByte = parseInt(sizeByte/1024);
+    //2. tipo_archivo
+    var file_input = picture.files[0];
+    var ext = ['jpeg', 'jpg', 'png'];
+    var name = file_input.name.split('.').pop().toLocaleLowerCase();
+    var archivo_permitidos="";
+    //1 kilobyte multiplica el valor de tamaño de datos por 1000
 
-        // peso permitido 2 MEGABYTE
-        var list_errors="";
-        if(siezekiloByte>2048){
-           var megaByte=(siezekiloByte/1024).toFixed();
-            list_errors+=`<li>El archivo supera el limite (${megaByte})MB permitido 2MB</li>`;
-        }
+    // peso permitido 2 MEGABYTE
+    var list_errors="";
 
-        if (ext.indexOf(name) == -1) {
-            archivo_permitidos = ext.toString().toUpperCase();
-            list_errors+=`<li>Archivos permitidos ${archivo_permitidos}</li>`;
-        }
-        if(list_errors!=""){
-            $('.Mensaje_Subida_Image').html(`
-                 <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
-                    ${list_errors}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            `);
-            $('.image_perfil').attr("src",img_perfil);
-            $('.file_usuario_image_search').val("");
+    if(siezekiloByte>2048){
+        var megaByte=(siezekiloByte/1024).toFixed();
+        list_errors+=`<li>El archivo supera el limite (${megaByte})MB permitido 2MB</li>`;
+    }
 
-            return false;
-        }
+    if (ext.indexOf(name) == -1) {
+        archivo_permitidos = ext.toString().toUpperCase();
+        list_errors+=`<li>Archivos permitidos ${archivo_permitidos}</li>`;
+    }
+
+    if(list_errors!=""){
+        $('.Mensaje_Subida_Image').html(`
+                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                ${list_errors}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `);
+        $('.image_perfil').attr("src",img_perfil);
+        $('.file_usuario_image_search').val("");
+
+        return false;
+    }
 
 
-        var img=URL.createObjectURL(picture.files[0]);
-            //console.log(file_input.parentElement);
-        $('.image_perfil').attr('src',img);
-    });
+    var img=URL.createObjectURL(picture.files[0]);
+        //console.log(file_input.parentElement);
+    $('.image_perfil').attr('src',img);
+});
 
-    // $('.file_usuario_image_search_clean').on('click',function(){
-    //     $('.image_perfil').attr("src",img_perfil);
-    //     $('.file_usuario_image_search').val('');
-    // });
+
+/**ACTIVAR Y DESACTIVAR CUENTA */
+/**ACTIVAR Y DESACTIVAR CUENTA */
+/**ACTIVAR Y DESACTIVAR CUENTA */
+/**ACTIVAR Y DESACTIVAR CUENTA */
+/**ACTIVAR Y DESACTIVAR CUENTA */
+    let this_id_user="";
+    let status_cuenta="";
+    let user_name="";
+    let this_referecs_btn_cuenta="";
+    let object_data_data_cuenta="";
+
+$(document).on('click','.continuar_activacion',function(){
+    cuenta_usuario(this_referecs_btn_cuenta,object_data_data_cuenta);
+ });
+
+
+
+
+ $(document).on('click','.btn_cuenta_user',function(){
+
+     $('.contenedor_exception').html('');
+     this_referecs_btn_cuenta=$(this);
+
+     this_id_user=$(this).parents('.conte_user').data('id_user');
+     status_cuenta=$(this).parents('.conte_user').data('status_cuenta');
+     user_name=$(this).parents('.conte_user').data('user_name');
+
+     object_data_data_cuenta={
+         'id':this_id_user,
+         'status':status_cuenta,
+         'nombre':user_name
+     }
+     //alert(this_id_user);
+
+     status_cuenta=status_cuenta.toLowerCase();
+     if(status_cuenta=="pendiente"){
+         let alert=`
+             <div class="alert alert-danger" role="alert">
+                 <i class="fas fa-exclamation-circle"></i> <strong>${user_name.toUpperCase()}</strong>  No ha confirmado su cuenta.. ¿Usted quiere omitir la confirmacion de correo?
+                 <button type="button" class="mt-4 btn btn-danger continuar_activacion">Activar cuenta</button>
+             </div>
+         `;
+         $('.contenedor_exception').html(alert);
+         $("html, body").animate({ scrollTop: 0 }, 600);
+         return false;
+     }
+
+
+     cuenta_usuario(this_referecs_btn_cuenta,object_data_data_cuenta);
+     /*
+     console.log(this_id_user)
+     console.log(status_cuenta)
+     console.log(user_name)*/
+
+ });
+
+
+
+ function cuenta_usuario(this_element,OBJECT_DATA){
+
+     //console.log(this_element);
+     //console.log(OBJECT_DATA);
+
+     $.ajax({
+     url :'/Admin/user/cuenta',
+     type: "POST",
+     headers:{"X-CSRF-Token": csrf_token},
+     data :OBJECT_DATA,
+     beforeSend:function(){
+         $(this_element).html('<i class="fas fa-sync fa-spin"></i> Cargando.......').attr('disabled','disabled');
+     }
+
+     }).done(function(respuesta){
+
+         $(this_element).removeAttr('disabled');
+         //console.log(respuesta);
+         let data=JSON.parse(respuesta);
+         //console.log(data);
+
+         let alert="";
+         if(data.status=="400"){
+              alert=`
+             <div class="alert alert-warning" role="alert">
+                 <i class="fas fa-exclamation-circle"></i> <strong>${user_name.toUpperCase()}</strong>
+                 ${data.info}
+             </div>`;
+         }
+         if(data.status=="200"){
+
+
+             var user=data.user;
+             var nomb_compl=`${user.nombre} ${user.ap_paterno} ${user.ap_materno}`;
+
+
+             var mensaje="";
+             var text_btn="";
+             var color_btn="";
+             if(user.active==2||user.active==3){
+                 alert=`<div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-circle"></i> La Cuenta <strong>${nomb_compl.toUpperCase()}</strong>
+                          esta inactiva
+                       </div>`;
+                       text_btn="Inactivo";
+                       color_btn="badge-warning";
+             }else{
+                 alert=`
+                     <div class="alert alert-success" role="alert">
+                          <i class="fas fa-flag"></i>  La Cuenta <strong>${nomb_compl.toUpperCase()}</strong>
+                          esta activada
+                     </div>`;
+
+                     text_btn="Activo";
+                     color_btn="badge-success";
+             }
+         }
+
+         $('.contenedor_exception').html(alert);
+         $(this_element).html(text_btn).removeClass('badge-success badge-warning badge-danger');
+         $(this_element).html(text_btn).addClass(color_btn);
+
+         $("html, body").animate({ scrollTop: 0 }, 600);
+
+     }).fail(function(jqXHR,textStatus) {
+
+         /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
+         incluyendo la propiedad jqXHR.status que contiene,
+         entre otros posibles, el código de estado HTTP de la respuesta. */
+         ajax_fails(jqXHR.status,textStatus,jqXHR.responseText);
+         $(this_element).html(OBJECT_DATA.status).removeAttr('disabled');
+     })
+
+ }

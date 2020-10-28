@@ -22,15 +22,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // admin-form-usuaurio-register
-Route::get('Admin/Usuario/Nuevo', function () {
-    return view('admin.usuario.create');
-});
 
 
-Route::get('/Admin/user','Admin\Usuario\UsuarioController@index');
-Route::post('/Admin/user/Register', 'Admin\Usuario\UsuarioController@create');
 
-
+#Route::get('/Admin/user','Admin\Usuario\UsuarioController@index');
+Route::resource('/Admin/user','Admin\Usuario\UsuarioController');
+Route::post('/Admin/user/cuenta', 'Admin\Usuario\UsuarioController@cuentaUser');
 
 // helpers
 Route::post('/helpers/codePostal', 'helpers\CodepostalController@GetCodePostal');

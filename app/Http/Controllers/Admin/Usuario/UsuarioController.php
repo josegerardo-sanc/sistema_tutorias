@@ -14,25 +14,36 @@ use Illuminate\Support\Facades\Storage;
 class UsuarioController extends Controller
 {
 
-    public function create(Request $request){
 
-      $data = json_decode($request->getContent(), true);
+    public function index(){
 
-      return json_encode(['$_post'=>$data,'files'=>$data['img_perfil'] ]);
+        $users = DB::table('users')
+        ->orderBy('id','desc')->limit(100)->get();
+        // return json_encode(['data'=>$users]);
+        return view('Admin.usuario.index',compact('users'));
+
+    }
 
 
-      return false;
+    public function store(Request $request){
+
+      //return json_encode(['files'=>$_FILES,'$request'=>$request->all(),'file'=>$_FILES['img_perfil']]);
+
+      $data=$request->all();
+
       $info=false;
+      #empty — Determina si una variable está vacía
       if(!empty($_FILES['img_perfil'])){
         $info=$this->Image_validar($_FILES);
       }
       if($info['validacion']==true){
-            return json_encode(['info'=>$info['info'] ]);
+            return json_encode(['info'=>$info['info'],'status'=>400,'file_error'=>'error' ]);
       }
-      return json_encode(['info'=>'stop']);
+
 
         // validacion datos personales
        $validatedData = Validator::make($data, [
+            'img_perfil'=>'image',
             'tipo_usuario'=>'required',
             'curp'=>['required','string','max:20','unique:users'],
             'telefono'=>['required','string','max:15','unique:users'],
@@ -95,14 +106,15 @@ class UsuarioController extends Controller
             return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
         }
 
-
         // //ver post
         // return json_encode(['data'=>$data]);
 
         try {
 
             DB::beginTransaction();
-
+            if($request->hasFile('img_perfil')) {
+                $data['img_perfil'] =$request->file('img_perfil')->store('Users','public');
+            }
 
             $user_id_created = DB::table('users')->insertGetId(
                 [
@@ -118,7 +130,8 @@ class UsuarioController extends Controller
                     'telefono'=>$telefono  ,
                     'email'=>  $correo,
                     'active'=>'1',
-                    'password'=> Hash::make('password')
+                    'password'=> Hash::make('password'),
+                    'photo'=> $data['img_perfil']
                 ]
             );
 
@@ -158,8 +171,49 @@ class UsuarioController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollBack();
-            return json_encode(['status'=>"400",'info'=>"se produjo un problema de comunicación con los servidor",'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
+
+            return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor",'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
         }
+    }
+
+    public function create(){
+
+        $data="";
+        return view('Admin.usuario.create',compact('data'));
+    }
+
+    public function cuentaUser(Request $request){
+        $data=$request->all();
+
+        $id_user=$data['id'];
+
+        $users = DB::table('users')->where('id',$id_user)->first();
+
+        if(empty($users)){
+            return json_encode(['data'=>$users,'status'=>400,'info'=>'No se encontraron resultados con este usuario,Intentelo de nuevo']);
+        }
+
+
+        $new_status_count=0;
+        if($users->{'active'}=="2"||$users->{'active'}=="3"){
+            $new_status_count=1;
+        }else{
+            $new_status_count=2;
+        }
+
+
+        $affected = DB::table('users')
+          ->where('id', $id_user)
+          ->update(['active' =>$new_status_count]);
+
+        if(!$affected){
+           return json_encode(['data'=>$users,'status'=>400,'status_update'=>$affected,'info'=>'Se produjo un problema de comunicación con el servidor,Intentelo de nuevo']);
+        }
+
+        $users = DB::table('users')->where('id',$id_user)->first();
+
+        return json_encode(['user'=>$users,'status'=>200,'status_update'=>$affected]);
+        //Storage::delete('public/Users/5YWJeD1yCBWdmmRKvUSQf2sxKoaCwGhlsH8WTEgb.png');
     }
 
     public static function Image_validar($FILES){

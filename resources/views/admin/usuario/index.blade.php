@@ -13,73 +13,138 @@
         <!-- [ content ] Start -->
         <div class="container-fluid flex-grow-1 container-p-y">
             <h4 class="font-weight-bold py-3 mb-0">User Management</h4>
-            <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!">Membership</a></li>
-                    <li class="breadcrumb-item active"><a href="#!">User Management</a></li>
-                </ol>
+            @include('admin.usuario.navar')
+
+
+            <div class="col-sm-12 contenedor_exception">
+
             </div>
             <div class="row justify-content-center">
-                <!-- liveline-section start -->
+                <!--1 liveline-section -->
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body text-center">
                             <div class="row align-items-center m-l-0">
                                 <div class="col-sm-6 text-left">
-                                    <h5>User Management</h5>
+                                    <h5>Filtrar Busqueda</h5>
                                 </div>
-                                <div class="col-sm-6 text-right">
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-report"><i class="feather icon-plus"></i>New User</button>
+                                <div class="col-sm-12 row">
+                                    <div class="col-sm-4 form-group">
+                                        <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;">Tipo de usuario</label>
+                                        <select class="form-control" name="tipo_usuario_search" id="tipo_usuario_search">
+                                            <option selected disabled value="0">Seleccione  Tipo  Usuario</option>
+                                            <option value="tutor">Tutor</option>
+                                            <option value="asesor">Asesor</option>
+                                            <option value="alumno">Alumno</option>
+                                            <option value="director">Director Academico</option>
+                                            <option value="subdirector">SubDirector Academico</option>
+                                            <option value="administrador">Administrador</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8 row form-group">
+                                        <div class="col-sm-6">
+                                            <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;width:100%">Fecha desde</label>
+                                            <input type="date" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6 ">
+                                            <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;width:100%">Fecha hasta</label>
+                                            <input type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 form-group" style="display:none">
+                                        <label for="" class="col-form-label d-flex justify-content-start" style="color:#1D62D3;">"Matricula"</label>
+                                        <input type="text" class="form-control" name="clave_search" id="clave_search">
+                                    </div>
+                                    <div class="col-sm-12 mt-4">
+                                        <button class="btn float-right" style="background-color:#1050B9;color:white">Consultar</button>
+                                    </div>
                                 </div>
                             </div>
-                            <ul class="list-inline">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--2 liveline-section start -->
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="row align-items-center m-l-0">
+                                <div class="col-sm-6 text-left">
+                                    <h5>Lista Usuario</h5>
+                                </div>
+                                {{-- <div class="col-sm-6 text-right">
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-report"><i class="feather icon-plus"></i>New User</button>
+                                </div> --}}
+                            </div>
+                            {{-- <ul class="list-inline">
                                 <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> Sorting Options </a></li>
                                 <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 font-weight-bolder"> Reset </a></li>
                                 <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> Membership </a></li>
                                 <li class="list-inline-item"><a href="#!" class="text-muted"> Username </a></li>
-                            </ul>
+                            </ul> --}}
                             <ul class="list-inline mb-0">
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> A </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> B </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> C </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> D </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> E </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> F </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> G </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> H </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> I </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> J </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> K </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> L </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> M </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> N </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> O </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> P </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> Q </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> R </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> S </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> T </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> U </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> V </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> W </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> X </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> Y </a></li>
-                                <li class="list-inline-item border-right m-0"><a href="#!" class="pr-2 pl-1 text-muted"> Z </a></li>
-                                <li class="list-inline-item"><a href="#!" class="font-weight-bolder"> All </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="a" class="pr-2 pl-1 text-muted btn_search_abc"> A </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="b" class="pr-2 pl-1 text-muted btn_search_abc"> B </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="c" class="pr-2 pl-1 text-muted btn_search_abc"> C </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="d" class="pr-2 pl-1 text-muted btn_search_abc"> D </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="e" class="pr-2 pl-1 text-muted btn_search_abc"> E </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="f" class="pr-2 pl-1 text-muted btn_search_abc"> F </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="g" class="pr-2 pl-1 text-muted btn_search_abc"> G </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="h" class="pr-2 pl-1 text-muted btn_search_abc"> H </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="i" class="pr-2 pl-1 text-muted btn_search_abc"> I </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="j" class="pr-2 pl-1 text-muted btn_search_abc"> J </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="k" class="pr-2 pl-1 text-muted btn_search_abc"> K </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="l" class="pr-2 pl-1 text-muted btn_search_abc"> L </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="m" class="pr-2 pl-1 text-muted btn_search_abc"> M </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="n" class="pr-2 pl-1 text-muted btn_search_abc"> N </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="o" class="pr-2 pl-1 text-muted btn_search_abc"> O </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="p" class="pr-2 pl-1 text-muted btn_search_abc"> P </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="q" class="pr-2 pl-1 text-muted btn_search_abc"> Q </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="r" class="pr-2 pl-1 text-muted btn_search_abc"> R </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="s" class="pr-2 pl-1 text-muted btn_search_abc"> S </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="t" class="pr-2 pl-1 text-muted btn_search_abc"> T </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="u" class="pr-2 pl-1 text-muted btn_search_abc"> U </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="v" class="pr-2 pl-1 text-muted btn_search_abc"> V </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="w" class="pr-2 pl-1 text-muted btn_search_abc"> W </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="x" class="pr-2 pl-1 text-muted btn_search_abc"> X </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="y" class="pr-2 pl-1 text-muted btn_search_abc"> Y </a></li>
+                                <li class="list-inline-item border-right m-0"><a href="#!" data-letra="z" class="pr-2 pl-1 text-muted btn_search_abc"> Z </a></li>
+                                <li class="list-inline-item"><a href="#!"   data-letra="all" class="font-weight-bolder btn_search_abc"> All </a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
+
+                @foreach ($users as $usuario)
+
+                <?php
+                $cuenta_status="";
+                $cuenta_text="";
+
+                if($usuario->active==1){
+                   $cuenta_text="Activo";
+                   $cuenta_status="badge-success";
+                }else if($usuario->active==2){
+                    $cuenta_text="Inactivo";
+                    $cuenta_status="badge-warning";
+                }else{
+                    $cuenta_text="Pendiente";
+                    $cuenta_status="badge-danger";
+                }
+
+                ?>
+
                 <div class="col-lg-4 col-md-6">
                     <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
+                        <div class="card-body conte_user" data-id_user="{{$usuario->id}}" data-status_cuenta="{{ $cuenta_text}}" data-user_name="{{ $usuario->nombre }}">
                             <div class="user-about-block text-center">
                                 <div class="row align-items-start">
                                     <div class="col text-left pb-3">
-                                        <span class="badge badge-success">Active</span>
+                                        <span class="badge {{ $cuenta_status}} btn_cuenta_user">{{$cuenta_text}}</span>
                                     </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-2.jpg" alt="User image"></div>
+                                    <div class="col"><img class="img-radius img-fluid wid-80" src="{{asset('storage').'/'.$usuario->photo}}" alt="Foto de perfil"></div>
                                     <div class="col text-right pb-3">
                                         <div class="dropdown">
                                             <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
@@ -94,263 +159,49 @@
                             </div>
                             <div class="text-center">
                                 <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Andrew Burns</h4>
+                                    <h4 class="mb-1 mt-3">{{ ucwords($usuario->nombre)}}</h4>
                                 </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 19 Jul 2016</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">andrew.burns@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>Platinum <span class="badge badge-warning">member</span></p>
+
+                                <?php
+                                    $fecha_registro =date('d-m-Y',strtotime($usuario->created_at));
+                                ?>
+                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i>{{$usuario->fecha_nacimiento}}</p>
+                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">{{$usuario->email }}</a></p>
+                                <p class="mb-0"><b>Usuario : </b>{{$usuario->tipo_usuario}} <span class="badge badge-warning"></span></p>
+
+                                <small>Fecha de ingreso {{$fecha_registro }}</small>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-success">Active</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-3.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Keith Butler</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 27 Apr 2016</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Keith.butler@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>TRIAL <span class="badge badge-warning">member</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-success">Active</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-4.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Christina Bowman</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 17 Apr 2016</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Christina.Bowman@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>- <span class="badge badge-primary">staff</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-danger">Banned</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-1.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Kelly Montgomery</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 23 Mar 2016</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Kelly.Montgomery@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>Bronze <span class="badge badge-warning">member</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-dark">Pending</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-2.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Steve Castillo</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 23 Mar 2016</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Steve.Castillo@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>GOLD <span class="badge badge-warning">member</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-info">Inactive</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-3.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Kenneth Hart</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 25 Dec 2015</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Steve.Castillo@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>BRONZE <span class="badge badge-warning">member</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-success">Active</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-2.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Henry Reyes</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 19 Jan 2016</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Henry.Reyes@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>- <span class="badge badge-danger">editor</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card user-card user-card-1 mt-4">
-                        <div class="card-body">
-                            <div class="user-about-block text-center">
-                                <div class="row align-items-start">
-                                    <div class="col text-left pb-3">
-                                        <span class="badge badge-danger">Banned</span>
-                                    </div>
-                                    <div class="col"><img class="img-radius img-fluid wid-80" src="assets/img/user/avatar-3.jpg" alt="User image"></div>
-                                    <div class="col text-right pb-3">
-                                        <div class="dropdown">
-                                            <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">History</a>
-                                                <a class="dropdown-item" href="#">Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="#!" data-toggle="modal" data-target="#modal-report">
-                                    <h4 class="mb-1 mt-3">Adam Dean</h4>
-                                </a>
-                                <p class="mb-3 text-muted"><i class="feather icon-calendar"> </i> 27 Oct 2015</p>
-                                <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">Adam.Dean@example.com</a></p>
-                                <p class="mb-0"><b>Membership : </b>TRIAL <span class="badge badge-warning">member</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+
                 <!-- liveline-section end -->
             </div>
         </div>
         <!-- [ content ] End -->
-        <!-- [ Layout footer ] Start -->
-        <nav class="layout-footer footer footer-light">
-            <div class="container-fluid d-flex flex-wrap justify-content-between text-center container-p-x pb-3">
-                <div class="pt-3">
-                    <span class="float-md-right d-none d-lg-block">&copy; Exclusive on Themeforest | Hand-crafted &amp; Made with <i class="fas fa-heart text-danger mr-2"></i></span>
-                </div>
-                <div>
-                    <a href="javascript:" class="footer-link pt-3">About Us</a>
-                    <a href="javascript:" class="footer-link pt-3 ml-4">Help</a>
-                    <a href="javascript:" class="footer-link pt-3 ml-4">Contact</a>
-                    <a href="javascript:" class="footer-link pt-3 ml-4">Terms &amp; Conditions</a>
-                </div>
-            </div>
-        </nav>
-        <!-- [ Layout footer ] End -->
     </div>
     <!-- [ Layout content ] Start -->
 @endsection
 
 
 @section('script')
+
+<script src="{{asset('js/admin/usuario.js')}}"></script>
+<script>
+
+    $('.btn_search_abc').on('click',function(){
+
+        var letra=$(this).data('letra');
+
+        alert(letra);
+
+    });
+
+
+
+
+
+</script>
 
 @endsection
