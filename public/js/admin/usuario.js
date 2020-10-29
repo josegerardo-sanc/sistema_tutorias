@@ -1,3 +1,12 @@
+// classes de los contenedores de datos personales && datos academicos
+
+/*
+btn_tab_conte_personal
+btn_tab_conte_dtsAcademicos
+*/
+
+
+
 
 /*CONSULTAR USUARIO*/
 /*CONSULTAR USUARIO*/
@@ -20,33 +29,6 @@ $('#producto_fisico').on('click',function(){
 
 
 
-function loadUuser(){
-
-    $.ajax({
-        url :'/Admin/user',
-        type: "GET",
-        headers:{"X-CSRF-Token": csrf_token},
-        data :{},
-        beforeSend:function(){
-           $('.conte_loader_MyStyle').css({display:'flex'});
-          }
-
-    }).done(function(){
-
-    }).fail(function(jqXHR,textStatus) {
-
-        /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
-         incluyendo la propiedad jqXHR.status que contiene,
-         entre otros posibles, el código de estado HTTP de la respuesta. */
-         ajax_fails(jqXHR.status,textStatus,jqXHR.responseText);
-         $('.conte_loader_MyStyle').css({display:'none'});
-     })
-
-
-}
-
-
-
 
 
 /*REGISTRAR USUARIO*/
@@ -61,17 +43,23 @@ function loadUuser(){
 var OBJ_DATA_USUARIO_NEW={};
 
 let TIPO_USER=0;
+
 $('#tipo_usuario').on('change',function(){
 
    var tipo_user= $(this).val();
    $('.ocultar_conte_usuario_').hide();
+   $('.btn_tab_conte_dtsAcademicos').hide();
 
    if(tipo_user=="alumno"){
     // formulario academico alumno
      $('#conte_alumno_academico').show();
-   }else{
+     $('.btn_tab_conte_dtsAcademicos').show();
+   }
+
+   if(tipo_user!="alumno"&&tipo_user!="administrador"){
        // formulario academico docente
-    $('#conte_docente_academico').show();
+      $('#conte_docente_academico').show();
+      $('.btn_tab_conte_dtsAcademicos').show();
    }
 
    TIPO_USER=tipo_user;
@@ -80,6 +68,27 @@ $('#tipo_usuario').on('change',function(){
 
 
 $('.reset_formulario').on('click',function(){
+
+
+    // matriula
+    $('.matricula_escolar_validar').removeClass('is-invalid is-valid');
+    $('.contenedor_input_matricula_alumno').removeClass('invalid-feedback valid-feedback');
+
+    // curp
+    $('.input_curp_validar').removeClass('is-invalid is-valid');
+    $('.content_error_curp').removeClass('invalid-feedback valid-feedback');
+
+
+    // correo
+    $('.valid_email_express_regular').removeClass('is-invalid is-valid');
+    $('.content_error_validate_email').removeClass('invalid-feedback valid-feedback');
+
+    // telefono
+    $('.validate_telefono_lada').removeClass('is-invalid is-valid');
+    $('.content_error_validar_lada').removeClass('invalid-feedback valid-feedback');
+
+
+
 
     $('#formData_DatosPersonales')[0].reset();
     $('#formData_Datos_alumno')[0].reset();
@@ -122,10 +131,11 @@ $('#Admin_btnRegisterUser').on('click',function(e){
 
     }
 
-    /*
+
     //ver datos que serane nviados al backen
-    for (let entry of formData_DatosPersonales.entries()){
-        console.log("clave: "+entry[0]+"valor: "+entry[1]);
+
+    /*for (let entry of formData_DatosPersonales.entries()){
+        console.log("clave: "+entry[0]+"   valor: "+entry[1]);
     }*/
 
     let this_element=$(this);
@@ -148,10 +158,10 @@ $('#Admin_btnRegisterUser').on('click',function(e){
         })
         .done(function(data) {
             $('.conte_loader_MyStyle').css({display:'none'});
-            // console.log(data)
+           // console.log(data)
             $(this_element).html('Registar Usuario').removeAttr('disabled');
             var data=JSON.parse(data);
-            console.log(data);
+            //console.log(data);
 
             $("html, body").animate({ scrollTop: 0 }, 600);
 
@@ -163,7 +173,7 @@ $('#Admin_btnRegisterUser').on('click',function(e){
                 var errors="";
                 var status=false;
                 for (const item in data.withErrrors){
-                    console.log(`${item}: ${data.withErrrors[item]}`);
+                    //console.log(`${item}: ${data.withErrrors[item]}`);
                     errors+=`<li>${data.withErrrors[item]}</li>`;
                     status=true;
                 }
@@ -181,6 +191,7 @@ $('#Admin_btnRegisterUser').on('click',function(e){
                 if(data.file_error){
 
                         for (const item in data.info) {
+
                             errors_list+=`<li><strong style="color:#FF334C">${item.toUpperCase()} : </strong> ${data.info[item]}</li>`;
                         }
                 }else{
@@ -196,6 +207,7 @@ $('#Admin_btnRegisterUser').on('click',function(e){
 
         }).fail(function(jqXHR,textStatus) {
 
+            console.log(textStatus)
             /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
              incluyendo la propiedad jqXHR.status que contiene,
              entre otros posibles, el código de estado HTTP de la respuesta. */
@@ -285,8 +297,6 @@ $('.file_usuario_image_search').on('change', function() {
 $(document).on('click','.continuar_activacion',function(){
     cuenta_usuario(this_referecs_btn_cuenta,object_data_data_cuenta);
  });
-
-
 
 
  $(document).on('click','.btn_cuenta_user',function(){

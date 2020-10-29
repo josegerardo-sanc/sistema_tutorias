@@ -10,9 +10,9 @@ $('.matricula_escolar_validar').on('keyup',function(e){
 
            var this_referencs= $(this).parents('.conte_referencs_matricula');
            this_referencs.find('.matricula_escolar_validar').removeClass('is-invalid is-valid');
-           this_referencs.find('.contenedor_input_matricula_alumno').removeClass('invalid-feedback valid-feedback');
+           this_referencs.find('.contenedor_input_matricula_alumno').removeClass('invalid-feedback valid-feedback').html('');
 
-        if(matricula.length>0){
+        if(matricula.length>0 && matricula!=""){
 
             if(status){
                 this_referencs.find('.matricula_escolar_validar').addClass('is-valid');

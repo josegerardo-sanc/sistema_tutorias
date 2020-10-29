@@ -16,11 +16,11 @@
 
         @include('admin.usuario.navar')
 
-        <div class="row justify-content-end form-group">
+        {{-- <div class="row justify-content-end form-group">
             <div class="col-sm-2">
                 <button id="btn_show_modal_preregistroUsuario" class="btn btn-info">PreRegistro</button>
             </div>
-        </div>
+        </div> --}}
 
         {{--  modal PREREGISTRO --}}
        @include('admin.helpers.formularioPreRegistro')
@@ -34,10 +34,11 @@
         <div class="nav-tabs-top">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#user-edit-account">Datos Personales</a>
+                    <a class="nav-link active btn_tab_conte_personal" data-toggle="tab" href="#user-edit-account">Datos Personales</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#user-edit-info">Datos Académicos</a>
+                    <a class="nav-link btn_tab_conte_dtsAcademicos" data-toggle="tab" href="#user-edit-info"
+                    style="display: none;">Datos Académicos</a>
                 </li>
             </ul>
             <div class="tab-content">

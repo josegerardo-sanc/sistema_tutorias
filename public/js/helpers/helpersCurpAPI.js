@@ -88,7 +88,7 @@ $('.input_curp_validar').on('keyup',function(e){
         var status=curpValida(curp);
 
         $('.input_curp_validar').removeClass('is-invalid is-valid');
-        $('.content_error_curp').removeClass('invalid-feedback valid-feedback');
+        $('.content_error_curp').removeClass('invalid-feedback valid-feedback').html('');
         if(status){
             $('.input_curp_validar').addClass('is-valid');
             $('.content_error_curp').addClass('valid-feedback').html('<strong>Curp Valida</strong>');

@@ -15,12 +15,40 @@ class UsuarioController extends Controller
 {
 
 
-    public function index(){
+    public function index(Request $request){
+
+      if($request->ajax()){
+
+        $data=$request->all();
+
+        //token=$request['_token'];
+
+
+        $tipo_usuario=$data['tipo_user'];
+
+        if($tipo_usuario=="alumno"){
+
+
+        }
+        if($tipo_usuario!="alumno"&& $tipo_usuario!="administrador"){
+
+
+
+        }
+        if($tipo_usuario=="administrador"){
+
+        }
 
         $users = DB::table('users')
-        ->orderBy('id','desc')->limit(100)->get();
-        // return json_encode(['data'=>$users]);
-        return view('Admin.usuario.index',compact('users'));
+        ->where('tipo_usuario', '=',$tipo_usuario)
+        ->orderBy('id','desc')->get();
+
+        return json_encode(['data'=>$users,'status'=>400]);
+      }
+    $users = DB::table('users')
+    ->orderBy('id','desc')->limit(100)->get();
+    // return json_encode(['data'=>$users]);
+    return view('Admin.usuario.index',compact('users'));
 
     }
 
@@ -30,20 +58,27 @@ class UsuarioController extends Controller
       //return json_encode(['files'=>$_FILES,'$request'=>$request->all(),'file'=>$_FILES['img_perfil']]);
 
       $data=$request->all();
+      $file_permitido=false;
+      $f="Recursos_sistema/upload_image.png"; #default
 
-      $info=false;
       #empty — Determina si una variable está vacía
-      if(!empty($_FILES['img_perfil'])){
-        $info=$this->Image_validar($_FILES);
-      }
-      if($info['validacion']==true){
+      try {
+        if($request->hasFile('img_perfil')){
+            $info=$this->Image_validar($_FILES);
+            $file_permitido=$info['validacion'];
+         }
+
+        if($file_permitido==true){
             return json_encode(['info'=>$info['info'],'status'=>400,'file_error'=>'error' ]);
+         }
+
+      } catch (\Throwable $th) {
+          return json_encode(['status'=>400,'No se pudo realizar la verificacion del archivo']);
       }
 
 
         // validacion datos personales
        $validatedData = Validator::make($data, [
-            'img_perfil'=>'image',
             'tipo_usuario'=>'required',
             'curp'=>['required','string','max:20','unique:users'],
             'telefono'=>['required','string','max:15','unique:users'],
@@ -109,14 +144,16 @@ class UsuarioController extends Controller
         }
 
         // //ver post
-        // return json_encode(['data'=>$data]);
+        //return json_encode(['data'=>$data]);
 
         try {
 
             DB::beginTransaction();
             if($request->hasFile('img_perfil')) {
-                $data['img_perfil'] =$request->file('img_perfil')->store('Users','public');
+               $ruta_image_perfil =$request->file('img_perfil')->store('Users','public');
             }
+
+            $FECHA_REGISTER=date('Y-m-d H:i:s');
 
             $user_id_created = DB::table('users')->insertGetId(
                 [
@@ -133,7 +170,8 @@ class UsuarioController extends Controller
                     'email'=>  $correo,
                     'active'=>'1',
                     'password'=> Hash::make('password'),
-                    'photo'=> $data['img_perfil']
+                    'photo'=> $ruta_image_perfil,
+                    'created_at'=>$FECHA_REGISTER
                 ]
             );
 
