@@ -29,3 +29,4 @@ function ajax_fails(jqXHRStatus,textStatus,jqXHRStatusResponseText,message_serve
 });
 */
 
+console.log("ajax_fail")

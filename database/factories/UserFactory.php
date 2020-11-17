@@ -28,12 +28,14 @@ $factory->define(User::class, function (Faker $faker) {
         'ap_materno'=>$faker->lastName,
         'genero'=>$faker->randomElement($array = array ('masculino','femenino')) ,
         'fecha_nacimiento'=>$faker->date($format = 'Y-m-d', $max = 'now') ,
+        'code_postal'=>$faker->postcode(),
         'localidad'=>$faker->numberBetween($min = 126537, $max = 126543),
         'telefono'=>$faker->unique()->tollFreePhoneNumber,
         'email' => $faker->unique()->safeEmail,
-        'active'=>$faker->numberBetween($min = 1, $max = 2),
+        'active'=>$faker->numberBetween($min = 1, $max = 3),
         'email_verified_at' => now(),
         'password' => Hash::make('password'),
+        'photo'=>$faker->imageUrl($width = 640, $height = 480),
         'remember_token' => Str::random(10),
     ];
 });

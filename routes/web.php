@@ -15,7 +15,8 @@
 
 Route::get('/', function () {
     //return view('welcome');
-    return redirect('/Admin/user');
+
+
 
 });
 
@@ -35,6 +36,7 @@ Route::resource('/Admin/user','Admin\Usuario\UsuarioController');
 Route::post('/Admin/user/cuenta', 'Admin\Usuario\UsuarioController@cuentaUser');
 Route::post('/Admin/user/actualizar/{id}', 'Admin\Usuario\UsuarioController@actualizar');
 Route::resource('/Admin/Asignacion', 'Admin\Usuario\AsignacionesController');
+Route::post('/Admin/Asignacion/getListaAlumnos', 'Admin\Usuario\AsignacionesController@getListaAlumnos');
 
 
 

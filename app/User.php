@@ -6,6 +6,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+//use App\datos_alumnos;
+
+use Illuminate\Database\Eloquent\Model;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -15,6 +19,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+
 
     protected $fillable = [
         'tipo_usuario',

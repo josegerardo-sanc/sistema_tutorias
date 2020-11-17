@@ -19,7 +19,7 @@
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">Administrador</li>
         <li class="sidenav-item">
-            <a href="{{url('/Admin/Usuario')}}" class="sidenav-link">
+            <a href="{{url('/Admin/user')}}" class="sidenav-link">
                 <i class="sidenav-icon fas fa-user-tag"></i>
                 <div>Usuario</div>
             </a>

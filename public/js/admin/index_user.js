@@ -1,4 +1,3 @@
-console.log("index.js");
 
 let TIPO_USER_SEARCH="";
 let REALIZAR_BUSQUEDA_FILTRO=true;
@@ -31,10 +30,10 @@ $('.BTN_LIMPIAR_FILTRO').on('click',function(){
     $('#filtro_semestre_escolar').val(0);
     $('#filtro_carrera_escolar').val(0);
     $('#filtro_turno_escolar').val(0);
-    
+
     $('#filtro_matricula_escolar').val('').removeClass('is-invalid is-valid');
     $('.contenedor_input_matricula_alumno_index').removeClass('invalid-feedback valid-feedback').html('');
-    
+
     $('#filtro_cedulaProfesional').val('');
 
 });
