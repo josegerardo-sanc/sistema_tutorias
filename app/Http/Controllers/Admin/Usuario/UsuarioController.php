@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Usuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +17,8 @@ class UsuarioController extends Controller
 
 
     public function index(Request $request){
+
+      $ID_SESION_USER=Auth::user()->id;
 
       if($request->ajax()){
 
@@ -64,7 +66,7 @@ class UsuarioController extends Controller
             }
 
             $SQL=" select * from users LEFT JOIN datos_alumnos ON users.id=datos_alumnos.user_id_alumno
-            WHERE users.tipo_usuario='alumno'
+            WHERE users.tipo_usuario='alumno' and users.id!=$ID_SESION_USER
             $WHERE LIMIT $inicio,$cantidad";
 
             $users = DB::select("
@@ -74,6 +76,7 @@ class UsuarioController extends Controller
             $TotalRegistros_of_users =DB::table('users')
                                       ->leftJoin('datos_docentes','users.id', '=', 'datos_docentes.user_id_docente')
                                       ->where('users.tipo_usuario', '=','alumno')
+                                      ->where('users.id','!=',$ID_SESION_USER)
                                       ->count();
 
         }
@@ -86,7 +89,7 @@ class UsuarioController extends Controller
             }
 
             $SQL=" select * from users LEFT JOIN datos_docentes ON users.id=datos_docentes.user_id_docente
-            WHERE users.tipo_usuario='$tipo_usuario'
+            WHERE users.tipo_usuario='$tipo_usuario' and users.id!=$ID_SESION_USER
             $WHERE LIMIT $inicio,$cantidad";
 
             $users = DB::select("$SQL");
@@ -94,6 +97,7 @@ class UsuarioController extends Controller
             $TotalRegistros_of_users =DB::table('users')
                                       ->leftJoin('datos_docentes','users.id', '=', 'datos_docentes.user_id_docente')
                                       ->where('users.tipo_usuario', '=',$tipo_usuario)
+                                      ->where('users.id','!=',$ID_SESION_USER)
                                       ->count();
 
         }
@@ -102,14 +106,14 @@ class UsuarioController extends Controller
             $users = DB::table('users')
             ->where('users.tipo_usuario', '=','administrador')
             ->orderBy('users.id','desc')->get();
-            $TotalRegistros_of_users =DB::table('users')->where('users.tipo_usuario', '=','administrador')->count();
+            $TotalRegistros_of_users =DB::table('users')->where('users.tipo_usuario', '=','administrador')->where('users.id','!=',$ID_SESION_USER)->count();
         }
 
         if($tipo_usuario=="all_todos_users"){
 
           $SQL="select * from users LIMIT $inicio,$cantidad";
           $users = DB::select($SQL);
-          $TotalRegistros_of_users =DB::table('users')->count();
+          $TotalRegistros_of_users =DB::table('users')->where('users.id','!=',$ID_SESION_USER)->count();
 
         }
 
@@ -130,12 +134,11 @@ class UsuarioController extends Controller
       $numeroPagina=1;
       $cantidad=100;
 
-
       $inicio=(($numeroPagina*$cantidad)-$cantidad);
 
-      $SQL_USERS="select * from users LIMIT $inicio,$cantidad";
+      $SQL_USERS="select * from users WHERE id!=$ID_SESION_USER LIMIT $inicio,$cantidad";
       $users = DB::select($SQL_USERS);
-      $TotalRegistros_of_users =DB::table('users')->count();
+      $TotalRegistros_of_users =DB::table('users')->where('id','!=',$ID_SESION_USER)->count();
 
       // return json_encode(['total'=>$TotalRegistros_of_users,
       //                      'inicio_limit'=>$inicio,
@@ -274,7 +277,7 @@ class UsuarioController extends Controller
                     'telefono'=>$telefono  ,
                     'email'=>  $correo,
                     'active'=>'1',
-                    'password'=> Hash::make('password'),
+                    'password'=>Hash::make('password'),
                     'photo'=> $ruta_image_perfil,
                     'created_at'=>$FECHA_REGISTER
                 ]

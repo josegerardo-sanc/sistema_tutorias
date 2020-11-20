@@ -15,9 +15,7 @@
 
 Route::get('/', function () {
     //return view('welcome');
-
-
-
+    return view('inicio');
 });
 
 
@@ -42,3 +40,8 @@ Route::post('/Admin/Asignacion/getListaAlumnos', 'Admin\Usuario\AsignacionesCont
 
 // helpers
 Route::post('/helpers/codePostal', 'helpers\CodepostalController@GetCodePostal');
+
+// login
+Route::post('/IniciarSesion', 'loginController@IniciarSesion');
+Route::post('/cerrarSesion', 'loginController@cerrarSesion');
+Route::get('/account_settings/{nombre}', 'loginController@perfil_account_settings_view');

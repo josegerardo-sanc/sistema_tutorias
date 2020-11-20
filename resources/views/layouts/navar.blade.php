@@ -1,3 +1,9 @@
+
+
+
+@include('../helpers.verificar_sesion')
+
+
 <nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center bg-dark container-p-x" id="layout-navbar">
 
     <!-- Brand demo (see assets/css/demo/demo.css) -->
@@ -22,12 +28,12 @@
 
         <div class="navbar-nav align-items-lg-center">
             <!-- Search -->
-            <label class="nav-item navbar-text navbar-search-box p-0 active">
+            {{-- <label class="nav-item navbar-text navbar-search-box p-0 active">
                 <i class="feather icon-search navbar-icon align-middle"></i>
                 <span class="navbar-search-input pl-2">
                     <input type="text" class="form-control navbar-text mx-2" placeholder="Search...">
                 </span>
-            </label>
+            </label> --}}
         </div>
 
         <div class="navbar-nav align-items-lg-center ml-auto">
@@ -152,20 +158,22 @@
             <div class="demo-navbar-user nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
-                        <img src="{{ asset('dashboard_assets/img/avatars/1.png')}}" alt class="d-block ui-w-30 rounded-circle">
-                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Jose gerardo</span>
+                        <img src="{{asset('storage').'/'.auth()->user()->photo}}" alt class="d-block ui-w-30 rounded-circle">
+                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{ucwords(auth()->user()->nombre)}}</span>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="javascript:" class="dropdown-item">
-                        <i class="feather icon-user text-muted"></i> &nbsp; My profile</a>
-                    <a href="javascript:" class="dropdown-item">
+                    <a href="{{url('/account_settings/'.auth()->user()->nombre)}}" class="dropdown-item btn_my_perfil">
+                        <i class="feather icon-user text-muted"></i> &nbsp; Mi perfil
+                    </a>
+                    {{-- <a href="javascript:" class="dropdown-item">
                         <i class="feather icon-mail text-muted"></i> &nbsp; Messages</a>
                     <a href="javascript:" class="dropdown-item">
                         <i class="feather icon-settings text-muted"></i> &nbsp; Account settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:" class="dropdown-item">
-                        <i class="feather icon-power text-danger"></i> &nbsp; Log Out</a>
+                    <div class="dropdown-divider"></div> --}}
+                    <a href="#" class="dropdown-item btn_cerrar_sesion">
+                        <i class="feather icon-power text-danger"></i> &nbsp; Cerrar sesión
+                    </a>
                 </div>
             </div>
         </div>

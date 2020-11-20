@@ -3,8 +3,8 @@
 
 @section('css')
     <!-- Page -->
-    <link rel="stylesheet" href="{{asset('dashboard_assets/quill/typography.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/quill/editor.css')}}">
+    <link rel="stylesheet" href="{{asset('dashboard_assets/libs/quill/typography.css')}}">
+    <link rel="stylesheet" href="{{asset('dashboard_assets/libs/quill/editor.css')}}">
 
     <style>
         .label_filter{

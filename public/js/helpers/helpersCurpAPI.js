@@ -76,7 +76,7 @@ function  AJAXgetDataCurp(this_element,curp){
 $('.input_curp_validar').on('keyup',function(e){
 
     var keycode = (e.keyCode ? e.keyCode : e.which);
-    console.log(keycode)
+    //console.log(keycode)
     if (keycode == '13') {
 
         let btn=$(this).parents('.contenedor_referencia_btn_this').find('button.btn_validar_curp_api').click();
