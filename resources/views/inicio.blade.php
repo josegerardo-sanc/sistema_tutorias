@@ -1,7 +1,6 @@
 
 @include('helpers.verificar_sesion')
 
-
 <!DOCTYPE html>
 
 <html lang="en" class="default-style layout-fixed layout-navbar-fixed">

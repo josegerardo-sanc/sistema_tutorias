@@ -69,6 +69,7 @@ class loginController extends Controller
         if(count($user)<=0){
             return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> La curp que ingresaste no coincide con ninguna cuenta.']);
         }
+
         if($user[0]->{'active'}=="2"){
             return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> Tu cuenta se encuentra inactiva, para mayor información acercate con tu tutor.']);
         }else if($user[0]->{'active'}=="3"){
@@ -93,8 +94,6 @@ class loginController extends Controller
 
     public function perfil_account_settings_view(){
 
-
-
         $user=auth()->user();
 
         $domicilio= DB::table('codigos')
@@ -102,8 +101,53 @@ class loginController extends Controller
         ->where('id',$user->localidad)
         ->first();
 
+        $datos_user="";
+        if($user->tipo_usuario=="alumno"){
+            $datos_user=DB::table('datos_alumnos')
+            ->where('user_id_alumno','=',$user->id)
+            ->first();
+        }else if($user->tipo_usuario!="alumno"&&$user->tipo_usuario!="administrador"){
+            $datos_user=DB::table('datos_docentes')
+            ->where('user_id_docente','=',$user->id)
+            ->first();
+        }
 
-        return view('myperfil.perfil',compact('user','domicilio'));
+        // dd($datos_user);
+
+
+        return view('myperfil.perfil',compact('user','domicilio','datos_user'));
+
+    }
+    public function change_password_user(Request $request){
+
+        $data=$request->all();
+        $user=auth()->user();
+
+        $error_msg="";
+        if($data['password_actual']==""||$data['password_nueva']==""||$data['password_confirm']==""){
+            $error_msg="TODOS LOS CAMPOS SON REQUERIDOS.";
+            return json_encode(['status'=>400,'info'=>$error_msg]);
+        }
+
+        if($data['password_nueva']!=$data['password_confirm']){
+            $error_msg="LA CONTRASEÑA DE CONFIRMACION NO COINCIDE.";
+            return json_encode(['status'=>400,'info'=>$error_msg]);
+        }
+
+        if (!(Hash::check($data['password_actual'],$user->password)) ) {
+
+            return json_encode(['status'=>400,'info'=>'LA CONTRASEÑA ACTUAL ES INCORRECTA.']);
+        }
+
+        $password_new_has=Hash::make($data['password_nueva']);
+        try {
+            DB::table('users')->where('users.id',$user->id)->update(['password' =>$password_new_has]);
+
+            return json_encode(['status'=>200,'info'=>'TU CLAVE DE ACCESO FUE ACTUALIZADA CON EXITO']);
+
+        } catch (\Exception $e) {
+            return json_encode(['status'=>400,'info'=>'PROBLEMAS CON EL SERVIDOR, INTENTELO DE NUEVO'.$e->getMessage().' Line'.$e->getLine()]);
+        }
 
     }
 }

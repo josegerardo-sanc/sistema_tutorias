@@ -45,3 +45,4 @@ Route::post('/helpers/codePostal', 'helpers\CodepostalController@GetCodePostal')
 Route::post('/IniciarSesion', 'loginController@IniciarSesion');
 Route::post('/cerrarSesion', 'loginController@cerrarSesion');
 Route::get('/account_settings/{nombre}', 'loginController@perfil_account_settings_view');
+Route::post('/change_password_user', 'loginController@change_password_user');

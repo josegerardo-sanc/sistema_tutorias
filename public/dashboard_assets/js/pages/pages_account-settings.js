@@ -8,6 +8,6 @@ $(function() {
       });
   });
 
-  $('.account-settings-tagsinput').tagsinput({ tagClass: 'badge badge-default' });
+//   $('.account-settings-tagsinput').tagsinput({ tagClass: 'badge badge-default' });
 
 });

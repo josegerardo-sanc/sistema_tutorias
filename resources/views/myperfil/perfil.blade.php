@@ -35,6 +35,7 @@
                 <li class="breadcrumb-item active">Configuración/</li>
             </ol>
         </div>
+        <div class="contenedor_exception"></div>
         <div class="card overflow-hidden">
             <div class="row no-gutters row-bordered row-border-light">
                 <div class="col-md-3 pt-0">
@@ -110,22 +111,22 @@
                             <div class="card-body pb-2">
                                 <div class="form-group">
                                     <label class="form-label"><strong>Matricula</strong></label>
-                                    <input type="password" class="form-control" placeholder="Ingresa tu matricula" disabled>
+                                    <input type="password" class="form-control" value="{{$datos_user->matricula}}" placeholder="Ingresa tu matricula" disabled>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label"><strong>Carrera</strong></label>
+                                <label class="form-label"><strong>Carrera</strong> {{ucwords($datos_user->carrera)}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label"><strong>Semestre</strong></label>
+                                    <label class="form-label">{{$datos_user->semestre}} <strong>°Semestre</strong></label>
+
+                                </div>
+                                <div class="formgro-up">
+                                <label class="form-label"><strong>Turno</strong> {{$datos_user->semestre}}  grupo {{$datos_user->grupo}}</label>
 
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label"><strong>Turno</strong></label>
-
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label"><strong>Periodo</strong></label>
+                                    <label class="form-label"><strong>Periodo</strong> {{$datos_user->semestre}}</label>
                                 </div>
                             </div>
                         </div>
@@ -134,8 +135,8 @@
                             <div class="tab-pane fade" id="account-escolar_docente">
                                 <div class="card-body pb-2">
                                     <div class="form-group">
-                                        <label class="form-label">Cedula Profesional</label>
-                                        <input type="text" class="form-control">
+                                        <label class="form-label">Cédula Profesional</label>
+                                        <input type="text" class="form-control" value="{{$datos_user->cedula_profesional}}" placeholder="Ingrese su cédula profesional" disabled>
                                         <div class="clearfix"></div>
                                     </div>
 
@@ -146,21 +147,31 @@
                             <div class="card-body pb-2">
                                 <div class="form-group">
                                     <label class="form-label">Contraseña actual</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" id="password_actual">
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group conte_password">
                                     <label class="form-label">Nueva contraseña</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" id="password_nueva"
+                                    title="Debe tener al menos una mayúscula, una minúscula y un dígito">
+                                    <div class="password_text"></div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group conte_password">
                                     <label class="form-label">Confirmar nueva contraseña</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" id="password_confirm"
+                                    title="Debe tener al menos una mayúscula, una minúscula y un dígito">
+                                    <div class="password_text"></div>
                                     <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group d-flex justify-content-end">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="password_show" value="option1">
+                                        <label class="form-check-label" for="password_show" style="color:#22AEF9">Mostrar contraseña</label>
+                                     </div>
                                 </div>
                                 <div class="text-right mt-3">
-                                    <button type="button" class="btn btn-primary">Actualizar</button>
+                                    <button type="button" class="btn btn-primary btn_change_password">Actualizar</button>
                                 </div>
                             </div>
                         </div>
@@ -192,6 +203,143 @@
 
 
 @section('script')
+
 <script src="{{asset('dashboard_assets/js/pages/pages_account-settings.js')}}"></script>
+
+<script>
+
+// show password
+function mostrarContrasena(){
+
+      var tipo = document.getElementById("password");
+      if(tipo.type == "password"){
+          tipo.type = "text";
+      }else{
+          tipo.type = "password";
+      }
+  }
+
+$('#password_show').on('change',function(){
+    if($(this).is(':checked')){
+        $('#password_actual').attr('type','text');
+        $('#password_nueva').attr('type','text');
+        $('#password_confirm').attr('type','text');
+    }else{
+        $('#password_actual').attr('type','password');
+        $('#password_nueva').attr('type','password');
+        $('#password_confirm').attr('type','password');
+    }
+})
+// CONTRASEÑA NUEVA
+$('#password_nueva').on('keyup',function(e){
+
+    let this_element=$(this);
+    Password_SEGURO(this_element);
+});
+// CONTRASEÑA DE CONFIRMACION
+$('#password_confirm').on('keyup',function(e){
+    let this_element=$(this);
+    Password_SEGURO(this_element)
+});
+
+
+function Password_SEGURO(this_element){
+    regex = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+
+    //Se muestra un texto válido/inválido a modo de ejemplo
+    $(this_element).removeClass('is-invalid is-valid');
+    $(this_element).parents('.conte_password').find('.password_text').removeClass('invalid-feedback valid-feedback').html('');
+
+    let password=$(this_element).val();
+
+    if (regex.test(password)) {
+        $(this_element).addClass('is-valid');
+        $(this_element).parents('.conte_password').find('.password_text').addClass('valid-feedback').html('<strong>Contraseña valida</strong>');
+    } else {
+        $(this_element).addClass('is-invalid');
+        $(this_element).parents('.conte_password').find('.password_text').addClass('invalid-feedback').html('<strong>Contraseña InValida, poca segura</strong>');
+    }
+}
+// FIN
+
+$('.btn_change_password').on('click',function(e){
+    e.preventDefault();
+    $('.contenedor_exception').html('');
+
+    let this_element=$(this);
+    let password_actual=$('#password_actual').val();
+    let password_nueva=$('#password_nueva').val();
+    let password_confirm=$('#password_confirm').val();
+
+    let error_msg="";
+        if(password_actual==""||password_actual==""||password_confirm==""){
+            error_msg="<li><i class='fas fa-exclamation-circle'></i> TODOS LOS CAMPOS SON REQUERIDOS.</li>";
+        }
+
+        if(password_nueva!=password_confirm){
+            error_msg+="<li> <i class='fas fa-exclamation-circle'></i>LA CONTRASEÑA DE CONFIRMACION NO COINCIDE.</li>";
+        }
+
+        if(error_msg!=""){
+            alert=`
+                    <div class="alert alert-danger" role="alert">
+                        ${error_msg}
+                    </div>`;
+            $('.contenedor_exception').html(alert);
+            $("html, body").animate({ scrollTop: 0 }, 600);
+            return false;
+        }
+
+        let object_change_password={
+            'password_actual':password_actual,
+            'password_nueva':password_nueva,
+            'password_confirm':password_confirm
+        };
+
+    $.ajax({
+        url :'/change_password_user',
+        type: "POST",
+        headers:{"X-CSRF-Token": csrf_token},
+        data :object_change_password,
+        beforeSend:function(){
+            $(this_element).attr('disabled','disabled');
+        }
+
+        }).done(function(respuesta){
+            console.log(JSON.parse(respuesta));
+            $(this_element).removeAttr('disabled');
+            let data=JSON.parse(respuesta);
+            //console.log(data);
+
+            let alert="";
+            if(data.status=="400"){
+                alert=`
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    ${data.info}
+                </div>`;
+            }
+            if(data.status=="200"){
+                alert=`
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-thumbs-up"></i>
+                    ${data.info}
+                </div>`;
+            }
+
+            $('.contenedor_exception').html(alert);
+            $("html, body").animate({ scrollTop: 0 }, 600);
+
+        }).fail(function(jqXHR,textStatus) {
+            ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
+            $(this_element).html(OBJECT_DATA.status).removeAttr('disabled');
+        })
+
+
+});
+
+
+</script>
+
 
 @endsection
