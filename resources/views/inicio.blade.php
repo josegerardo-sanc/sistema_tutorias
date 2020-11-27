@@ -99,9 +99,9 @@
                 <div class="ui-bg-overlay bg-dark opacity-50"></div>
                 <!-- [ Text ] Start -->
                 <div class="w-100 text-white px-5">
-                    <h1 class="display-2 font-weight-bolder mb-4">JOIN OUR<br>COMMUNITY</h1>
+                    <h2 class="display-3 font-weight-bolder mb-4">TECNOLÓGICO NACIONAL DE MÉXICO</h2>
                     <div class="text-large font-weight-light">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula ex eu gravida faucibus. Suspendisse viverra pharetra purus. Proin fringilla ac lorem at sagittis. Proin tincidunt dui et nunc ultricies dignissim.
+                        DIRECCIÓN ACADÉMICA Y COORDINACIÓN DE TUTORÍAS
                     </div>
                 </div>
                 <!-- [ Text ] End -->
@@ -124,9 +124,10 @@
                                 </div>
                             </div>
                         </div> --}}
-                        <!-- [ Logo ] End -->
 
-                        <h4 class="text-center  mt-5 mb-0" style="color:#FF7133">Iniciar Sesión</h4>
+
+                            {{-- <h5 class="text-center mt-5 mb-0" style="color:#FF7133">Iniciar Sesión</h5> --}}
+                        <h5 class="text-center mb-0" style="color:#FF7133">Instituto tecnológico superior de la región sierra</h5>
 
                         <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
                         <!-- [ Form ] Start -->
@@ -145,12 +146,13 @@
                                 <input type="password" class="form-control" id="CLAVE_USUARIO" maxlength="30">
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center m-0">
+                            <button type="button" class="btn btn-primary" id="btn_IniciarSesion" style="display:block;width:100%">Iniciar Sesión</button>
+
+                            <div class="d-flex justify-content-end mt-2">
                                 <label class="custom-control custom-checkbox m-0">
                                         <input type="checkbox" class="custom-control-input" name="Permanecer_registrado" id="Permanecer_registrado">
                                         <span class="custom-control-label">Permanecer registrado</span>
-                                    </label>
-                                <button type="button" class="btn btn-primary" id="btn_IniciarSesion">Iniciar Sesión</button>
+                                </label>
                             </div>
 
                             <div class="form-group" style="margin-top:50px; display:none">

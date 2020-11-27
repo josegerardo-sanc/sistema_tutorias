@@ -15,7 +15,7 @@ class UsuarioSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class,300)->create();
+       // factory(App\User::class,300)->create();
 
         App\User::create([
             'tipo_usuario' => 'administrador',
@@ -27,7 +27,7 @@ class UsuarioSeeder extends Seeder
             'genero'=>'masculino',
             'fecha_nacimiento'=>'1995-08-19',
             'code_postal'=>'86800',
-            'localidad'=>'',
+            'localidad'=>'126539',
             'telefono'=>'9321078928',
             'email' =>'sanchzalvaradojose0@gmail.com',
             'active'=>'1',

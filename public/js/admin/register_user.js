@@ -78,7 +78,8 @@ $('.reset_formulario').on('click',function(){
 $('#Admin_btnRegisterUser').on('click',function(e){
     e.preventDefault();
 
-    //var file=$('.file_usuario_image_search')[0].files[0];
+    var foto_perfil=$('.file_usuario_image_search')[0].files[0];
+    console.log(foto_perfil);
 
     $('#tipo_usuario').removeClass('is-invalid is-valid');
     $('#content_error_tipo_usuario').removeClass('invalid-feedback valid-feedback').css({'color':'#F9F5F6'});
@@ -119,9 +120,11 @@ $('#Admin_btnRegisterUser').on('click',function(e){
     }*/
 
     let this_element=$(this);
+    let this_element_texto=$(this).text();
     $('.list_error').html('');
 
     var ruta_ajax="/Admin/user";
+
     var limpiarFormulario=true;
     if(document.getElementById('action_user_update')){
 
@@ -151,7 +154,7 @@ $('#Admin_btnRegisterUser').on('click',function(e){
         .done(function(respuesta) {
             $('.conte_loader_MyStyle').css({display:'none'});
             //console.log(respuesta)
-            $(this_element).html('Registar Usuario').removeAttr('disabled');
+            $(this_element).html(this_element_texto).removeAttr('disabled');
             var data=JSON.parse(respuesta);
             console.log(data);
             // return false;
@@ -193,10 +196,13 @@ $('#Admin_btnRegisterUser').on('click',function(e){
             }
             if(data.status=="200"){
                 $('.list_error').html(`<div class='alert alert-success alert-dismissible fade show'>${data.info} ${btn_close_Alert}</div>`);
-               
+
                 if(limpiarFormulario){
                     $('.reset_formulario').click();
                 }
+
+                var img=URL.createObjectURL(foto_perfil);
+                $('.imagen_perfil_navar').attr('src',img);
 
             }
 
@@ -208,7 +214,7 @@ $('#Admin_btnRegisterUser').on('click',function(e){
              entre otros posibles, el código de estado HTTP de la respuesta. */
              ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
              $('.conte_loader_MyStyle').css({display:'none'});
-            $(this_element).html('Registar Usuario').removeAttr('disabled');
+             $(this_element).html(this_element_texto).removeAttr('disabled');
 
          })
 });
@@ -265,6 +271,7 @@ $('.file_usuario_image_search').on('change', function() {
                 </button>
             </div>
         `);
+
         $('.image_perfil').attr("src",img_perfil);
         $('.file_usuario_image_search').val("");
 
@@ -274,7 +281,7 @@ $('.file_usuario_image_search').on('change', function() {
 
     var img=URL.createObjectURL(picture.files[0]);
         //console.log(file_input.parentElement);
-    $('.image_perfil').attr('src',img);
+     $('.image_perfil').attr('src',img);
 });
 
 

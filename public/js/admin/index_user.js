@@ -15,7 +15,7 @@ let REALIZAR_BUSQUEDA_FILTRO=true;
             $('.contenedor_filtro_alumno').show();
             REALIZAR_BUSQUEDA_FILTRO=true;
 
-        }else if(TIPO_USER_SEARCH!="alumno"&&TIPO_USER_SEARCH!="administrador"){
+        }else if(TIPO_USER_SEARCH!="alumno"&&TIPO_USER_SEARCH!="administrador"&&TIPO_USER_SEARCH!="all_todos_users"){
             $('.contenedor_filtro_docente').show();
             REALIZAR_BUSQUEDA_FILTRO=true;
         }

@@ -14,18 +14,12 @@
                         <option value="6">6º Semestre</option>
                         <option value="7">7º Semestre</option>
                         <option value="8">8º Semestre</option>
-                        <option value="9">9º Semestre</option>
                     </select>
             </div>
             <div class="col-sm-6 form-group">
-                <label class="form-label label_filter">Carrera</label>
-                <select  name="filtro_carrera_escolar" id="filtro_carrera_escolar" class="form-control">
+                <label class="form-label label_filter">Carrera <strong class="carreras_select_textError"></strong></label>
+                <select  name="filtro_carrera_escolar" id="filtro_carrera_escolar" class="form-control carreras_select">
                     <option value="0" disabled selected>Seleccione Carrera</option>
-                    <option value="informatica">Ing.informática</option>
-                    <option value="administracion">Ing.administración</option>
-                    <option value="renovable">Ing.renovable</option>
-                    <option value="bioquimica">Ing.bioquimíca</option>
-                    <option value="electromecanica">Ing.electromecánica </option>
                 </select>
              </div>
         </div>
@@ -35,16 +29,16 @@
                 <label class="form-label label_filter">Periodo</label>
                 <select class="form-control" name="filtro_periodo_escolar" id="filtro_periodo_escolar">
                     <option value="0" disabled selected>Seleccione Periodo</option>
-                    <option value="FEBRERO-JULIO">FEBRERO-JULIO</option>
-                    <option value="AGOSTO-DICIEMBRE">AGOSTO-DICIEMBRE</option>
+                    <option value="1">FEBRERO-JULIO</option>
+                    <option value="2">AGOSTO-DICIEMBRE</option>
                 </select>
             </div> -->
             <div class="col-sm-3 form-group">
                 <label class="form-label label_filter">Turno</label>
                 <select class="form-control" name="filtro_turno_escolar" id="filtro_turno_escolar">
                     <option value="0" disabled selected>Seleccione Turno</option>
-                    <option value="1">Vespertino</option>
-                    <option value="2">Matutino</option>
+                    <option value="1">Matutino</option>
+                    <option value="2">Vespertino</option>
                 </select>
             </div>
             <!-- <div class="col-sm-3 form-group">

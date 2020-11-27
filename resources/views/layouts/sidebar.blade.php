@@ -19,15 +19,55 @@
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">Administrador</li>
         <li class="sidenav-item">
-            <a href="{{url('/Admin/user')}}" class="sidenav-link">
-                <i class="sidenav-icon fas fa-user-tag"></i>
+            <a href="javascript:" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon fas fa-user-check"></i>
                 <div>Usuario</div>
+                {{-- <div class="pl-1 ml-auto">
+                    <div class="badge badge-danger">Hot</div>
+                </div> --}}
             </a>
+            <ul class="sidenav-menu">
+                <li class="sidenav-item">
+                    <a href="{{url('/Admin/user')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-users"></i>
+                        <div>Ver Usuarios</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/Admin/user/create')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-user-plus"></i>
+                        <div>Nuevo Usuario</div>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="sidenav-item">
-            <a href="{{url('/Admin/Asignacion/create')}}" class="sidenav-link">
-                 <i class="fas fa-hands-helping"></i>
-                <div>Asignación</div>
+            <a href="javascript:" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon fas fa-tags"></i>
+                <div>Asignaciones</div>
+                {{-- <div class="pl-1 ml-auto">
+                    <div class="badge badge-danger">Hot</div>
+                </div> --}}
+            </a>
+            <ul class="sidenav-menu">
+                <li class="sidenav-item">
+                    <a href="{{url('/Admin/Asignacion/create')}}" class="sidenav-link">
+                         <i class="sidenav-icon fas fa-hands-helping"></i>
+                        <div>Asignación grupal</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/Admin/AsignacionIndividual/create')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-male"></i>
+                        <div>Asignación Individual</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="sidenav-item">
+            <a href="{{url('/Admin/carreras/create')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-list-ol"></i>
+                <div>Carreras</div>
             </a>
         </li>
 

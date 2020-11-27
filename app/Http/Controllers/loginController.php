@@ -104,6 +104,7 @@ class loginController extends Controller
         $datos_user="";
         if($user->tipo_usuario=="alumno"){
             $datos_user=DB::table('datos_alumnos')
+            ->leftJoin('carreras', 'datos_alumnos.carrera', '=', 'carreras.id_carrera')
             ->where('user_id_alumno','=',$user->id)
             ->first();
         }else if($user->tipo_usuario!="alumno"&&$user->tipo_usuario!="administrador"){

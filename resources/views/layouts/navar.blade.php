@@ -158,7 +158,7 @@
             <div class="demo-navbar-user nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
-                        <img src="{{asset('storage').'/'.auth()->user()->photo}}" alt class="d-block ui-w-30 rounded-circle">
+                        <img src="{{asset('storage').'/'.auth()->user()->photo}}" alt class="d-block ui-w-30 rounded-circle imagen_perfil_navar" style="height:30px; object-fit:cover;">
                         <span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{ucwords(auth()->user()->nombre)}}</span>
                     </span>
                 </a>

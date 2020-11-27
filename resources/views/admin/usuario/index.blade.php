@@ -164,7 +164,7 @@
                                     </a>
 
                                     <?php
-                                        $fecha_registro =date('d-m-Y',strtotime($usuario->created_at));
+                                        $fecha_registro =date('d-m-Y',strtotime($usuario->fecha_registro));
                                     ?>
                                     <p class="mb-3 text-muted"><i class="fas fa-user-tag"></i> </i>{{$usuario->tipo_usuario}} </p>
                                     <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">{{$usuario->email }}</a></p>
@@ -179,7 +179,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h4>no se han encontrado resultados para tu búsqueda</h4>
+                                <h4 class="display-4 text-muted">No se han encontrado resultados para tu búsqueda</h4>
                             </div>
                         </div>
                     </div>
@@ -219,6 +219,8 @@
 <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
 <script src="{{asset('js/admin/index_user.js')}}"></script>
 <script src="{{asset('js/helpers/pagination.js')}}"></script>
+<script src="{{asset('js/helpers/GetCarreras.js')}}"></script>
+
 
 <script>
 
@@ -352,10 +354,11 @@
 
         var complemento_html="";
         if(usuario.tipo_usuario=="alumno"){
-
+            console.log(usuario)
             complemento_html=`
-            <p class="mb-0"><b>${usuario.semestre} ° semestre </b> Ing.${usuario.carrera} <span class="badge badge-warning"></span></p>
+            <p class="mb-0"><b>${usuario.semestre} ° semestre </b>${usuario.carrera} <span class="badge badge-warning"></span></p>
             <p class="mb-0"><b>Matricula : </b>${usuario.matricula} <span class="badge badge-warning"></span></p>
+            <p class="mb-0"><b>Turno ${usuario.turno} </b>Grupo ${usuario.grupo} <span class="badge badge-warning"></span></p>
             `;
         }
         if(usuario.tipo_usuario!="alumno" && usuario.tipo_usuario!="administrador"){
@@ -376,8 +379,11 @@
             for (const usuario of data) {
 
                    //console.log(usuario);
-
-                    var complemento_html=tipoUserHTML(usuario);
+                   let is_selected_user=$('#tipo_usuario_search').val();
+                   let complemento_html="";
+                   if(is_selected_user!="all_todos_users"){
+                       complemento_html=tipoUserHTML(usuario);
+                   }
 
                     //console.log(complemento_html)
 
@@ -424,7 +430,7 @@
                                         <p class="mb-3 text-muted"><i class="fas fa-user-tag"></i> </i>${usuario.tipo_usuario} </p>
                                         <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">${usuario.email}</a></p>
                                         ${complemento_html}
-                                        <small>Fecha de registro ${usuario.created_at}</small>
+                                        <small>Fecha de registro ${usuario.fecha_registro}</small>
                                     </div>
                                 </div>
                             </div>
@@ -436,7 +442,7 @@
                 <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h4>no se han encontrado resultados para tu búsqueda</h4>
+                                <h4 class="display-4 text-muted">No se han encontrado resultados para tu búsqueda</h4>
                             </div>
                         </div>
                     </div>

@@ -262,14 +262,9 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-6 form-group">
-                                    <label class="form-label">Carrera</label>
-                                    <select name="carrera_escolar" id="carrera_escolar" class="form-control">
-                                        <option value="0" disabled selected>Seleccione Carrera</option>
-                                        <option value="informatica">Ing.informática</option>
-                                        <option value="administracion">Ing.administración</option>
-                                        <option value="renovable">Ing.renovable</option>
-                                        <option value="bioquimica">Ing.bioquimíca</option>
-                                        <option value="electromecanica">Ing.electromecánica </option>
+                                    <label class="form-label">Carrera <strong class="carreras_select_textError"></strong></label>
+                                    <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select">
+                                            <option value="0" disabled selected>Seleccione Carrera</option>
                                     </select>
                                 </div>
                             </div>
@@ -286,9 +281,9 @@
                                 <div class="col-sm-4 form-group">
                                     <label class="form-label">Turno</label>
                                     <select class="form-control" name="turno_escolar" id="turno_escolar">
-                                        <option value="0" disabled selected>Seleccione Turno/option>
-                                        <option value="1">Vespertino</option>
-                                        <option value="2">Matutino</option>
+                                        <option value="0" disabled selected>Seleccione Turno</option>
+                                        <option value="1">Matutino</option>
+                                        <option value="2">Vespertino</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4 form-group">
@@ -318,7 +313,7 @@
                 </div>
             </div>
             <div class="text-right mt-3">
-                <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Registar Usuario</button>&nbsp;
+                <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Actualizar Usuario</button>&nbsp;
                 <button type="button" class="btn btn-default reset_formulario">Limpiar</button>
             </div>
 
@@ -330,7 +325,7 @@
 
 
     @section('script')
-
+    <script src="{{asset('js/helpers/GetCarreras.js')}}"></script>
 
     <script src="{{asset('js/helpers/verificarLada.js')}}"></script>
 
@@ -344,7 +339,6 @@
     <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
 
     <script src="{{asset('js/admin/register_user.js')}}"></script>
-
 
     <script>
     let tipo_user_selected = "<?php echo $usersData[0]->tipo_usuario ?>";
@@ -366,9 +360,14 @@
         $('#matricula_escolar').val("<?php echo isset($usersData[0]->matricula)?$usersData[0]->matricula:''; ?>");
         $('#periodo_escolar').val(periodo_selected);
         $('#semestre_escolar').val("<?php echo isset($usersData[0]->semestre)?$usersData[0]->semestre:''; ?>");
-        $('#carrera_escolar').val("<?php echo isset($usersData[0]->carrera)?$usersData[0]->carrera:''; ?>");
-        $('#grupo_escolar').val("<?php echo isset($usersData[0]->grupo)?$usersData[0]->grupo:''; ?>");
-        $('#turno_escolar').val("<?php echo isset($usersData[0]->turno)?$usersData[0]->turno:''; ?>");
+
+        setTimeout(() => {
+            $('#carrera_escolar').val("<?php echo isset($usersData[0]->id_carrera)?$usersData[0]->id_carrera:''; ?>");
+        }, 1000);
+
+
+        $('#grupo_escolar').val("<?php echo isset($usersData[0]->grupo)?$usersData[0]->grupo=='A'?'1':'2':''; ?>");
+        $('#turno_escolar').val("<?php echo isset($usersData[0]->turno)?$usersData[0]->turno=='Matutino'?'1':'2':''; ?>");
 
 
         $('.btn_tab_conte_dtsAcademicos').css({

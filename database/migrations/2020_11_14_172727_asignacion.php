@@ -17,10 +17,12 @@ class Asignacion extends Migration
         $table->bigIncrements('id_asignacion');
         $table->string('semestre');
         $table->string('carrera');
-        $table->string('turno');
+        $table->enum('turno',['Matutino','Vespertino']);
+        $table->enum('grupo',['A','B']);
         $table->string('user_register');
         $table->unsignedBigInteger('user_id_asignado');
         $table->dateTime('fecha_created');
+        $table->json('horario');
         $table->foreign('user_id_asignado')->references('id')->on('users');
 
         });

@@ -119,10 +119,6 @@
 
 
     <script>
-        $(function(){
-            $('.conte_loader_MyStyle').css({display:'none'});
-        })
-
         $('.btn_cerrar_sesion').on('click',function(e){
             e.preventDefault();
 
@@ -171,6 +167,11 @@
         //     e.preventDefault();
         // });
 
+        setTimeout(() => {
+            $(function(){
+                $('.conte_loader_MyStyle').css({display:'none'});
+            })
+        },1000);
     </script>
 
 </body>

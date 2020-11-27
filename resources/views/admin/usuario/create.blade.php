@@ -206,21 +206,16 @@
                                             </select>
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label class="form-label">Carrera</label>
-                                        <select  name="carrera_escolar" id="carrera_escolar" class="form-control">
+                                        <label class="form-label">Carrera <strong class="carreras_select_textError"></strong></label>
+                                        <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select">
                                             <option value="0" disabled selected>Seleccione Carrera</option>
-                                            <option value="informatica">Ing.informática</option>
-                                            <option value="administracion">Ing.administración</option>
-                                            <option value="renovable">Ing.renovable</option>
-                                            <option value="bioquimica">Ing.bioquimíca</option>
-                                            <option value="electromecanica">Ing.electromecánica </option>
                                         </select>
                                      </div>
                                 </div>
 
                                 <div class="row form-group">
                                     <div class="col-sm-4 form-group">
-                                        <label class="form-label">Periodo</label>
+                                        <label class="form-label">Periodo {{date('Y')}}</label>
                                         <select class="form-control" name="periodo_escolar" id="periodo_escolar">
                                             <option value="0" disabled selected>Seleccione Periodo</option>
                                             <option value="1">FEBRERO-JULIO</option>
@@ -230,9 +225,9 @@
                                     <div class="col-sm-4 form-group">
                                         <label class="form-label">Turno</label>
                                         <select class="form-control" name="turno_escolar" id="turno_escolar">
-                                            <option value="0" disabled selected>Seleccione Turno/option>
-                                            <option value="1">Vespertino</option>
-                                            <option value="2">Matutino</option>
+                                            <option value="0" disabled selected>Seleccione Turno</option>
+                                            <option value="1">Matutino</option>
+                                            <option value="2">Vespertino</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-4 form-group">
@@ -275,7 +270,7 @@
 @section('script')
 
 
-
+<script src="{{asset('js/helpers/GetCarreras.js')}}"></script>
 <script src="{{asset('dashboard_assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
 <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>
 <script src="{{asset('dashboard_assets/js/pages/pages_users_edit.js')}}"></script>
@@ -286,7 +281,6 @@
 <script src="{{asset('js/helpers/codepostal.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarEMAIL_TELEFONO.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
-
 <script src="{{asset('js/admin/register_user.js')}}"></script>
 
 

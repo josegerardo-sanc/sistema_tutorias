@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+
 
 
 class UsuarioController extends Controller
@@ -17,6 +19,14 @@ class UsuarioController extends Controller
 
 
     public function index(Request $request){
+
+
+        // $SQL=" select * from users LEFT JOIN datos_docentes ON users.id=datos_docentes.user_id_docente
+        //     WHERE users.tipo_usuario='alumno'";
+
+        //     $users = DB::select("$SQL");
+
+        // dd($users);
 
       $ID_SESION_USER=Auth::user()->id;
 
@@ -54,19 +64,20 @@ class UsuarioController extends Controller
             // if($PERIODO!=""){
             //     $WHERE.="  AND datos_alumnos.periodo='$PERIODO'";
             // }
-
-            // if($TURNO!=""){
-            //     $WHERE.="  AND datos_alumnos.turno=".$TURNO;
-            // }
-            if($GRUPO!=""){
-                $WHERE.="  AND datos_alumnos.grupo='$GRUPO'";
+            if($TURNO!=""){
+                $WHERE.="  AND datos_alumnos.turno=".$TURNO;
             }
+            // if($GRUPO!=""){
+            //     $WHERE.="  AND datos_alumnos.grupo='$GRUPO'";
+            // }
             if($MATRICULA!=""){
                 $WHERE.=" OR datos_alumnos.matricula='$MATRICULA'";
             }
 
-            $SQL=" select * from users LEFT JOIN datos_alumnos ON users.id=datos_alumnos.user_id_alumno
-            WHERE users.tipo_usuario='alumno' and users.id!=$ID_SESION_USER
+            $SQL=" select *,users.created_at as fecha_registro from users LEFT JOIN datos_alumnos ON users.id=datos_alumnos.user_id_alumno
+            LEFT JOIN carreras ON datos_alumnos.carrera=carreras.id_carrera
+            WHERE users.tipo_usuario='alumno'
+            and users.id!=$ID_SESION_USER
             $WHERE LIMIT $inicio,$cantidad";
 
             $users = DB::select("
@@ -74,7 +85,7 @@ class UsuarioController extends Controller
             ");
 
             $TotalRegistros_of_users =DB::table('users')
-                                      ->leftJoin('datos_docentes','users.id', '=', 'datos_docentes.user_id_docente')
+                                      ->leftJoin('datos_alumnos','users.id', '=', 'datos_alumnos.user_id_alumno')
                                       ->where('users.tipo_usuario', '=','alumno')
                                       ->where('users.id','!=',$ID_SESION_USER)
                                       ->count();
@@ -84,11 +95,12 @@ class UsuarioController extends Controller
 
             $WHERE="";
             $CEDULA_PROFESIONAL=isset($data['filtro_cedulaProfesional'])?$data['filtro_cedulaProfesional']:"";
+
             if($CEDULA_PROFESIONAL!=""){
                 $WHERE.=" AND datos_docentes.cedula_profesional='$CEDULA_PROFESIONAL'";
             }
 
-            $SQL=" select * from users LEFT JOIN datos_docentes ON users.id=datos_docentes.user_id_docente
+            $SQL=" select *,users.created_at as fecha_registro from users LEFT JOIN datos_docentes ON users.id=datos_docentes.user_id_docente
             WHERE users.tipo_usuario='$tipo_usuario' and users.id!=$ID_SESION_USER
             $WHERE LIMIT $inicio,$cantidad";
 
@@ -106,12 +118,12 @@ class UsuarioController extends Controller
             $users = DB::table('users')
             ->where('users.tipo_usuario', '=','administrador')
             ->orderBy('users.id','desc')->get();
-            $TotalRegistros_of_users =DB::table('users')->where('users.tipo_usuario', '=','administrador')->where('users.id','!=',$ID_SESION_USER)->count();
+            $TotalRegistros_of_users =DB::table('users')->where('users.tipo_usuario', '=','administrador')->count();
         }
 
         if($tipo_usuario=="all_todos_users"){
 
-          $SQL="select * from users LIMIT $inicio,$cantidad";
+          $SQL="select *,users.created_at as fecha_registro from users where users.id!=$ID_SESION_USER LIMIT $inicio,$cantidad";
           $users = DB::select($SQL);
           $TotalRegistros_of_users =DB::table('users')->where('users.id','!=',$ID_SESION_USER)->count();
 
@@ -136,7 +148,7 @@ class UsuarioController extends Controller
 
       $inicio=(($numeroPagina*$cantidad)-$cantidad);
 
-      $SQL_USERS="select * from users WHERE id!=$ID_SESION_USER LIMIT $inicio,$cantidad";
+      $SQL_USERS="select *,users.created_at as fecha_registro from users WHERE id!=$ID_SESION_USER LIMIT $inicio,$cantidad";
       $users = DB::select($SQL_USERS);
       $TotalRegistros_of_users =DB::table('users')->where('id','!=',$ID_SESION_USER)->count();
 
@@ -155,6 +167,7 @@ class UsuarioController extends Controller
     public function store(Request $request){
 
       //return json_encode(['files'=>$_FILES,'$request'=>$request->all(),'file'=>$_FILES['img_perfil']]);
+    //   return json_encode(['$request'=>$request->all()]);
 
       $data=$request->all();
       $file_permitido=false;
@@ -218,34 +231,36 @@ class UsuarioController extends Controller
         $turno_escolar=isset($data['turno_escolar'])?$data['turno_escolar']:"";
         $grupo_escolar=isset($data['grupo_escolar'])?$data['grupo_escolar']:"";
 
-        if($tipo_usuario=="alumno"){
-            // alumno
-            $validatedDatos_complementarios = Validator::make($data, [
-                'matricula'=>['required','string','max:10','unique:datos_alumnos'],
-                'semestre_escolar'=>'required',
-                'carrera_escolar'=>'required',
-                'periodo_escolar'=>'required',
-                'turno_escolar'=>'required',
-                'grupo_escolar'=>'required'
-            ]);
-        }
+        if($tipo_usuario!="administrador"){
+            if($tipo_usuario=="alumno"){
+                // alumno
+                $validatedDatos_complementarios = Validator::make($data, [
+                    'matricula'=>['required','string','max:10','unique:datos_alumnos'],
+                    'semestre_escolar'=>'required',
+                    'carrera_escolar'=>'required',
+                    'periodo_escolar'=>'required',
+                    'turno_escolar'=>'required',
+                    'grupo_escolar'=>'required'
+                ]);
+            }
 
-         // validacion datos_academicos_alumno
-        $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
-        if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
-            // diferente de alumno y administardior, solictar cedula profesional etc.
-            $validatedDatos_complementarios = Validator::make($data, [
-                'cedula_profesional'=>['required','string','max:10','unique:datos_docentes']
-                //'grupo_escolar'=>'required'
-            ]);
-        }
+             // validacion datos_academicos_alumno
+            $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
+            if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
+                // diferente de alumno y administardior, solictar cedula profesional etc.
+                $validatedDatos_complementarios = Validator::make($data, [
+                    'cedula_profesional'=>['required','string','max:10','unique:datos_docentes']
+                    //'grupo_escolar'=>'required'
+                ]);
+            }
 
-        if($validatedDatos_complementarios->fails()) {
-            return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
+            if($validatedDatos_complementarios->fails()) {
+                return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
+            }
         }
 
         // //ver post
-        //return json_encode(['data'=>$data]);
+        // return json_encode(['data'=>$data]);
 
         try {
 
@@ -341,24 +356,33 @@ class UsuarioController extends Controller
             if($user->tipo_usuario=="alumno"){
                 $usersData = DB::table('users')
                 ->join('datos_alumnos', 'users.id', '=', 'datos_alumnos.user_id_alumno')
-                ->select('datos_alumnos.*','datos_alumnos.id AS id_alumno','users.*')
+                ->select('datos_alumnos.*','datos_alumnos.id_datos_alumnos AS id_alumno','users.*')
                 ->where('users.id','=',$id)
                 ->get();
 
                 $user_id_alumno=$usersData[0]->id_alumno;
             }else{
-                $usersData = DB::table('users')
-                ->join('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
-                ->select('datos_docentes.id AS id_docente','users.*')
-                ->where('users.id','=',$id)
-                ->get();
 
-                $user_id_docente=$usersData[0]->id_docente;
+                if($user->tipo_usuario!="alumno" && $user->tipo_usuario!="administrador"){
+                    $usersData = DB::table('users')
+                    ->join('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
+                    ->select('datos_docentes.id_datos_docentes AS id_docente','users.*')
+                    ->where('users.id','=',$id)
+                    ->get();
+                    $user_id_docente=$usersData[0]->id_docente;
+                }
 
+                if($user->tipo_usuario=="administrador"){
+                    $usersData = DB::table('users')
+                    ->select('users.*')
+                    ->where('users.id','=',$id)
+                    ->get();
+                }
             }
 
-            //$user=$usersData[0];
-            //return json_encode(['status'=>200,'usersData'=>$user,'id'=>$user_id_docente]);
+        //$user=$usersData[0];
+        // return json_encode(['status'=>200,'usersData'=>$usersData]);
+
         }
 
         $user=$usersData[0];
@@ -430,34 +454,39 @@ class UsuarioController extends Controller
           $turno_escolar=isset($data['turno_escolar'])?$data['turno_escolar']:"";
           $grupo_escolar=isset($data['grupo_escolar'])?$data['grupo_escolar']:"";
 
-          if($tipo_usuario=="alumno"){
-              // alumno
-              $validatedDatos_complementarios = Validator::make($data, [
-                  'matricula'=>['required','string','max:10','sometimes','unique:datos_alumnos,matricula,'.$user_id_alumno],
-                  'semestre_escolar'=>'required',
-                  'carrera_escolar'=>'required',
-                  'periodo_escolar'=>'required',
-                  'turno_escolar'=>'required',
-                  'grupo_escolar'=>'required'
-              ]);
-          }
+          if($tipo_usuario!="administrador"){
+            if($tipo_usuario=="alumno"){
+                // alumno
+                $validatedDatos_complementarios = Validator::make($data, [
 
-           // validacion datos_academicos_alumno
-          $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
-          if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
-              // diferente de alumno y administardior, solictar cedula profesional etc.
-              $validatedDatos_complementarios = Validator::make($data, [
-                  'cedula_profesional'=>['required','string','max:10','sometimes','unique:datos_docentes,cedula_profesional,'.$user_id_docente]
-                  //'grupo_escolar'=>'required'
-              ]);
-          }
+                    // 'matricula'=>['required','string','max:10','sometimes','unique:datos_alumnos,matricula,'.$user_id_alumno],
+                    'matricula'=>'required','string','max:10',Rule::unique('datos_alumnos','matricula')->ignore($user_id_alumno, 'id_datos_alumnos'),
+                    'semestre_escolar'=>'required',
+                    'carrera_escolar'=>'required',
+                    'periodo_escolar'=>'required',
+                    'turno_escolar'=>'required',
+                    'grupo_escolar'=>'required'
+                ]);
+            }
 
-          if($validatedDatos_complementarios->fails()) {
-              return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
-          }
+             // validacion datos_academicos_alumno
+            $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
+            if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
+                // diferente de alumno y administardior, solictar cedula profesional etc.
+                $validatedDatos_complementarios = Validator::make($data, [
+                    // 'cedula_profesional'=>['required','string','max:10','sometimes','unique:datos_docentes,cedula_profesional,'.$user_id_docente]
+                    'cedula_profesional'=>'required','string','max:10',Rule::unique('datos_docentes','cedula_profesional')->ignore($user_id_docente, 'id_datos_docentes'),
+                    //'grupo_escolar'=>'required'
+                ]);
+            }
 
+            if($validatedDatos_complementarios->fails()) {
+                return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
+            }
+
+          }
           // //ver post
-          //return json_encode(['data'=>$data]);
+          //   return json_encode(['data'=>$data]);
 
           try {
 
@@ -507,7 +536,7 @@ class UsuarioController extends Controller
               $affected="";
               if($tipo_usuario=="alumno"){
                 $affected=DB::table('datos_alumnos')
-                  ->where('id',$user_id_alumno)
+                  ->where('id_datos_alumnos',$user_id_alumno)
                   ->update([
                           'matricula'=>$matricula,
                           'periodo'=> $periodo_escolar ,
@@ -520,7 +549,7 @@ class UsuarioController extends Controller
               }
               if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
                   $affected=DB::table('datos_docentes')
-                  ->where('id',$user_id_docente)
+                  ->where('id_datos_docentes',$user_id_docente)
                   ->update([
                      'cedula_profesional'=>$cedula_profesional
                   ]);
@@ -533,7 +562,7 @@ class UsuarioController extends Controller
           } catch (Exception  $e) {
               DB::rollBack();
 
-              return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage()." line: ".$e->getLine(),'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
+              return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage(),'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
           }
     }
 
@@ -552,21 +581,28 @@ class UsuarioController extends Controller
         }else{
             if($user->tipo_usuario=="alumno"){
                 $usersData = DB::table('users')
-                ->join('datos_alumnos', 'users.id', '=', 'datos_alumnos.user_id_alumno')
-                ->select('users.*','users.id AS id_user','datos_alumnos.*')
+                ->leftJoin('datos_alumnos', 'users.id', '=', 'datos_alumnos.user_id_alumno')
+                ->leftJoin('carreras', 'datos_alumnos.carrera', '=', 'carreras.id_carrera')
+                ->select('users.*','users.id AS id_user','datos_alumnos.*','carreras.id_carrera')
+                ->where('users.id','=',$id)
+                ->get();
+
+            }else if($user->tipo_usuario!="alumno" && $user->tipo_usuario!="administrador"){
+                $usersData = DB::table('users')
+                ->join('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
+                ->select('users.*','users.id AS id_user','datos_docentes.*')
                 ->where('users.id','=',$id)
                 ->get();
             }else{
                 $usersData = DB::table('users')
-                ->join('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
-                ->select('users.*','users.id AS id_user','datos_docentes.*')
+                ->select('users.*','users.id AS id_user')
                 ->where('users.id','=',$id)
                 ->get();
             }
 
         }
 
-        //dd($usersData);
+        // dd($usersData);
         return view('Admin.usuario.edit',compact('usersData'));
     }
 

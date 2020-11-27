@@ -111,22 +111,39 @@
                             <div class="card-body pb-2">
                                 <div class="form-group">
                                     <label class="form-label"><strong>Matricula</strong></label>
-                                    <input type="password" class="form-control" value="{{$datos_user->matricula}}" placeholder="Ingresa tu matricula" disabled>
+                                    <input type="text" class="form-control" value="{{$datos_user->matricula}}" placeholder="Ingresa tu matricula" disabled>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
-                                <label class="form-label"><strong>Carrera</strong> {{ucwords($datos_user->carrera)}}</label>
+                                <label class="form-label"><strong>Carrera</strong></label>
+                                <select  class="form-control" disabled>
+                                    <option value="" selected>{{ucwords($datos_user->carrera)}}</option>
+                                </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">{{$datos_user->semestre}} <strong>°Semestre</strong></label>
+                                    <label class="form-label"><strong>Semestre</strong></label>
+                                    <select  class="form-control" disabled>
+                                        <option value="" selected>{{$datos_user->semestre}} °Semestre</option>
+                                    </select>
 
                                 </div>
                                 <div class="formgro-up">
-                                <label class="form-label"><strong>Turno</strong> {{$datos_user->semestre}}  grupo {{$datos_user->grupo}}</label>
-
+                                    <label class="form-label"><strong>Turno</strong></label>
+                                    <select class="form-control" disabled>
+                                        <option value="" selected>{{$datos_user->turno}}</option>
+                                    </select>
+                                </div>
+                                <div class="formgro-up">
+                                    <label class="form-label"><strong>Grupo</strong></label>
+                                    <select class="form-control" disabled>
+                                        <option value="" selected>{{$datos_user->grupo}}</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label"><strong>Periodo</strong> {{$datos_user->semestre}}</label>
+                                    <label class="form-label"><strong>Periodo</strong></label>
+                                    <select class="form-control" disabled>
+                                        <option value="" selected>{{$datos_user->periodo}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

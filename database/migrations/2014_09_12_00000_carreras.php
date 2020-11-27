@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DatosDocentes extends Migration
+class Carreras extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class DatosDocentes extends Migration
      */
     public function up()
     {
-        Schema::create('datos_docentes', function (Blueprint $table) {
-        $table->bigIncrements('id_datos_docentes');
-        $table->string('cedula_profesional')->unique();
-        $table->unsignedBigInteger('user_id_docente');
-        $table->foreign('user_id_docente')->references('id')->on('users');
-         });
+        Schema::create('carreras', function (Blueprint $table) {
+            $table->bigIncrements('id_carrera');
+            $table->string('carrera')->unique();
+            $table->timestamps();
+        });
     }
 
     /**
