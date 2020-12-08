@@ -66,20 +66,22 @@ class loginController extends Controller
         ->where('curp',$curp_usuario)
         ->get();
 
+
+
+
+        // validacion de datos
         if(count($user)<=0){
             return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> La curp que ingresaste no coincide con ninguna cuenta.']);
         }
-
+        // saber si esta activa la cuenta
         if($user[0]->{'active'}=="2"){
-            return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> Tu cuenta se encuentra inactiva, para mayor información acercate con tu tutor.']);
+            return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> Tu cuenta se encuentra inactiva, para mayor información acercate a con control escolar.']);
         }else if($user[0]->{'active'}=="3"){
-            return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> No has verificado tu cuenta.']);
+            return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> No has confirmado tu Correo electronico.']);
         }
-
         if (! (Hash::check($clave_usuario,$user[0]->{'password'})) ) {
             return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> La contraseña que ingresaste es incorrecta']);
         }
-
 
         if (Auth::attempt(['email' => $user[0]->{'email'},'password' =>$clave_usuario],$Permanecer_registrado)) {
             return json_encode(['status'=>200,'data'=>$user,'count'=>count($user),'info_secret'=>'attempt 200']);

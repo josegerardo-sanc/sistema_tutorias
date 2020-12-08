@@ -238,7 +238,9 @@ let tipo_user_asignacion="";
        $('#input_action_update').val("UPDATE_SAVE"); //DEFAULT #STORE_SAVE
        $('#id_asignacion_input').val(id_asignacion);
        $('#titulo_module_asignacion').html("Actualizar Asignación");
+
        $('#tutor_asignacion').attr('disabled','disabled');
+
     });
 
 
@@ -328,7 +330,7 @@ let tipo_user_asignacion="";
             'turno':turno,
             'grupo':grupo_asignacion,
             'id_user_asignacion':tutor,
-            'id_user_register':'1430379',
+            'id_user_register':'14E30379',
             'action_update_save':action_UPDATE_SAVE, //campos para actualizar
             'horario_tutor':horario_asignadas_tutor
         };
@@ -374,7 +376,7 @@ let tipo_user_asignacion="";
                 users_tutores.length=0;
                 users_tutores=json.data;
 
-                console.log(users_tutores);
+                // console.log(users_tutores);
                 for (const item of json.data) {
 
 
@@ -420,18 +422,18 @@ let tipo_user_asignacion="";
                             </td>
                         </tr>
                     `;
-
-                    $('.btn_cancelar_actualizacion').click();
-
-                    $('.error_alert_container').html(`
-                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
-                             ${json.info}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    `);
                 }
+
+                $('.btn_cancelar_actualizacion').click();
+
+                $('.error_alert_container').html(`
+                        <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                            ${json.info}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                `);
 
                 $('#table_tutores').DataTable().clear().destroy();
                 $('#body_tutores').html(tr);
@@ -441,6 +443,9 @@ let tipo_user_asignacion="";
                 });
 
                 let options="<option value='0' selected disabled>Seleccione un tutor</option>";
+                console.log("lista de tutores")
+                console.log(json.ListTutores)
+
                 for (const item of json.ListTutores) {
                     options+=`
                     <option

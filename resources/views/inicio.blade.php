@@ -291,8 +291,6 @@
                             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Redireccionando.......');
 
                             window.location.href = "/Admin/user";
-
-                            data=``
                         }
 
                     }

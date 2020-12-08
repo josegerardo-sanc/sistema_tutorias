@@ -37,5 +37,15 @@ class UsuarioSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        DB::table('carreras')->insert([
+            ['carrera' => 'Ing.Informática', 'created_at' =>now()],
+            ['carrera' => 'Ing.Administración', 'created_at' =>now()],
+            ['carrera' => 'Ing.Energías Renovable', 'created_at' =>now()],
+            ['carrera' => 'Ing.Bioquímica', 'created_at' =>now()],
+            ['carrera' => 'Ing.Industrial', 'created_at' =>now()],
+            ['carrera' => 'Ing.Electromecánica', 'created_at' =>now()],
+            ['carrera' => 'Ing.Agronomía', 'created_at' =>now()],
+        ]);
+
     }
 }

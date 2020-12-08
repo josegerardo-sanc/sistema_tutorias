@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Validation\Rule;
 
+use App\Mail\MessageRegistroUsuario;
+use Illuminate\Support\Facades\Mail;
 
 
 class UsuarioController extends Controller
@@ -166,10 +169,8 @@ class UsuarioController extends Controller
 
     public function store(Request $request){
 
-      //return json_encode(['files'=>$_FILES,'$request'=>$request->all(),'file'=>$_FILES['img_perfil']]);
-    //   return json_encode(['$request'=>$request->all()]);
-
-      $data=$request->all();
+        $data=$request->all();
+        // Mail::to('chelablanca2012@gmail.com')->send(new MessageRegistroUsuario);
       $file_permitido=false;
       $ruta_image_perfil="Recursos_sistema/upload_image.png"; #default
 
@@ -185,11 +186,8 @@ class UsuarioController extends Controller
          }
 
       } catch (\Throwable $th) {
-          return json_encode(['status'=>400,'No se pudo realizar la verificacion del archivo']);
+          return json_encode(['status'=>400,'info'=>'No se pudo realizar la verificacion del archivo']);
       }
-
-
-
 
         // validacion datos personales
        $validatedData = Validator::make($data, [
@@ -261,7 +259,7 @@ class UsuarioController extends Controller
 
         // //ver post
         // return json_encode(['data'=>$data]);
-
+        $ruta_image_perfil="";
         try {
 
             DB::beginTransaction();
@@ -291,7 +289,7 @@ class UsuarioController extends Controller
                     'localidad'=> $localidad,
                     'telefono'=>$telefono  ,
                     'email'=>  $correo,
-                    'active'=>'1',
+                    'active'=>'3',
                     'password'=>Hash::make('password'),
                     'photo'=> $ruta_image_perfil,
                     'created_at'=>$FECHA_REGISTER
@@ -331,11 +329,12 @@ class UsuarioController extends Controller
             }
 
            DB::commit();
-            return json_encode(['status'=>"200",'info'=>"Registro exitoso"]);
-
+            // envio de correo
+           Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
+           return json_encode(['status'=>"200",'info'=>"Registro exitoso"]);
         } catch (\Throwable $e) {
             DB::rollBack();
-
+            Storage::delete('public/'.$ruta_image_perfil);
             return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage()." line: ".$e->getLine(),'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
         }
     }
@@ -487,7 +486,7 @@ class UsuarioController extends Controller
           }
           // //ver post
           //   return json_encode(['data'=>$data]);
-
+         $ruta_image_perfil="";
           try {
 
               DB::beginTransaction();
@@ -561,7 +560,7 @@ class UsuarioController extends Controller
 
           } catch (Exception  $e) {
               DB::rollBack();
-
+              Storage::delete('public/'.$ruta_image_perfil);
               return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage(),'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
           }
     }

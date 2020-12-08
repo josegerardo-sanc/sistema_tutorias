@@ -145,6 +145,7 @@ class AsignacionesController extends Controller
         }
 
         $Tutores = DB::table('users')
+        ->leftJoin('asignacion','users.id', '=', 'asignacion.user_id_asignado')
         ->where('tipo_usuario','=','tutor')
         ->get();
 

@@ -70,7 +70,30 @@
                 <div>Carreras</div>
             </a>
         </li>
-
+        {{-- otro modulo --}}
+        <li class="sidenav-item">
+            <a href="javascript:" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon fas fa-file-upload"></i>
+                <div>Archivos</div>
+                {{-- <div class="pl-1 ml-auto">
+                    <div class="badge badge-danger">Hot</div>
+                </div> --}}
+            </a>
+            <ul class="sidenav-menu">
+                <li class="sidenav-item">
+                    <a href="{{url('/reportes')}}" class="sidenav-link">
+                         <i class="sidenav-icon fas fa-file"></i>
+                        <div>Reportes</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/formatos')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-file"></i>
+                        <div>Formatos</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <!-- Dashboards -->
         {{--
         <li class="sidenav-item open active">
