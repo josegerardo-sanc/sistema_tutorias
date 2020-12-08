@@ -130,6 +130,13 @@
                         <h5 class="text-center mb-0" style="color:#FF7133">Instituto tecnológico superior de la región sierra</h5>
 
                         <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
+                        @if(session('status_confirm_error'))
+                            <div class="conte_confirm_error" style="width: 100%;padding:0px;margin:15px 0px;">
+                                <div class="alert alert-danger">
+                                    {{ session('status_confirm_error') }}
+                                 </div>
+                            </div>
+                        @endif
                         <!-- [ Form ] Start -->
                         <form class="my-5">
                             <div class="form-group">
@@ -218,6 +225,8 @@
         });
 
         function callSesion_login(){
+            $('.conte_confirm_error').html('');
+
             let USUARIO_CURP=$('#CURP').val();
             let CLAVE_USUARIO=$('#CLAVE_USUARIO').val();
 
@@ -264,6 +273,7 @@
                 })
                 .done(function(respuesta) {
                     console.log(respuesta);
+
                     $(this_element).html('Iniciar Sesión').removeAttr('disabled');
                     var data=JSON.parse(respuesta);
                     console.log(data);
@@ -283,7 +293,7 @@
                             let datos=data.data[0];
 
                             $('.conte_mensaje').html(
-                           `<div div class='alert alert-success alert-dismissible fade show'>
+                           `<div div class='alert alert-warning alert-dismissible fade show'>
                                 <i class="fas fa-thumbs-up"></i>  Bienvendio ${datos.nombre} ${datos.ap_paterno}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>`);
@@ -291,6 +301,8 @@
                             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Redireccionando.......');
 
                             window.location.href = "/Admin/user";
+
+                            //nota debes de redireccionar dependiendo del usuario
                         }
 
                     }

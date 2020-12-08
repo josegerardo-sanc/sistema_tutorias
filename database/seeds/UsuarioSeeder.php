@@ -33,7 +33,27 @@ class UsuarioSeeder extends Seeder
             'active'=>'1',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'photo'=>'sinfoto',
+            'photo'=>'Recursos_sistema/upload_image.png',
+            'remember_token' => Str::random(10),
+        ]);
+
+        App\User::create([
+            'tipo_usuario' => 'alumno',
+            'curp' =>'SAAG950819HTCNLR09',
+            'rfc' =>'987',
+            'nombre' =>'Miguel angel',
+            'ap_paterno'=>'Sanchez',
+            'ap_materno'=>'gimenez',
+            'genero'=>'masculino',
+            'fecha_nacimiento'=>'1995-08-19',
+            'code_postal'=>'86800',
+            'localidad'=>'126539',
+            'telefono'=>'9321078922',
+            'email' =>'miguelAngel@gmail.com',
+            'active'=>'1',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'photo'=>'Recursos_sistema/upload_image.png',
             'remember_token' => Str::random(10),
         ]);
 

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse\RedirectResponse\redirect;
 
 
 class loginController extends Controller
@@ -153,4 +154,28 @@ class loginController extends Controller
         }
 
     }
+
+    public function ConfirmCorreo(Request $request){
+
+        $datos_get=explode('---',base64_decode($_GET['id']));
+        $data_user=DB::table('users')->where('id','=',$datos_get[0])->get();
+
+        $fecha_now=date('Y-m-d H:i:s');
+
+        if(count($data_user)>0){
+            DB::table('users')->where('id','=',$datos_get[0])
+            ->update([
+                'email_verified_at' =>$fecha_now,
+                'active'=>1
+                ]);
+
+           if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>'password'],false)) {
+               $msg=ucwords($data_user[0]->{'nombre'})." Has activado tu cuenta.";
+               return redirect('/Admin/user')->with('status_confirm',$msg);
+           }
+        }else{
+           return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
+        }
+    }
+
 }

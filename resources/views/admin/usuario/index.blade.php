@@ -37,10 +37,16 @@
             <h4 class="font-weight-bold py-3 mb-0">Lista de usuarios</h4>
             @include('admin.usuario.navar')
 
-
             <div class="col-sm-12 contenedor_exception">
 
             </div>
+            @if(session('status_confirm'))
+                <div class="col-sm-12 conte_confirm_success" style="margin:15px 0px;">
+                    <div class="alert alert-success">
+                        {{ session('status_confirm') }} <i class="fas fa-grin-stars"></i>
+                        </div>
+                </div>
+            @endif
             <div class="row justify-content-center">
                 <!--1 liveline-section -->
                 <div class="col-sm-12">

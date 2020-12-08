@@ -16,6 +16,7 @@
     <ul class="sidenav-inner py-1">
 
         <!-- crud usuario -->
+        @role('Administrador')
         <li class="sidenav-divider mb-1"></li>
         <li class="sidenav-header small font-weight-semibold">Administrador</li>
         <li class="sidenav-item">
@@ -70,8 +71,11 @@
                 <div>Carreras</div>
             </a>
         </li>
+        @endrole
         {{-- otro modulo --}}
-        <li class="sidenav-item">
+
+        @hasanyrole('Administrador||Tutor')
+            <li class="sidenav-item">
             <a href="javascript:" class="sidenav-link sidenav-toggle">
                 <i class="sidenav-icon fas fa-file-upload"></i>
                 <div>Archivos</div>
@@ -80,20 +84,25 @@
                 </div> --}}
             </a>
             <ul class="sidenav-menu">
-                <li class="sidenav-item">
-                    <a href="{{url('/reportes')}}" class="sidenav-link">
-                         <i class="sidenav-icon fas fa-file"></i>
-                        <div>Reportes</div>
-                    </a>
-                </li>
-                <li class="sidenav-item">
-                    <a href="{{url('/formatos')}}" class="sidenav-link">
-                        <i class="sidenav-icon fas fa-file"></i>
-                        <div>Formatos</div>
-                    </a>
-                </li>
+                @role('Tutor')
+                    <li class="sidenav-item">
+                        <a href="{{url('/reportes')}}" class="sidenav-link">
+                            <i class="sidenav-icon fas fa-file"></i>
+                            <div>Reportes</div>
+                        </a>
+                    </li>
+                @endrole
+                @role('Administrador')
+                    <li class="sidenav-item">
+                        <a href="{{url('/formatos')}}" class="sidenav-link">
+                            <i class="sidenav-icon fas fa-file"></i>
+                            <div>Formatos</div>
+                        </a>
+                    </li>
+                @endrole
             </ul>
         </li>
+        @endhasanyrole
         <!-- Dashboards -->
         {{--
         <li class="sidenav-item open active">
@@ -114,8 +123,5 @@
             </ul>
         </li>
         --}}
-
-        <li class="sidenav-divider mb-1"></li>
-        <li class="sidenav-header small font-weight-semibold">TITULO DEL MODULO</li>
     </ul>
 </div>
