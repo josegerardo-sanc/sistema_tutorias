@@ -7,24 +7,19 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
-
-class ArchivosUploadsController extends Controller
+class UploadsFormatosController extends Controller
 {
 
-
-    public function reportesIndex(Request $request){
+    public function formatosIndex(Request $request){
         if($request->ajax()){
 
             $data=$request->all();
-            $Formatos = DB::table('archivos')->where('tipo_archivo',2)->orderBy('fecha_created_archivo', 'desc')->get();
+            $Formatos = DB::table('archivos')->where('tipo_archivo',1)->orderBy('fecha_created_archivo', 'desc')->get();
 
             return json_encode(['status'=>200,'data'=>$Formatos]);
         }
-
-        return view('admin.Upload_Archivos.upload_reporte');
+        return view('admin.Upload_Archivos.upload_formato');
     }
-
 
     public function DeleteArchivo(Request $request){
 
@@ -88,10 +83,12 @@ class ArchivosUploadsController extends Controller
 
     }
 
-    public function SubirReporte(Request $request){
-        //  return json_encode(['files'=>$_FILES,'$request'=>$request->all(),'file'=>$_FILES['archivo_file_input']]);
+
+    public function SubirFormato(Request $request){
 
         $data=$request->all();
+        $ruta_image_perfil="";
+
 
         if($request['id_archivo']!=""){
             $datos_file=DB::table('archivos')->where('id_archivo','=',$data['id_archivo'])->get();
@@ -103,7 +100,7 @@ class ArchivosUploadsController extends Controller
                         'info'=>"<i class='fas fa-database'></i>. EL REGISTRO QUE INTENTAS ACTUALIZAR NO SE ENCUNETRA EN NUESTRA BASE DE DATOS.</br>COMUNIQUESE CON EL ADMINISTRADOR"]);
             }
 
-            // return json_encode(['status'=>400,'info'=>'actualizar','ruta'=>$datos_file[0]->{'ruta_archivo'},'file'=>$_FILES['archivo_file_input']]);
+            // return json_encode(['status'=>400,'info'=>'actualizar','ruta'=>$datos_file[0]->{'ruta_archivo'}]);
 
             if(isset($_FILES['archivo_file_input'])){
                 try {
@@ -129,7 +126,7 @@ class ArchivosUploadsController extends Controller
                 }
             }
 
-            $ruta_image_perfil="";
+
 
             try {
                 DB::beginTransaction();
@@ -149,11 +146,7 @@ class ArchivosUploadsController extends Controller
 
                 // return json_encode(['status'=>400,'info'=>$data_json['nombre_archivo']]);
                 $json_data_archivo=json_encode([
-                                        'semestre'=>$data['semestre'],
-                                        'carrera'=>$data['carrera_escolar'],
-                                        'periodo'=>$data['periodo_escolar'],
-                                        'turno'=>$data['turno_escolar'],
-                                        'grupo'=>$data['grupo_escolar'],
+                                        'archivo_dirigido'=>$data['archivo_dirigido'],
                                         'nombre_archivo'=>isset($_FILES['archivo_file_input'])?$_FILES['archivo_file_input']['name']:$data_json['nombre_archivo'],
                                    ]);
 
@@ -167,7 +160,7 @@ class ArchivosUploadsController extends Controller
                      'descripcion' =>$data['descripcion'],
                      'ruta_archivo' => $ruta_image_perfil,
                      'datos_tipo_archivo' => $json_data_archivo ,//json
-                     'tipo_archivo'=>2, // 1='formato',2='reporte'
+                     'tipo_archivo'=>1, // 1='formato',2='reporte'
                      'fecha_update_archivo'=>$FECHA_REGISTER
                     ]
                 );
@@ -178,23 +171,23 @@ class ArchivosUploadsController extends Controller
                     'update_archivo'=>200,
                     'name_file'=>isset($_FILES['archivo_file_input'])?$_FILES['archivo_file_input']['name']:$data_json['nombre_archivo'],
                     'info'=>"<i class='fas fa-database'></i> ACTUALIZACIÓN SASTIFACTORIO"
-                    ]);
+                ]);
 
             } catch (\Exception $e) {
                 DB::rollBack();
                 Storage::delete('public/'.$ruta_image_perfil);
                 return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage()]);
-
             }
 
         }else{
-
+            $data=$request->all();
+            $file_permitido=false;
             if(!isset($_FILES['archivo_file_input'])){
                 return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-triangle"></i> NO HAS SELECCIONADO EL ARCHIVO.']);
             }
 
+
             try {
-                $file_permitido=false;
                 if($request->hasFile('archivo_file_input')){
                     $info=$this->Image_validar($_FILES);
                     $file_permitido=$info['validacion'];
@@ -210,7 +203,7 @@ class ArchivosUploadsController extends Controller
                     'info'=>'No se pudo realizar la verificacion del archivo.</br> Se perdio comunicación con el servidor.</br> Intentelo de nuevo'
                     ]);
             }
-            $ruta_image_perfil="";
+
             try {
                 DB::beginTransaction();
 
@@ -223,15 +216,13 @@ class ArchivosUploadsController extends Controller
                 }
 
                 $json_data_archivo=json_encode([
-                                        'semestre'=>$data['semestre'],
-                                        'carrera'=>$data['carrera_escolar'],
-                                        'periodo'=>$data['periodo_escolar'],
-                                        'turno'=>$data['turno_escolar'],
-                                        'grupo'=>$data['grupo_escolar'],
-                                        'nombre_archivo'=>$_FILES['archivo_file_input']['name'],
+                                    'archivo_dirigido'=>$data['archivo_dirigido'],
+                                    'nombre_archivo'=>$_FILES['archivo_file_input']['name']
                                    ]);
 
                 $FECHA_REGISTER=date('Y-m-d H:i:s');
+
+
 
                 DB::table('archivos')->insert(
                     [
@@ -239,27 +230,23 @@ class ArchivosUploadsController extends Controller
                      'descripcion' =>$data['descripcion'],
                      'ruta_archivo' => $ruta_image_perfil,
                      'datos_tipo_archivo' => $json_data_archivo ,//json
-                     'tipo_archivo'=>2, // 1='formato',2='reporte'
+                     'tipo_archivo'=>1, // 1='formato',2='reporte'
                      'fecha_created_archivo'=>$FECHA_REGISTER
                     ]
                 );
 
                 DB::commit();
-                return json_encode([
-                    'status'=>"200",
-                    'storage_archivo'=>200,
-                    'info'=>"<i class='fas fa-database'></i> REGISTRO SASTIFACTORIO"]);
+                return json_encode(['status'=>"200",'info'=>"<i class='fas fa-database'></i> REGISTRO SASTIFACTORIO"]);
 
             } catch (\Exception $e) {
                 DB::rollBack();
                 Storage::delete('public/'.$ruta_image_perfil);
                 return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage()]);
-
             }
+
         }
 
     }
-
 
     public static function Image_validar($FILES){
         $validator=false;
@@ -302,7 +289,5 @@ class ArchivosUploadsController extends Controller
 
             return ['info'=>$msg_erro_archivo,'validacion'=>$validator];
     }
-
-
 
 }

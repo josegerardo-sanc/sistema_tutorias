@@ -75,6 +75,15 @@
         {{-- otro modulo --}}
 
         @hasanyrole('Administrador||Tutor')
+            @role('Tutor')
+            <li class="sidenav-item">
+                <a href="{{url('/tutor')}}" class="sidenav-link">
+                    <i class="sidenav-icon fas fa-list-ol"></i>
+                    <div>Mis Alumnos</div>
+                </a>
+            </li>
+            @endrole
+
             <li class="sidenav-item">
             <a href="javascript:" class="sidenav-link sidenav-toggle">
                 <i class="sidenav-icon fas fa-file-upload"></i>

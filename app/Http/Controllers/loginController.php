@@ -21,6 +21,7 @@ class loginController extends Controller
 {
 
 
+
     public function cerrarSesion(){
 
         try {
@@ -78,7 +79,9 @@ class loginController extends Controller
         if($user[0]->{'active'}=="2"){
             return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> Tu cuenta se encuentra inactiva, para mayor información acercate a con control escolar.']);
         }else if($user[0]->{'active'}=="3"){
-            return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> No has confirmado tu Correo electronico.']);
+
+            return json_encode(['status'=>400,
+                                'info'=>'<i class="fas fa-exclamation-circle"></i> No has confirmado tu Correo electronico.']);
         }
         if (! (Hash::check($clave_usuario,$user[0]->{'password'})) ) {
             return json_encode(['status'=>400,'info'=>'<i class="fas fa-exclamation-circle"></i> La contraseña que ingresaste es incorrecta']);
@@ -91,14 +94,24 @@ class loginController extends Controller
         }
 
         $_SESSION['auth_user']=$user[0];
-        return json_encode(['status'=>200,'data'=>$user,'count'=>count($user),'info_secret'=>'attempt 400']);
+        return json_encode([
+                'status'=>200,
+                'data'=>$user,
+                'count'=>count($user),
+                'info_secret'=>'attempt 400'
+            ]);
 
     }
 
     public function perfil_account_settings_view(){
 
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
         $user=auth()->user();
 
+        // dd($user);
         $domicilio= DB::table('codigos')
         ->where('codigo','=',$user->code_postal)
         ->where('id',$user->localidad)
@@ -157,8 +170,15 @@ class loginController extends Controller
 
     public function ConfirmCorreo(Request $request){
 
+        if(!isset($_GET['id'])){
+            return redirect('/');
+        }
         $datos_get=explode('---',base64_decode($_GET['id']));
+
         $data_user=DB::table('users')->where('id','=',$datos_get[0])->get();
+        if(count($data_user)<=0){
+            return redirect('/');
+        }
 
         $fecha_now=date('Y-m-d H:i:s');
 

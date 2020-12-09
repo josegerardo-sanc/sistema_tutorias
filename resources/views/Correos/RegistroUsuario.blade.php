@@ -52,6 +52,7 @@
         </tr>
         <tr>
             <th>Enlace:<strong>http://localhost:8000/ConfirmCorreo/val?id={{$msg['id_generado_user']}}</strong></th>
+            {{-- <th>Enlace:<strong>https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/val?id={{$msg['id_generado_user']}}</strong></th> --}}
         </tr>
     </table>
 </body>

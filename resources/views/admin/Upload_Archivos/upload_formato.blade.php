@@ -297,7 +297,7 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item btn_archivo_editar" href="javascript:void(0)">Editar</a>
-                                                    <a class="dropdown-item btn_archivo_descargar" href="/download_archivo/${iterator.id_archivo}">Descargar</a>
+                                                    <a class="dropdown-item btn_archivo_descargar" href="/downloadFormato/${iterator.id_archivo}">Descargar</a>
                                                     <a class="dropdown-item btn_archivo_eliminar" href="javascript:void(0)">Eliminar</a>
                                                 </div>
                                             </div>
@@ -407,7 +407,7 @@
 
         $.ajax(
         {
-          url :'/DeleteArchivo',
+          url :'/DeleteFormato',
           type:'POST',
           headers:{"X-CSRF-Token": csrf_token},
           data :formData_archivo,

@@ -138,8 +138,6 @@
                                     <input name="email" id="email" type="email" class="form-control valid_email_express_regular"  maxlength="50">
                                     <div class="content_error_validate_email">info de validacion de la email</div>
                                 </div>
-
-
                             </div>
                         </div>
                         {{-- DOMICILIO --}}

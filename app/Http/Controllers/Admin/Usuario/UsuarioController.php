@@ -17,23 +17,15 @@ use Illuminate\Support\Facades\Mail;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+
 use App\User;
 
 
 class UsuarioController extends Controller
 {
 
-    // $permissions = $user->getPermissionsViaRoles();
-    // $roles = $user->getRoleNames(); // Returns a collection
     public function __construct(){
-
-        // $user=User::find(1);
-        // $permissions = $user->getPermissionsViaRoles();
-        // dd($permissions);
-
-        $this->middleware(['auth']);
-        $this->middleware(['permission:registrar AdminUsuario|desactivarCuenta AdminUsuario|listar AdminUsuario|actualizar AdminUsuario|crearFormato AdminUsuario']);
-
+        // $this->middleware(['permission:registrar AdminUsuario|desactivarCuenta AdminUsuario|listar AdminUsuario|actualizar AdminUsuario|crearFormato AdminUsuario']);
     }
 
     public function index(Request $request){
@@ -170,7 +162,7 @@ class UsuarioController extends Controller
 
       $tipousers='all_todos_users';
       $cantidad=$numeroPagina*$cantidad;
-      return view('Admin.usuario.index',compact('users','TotalRegistros_of_users','inicio','cantidad','tipousers'));
+      return view('admin.usuario.index',compact('users','TotalRegistros_of_users','inicio','cantidad','tipousers'));
 
     }
 
@@ -335,7 +327,11 @@ class UsuarioController extends Controller
                 }
 
             DB::commit();
-                // envio de correo
+
+            $user=User::find($user_id_created);
+            $user->assignRole(ucwords($tipo_usuario));
+
+            // envio de correo
             $token=md5('token_confirm_correo');
             $data['id_generado_user']=base64_encode($user_id_created.'---'.$token);
             Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
@@ -575,7 +571,7 @@ class UsuarioController extends Controller
     public function create(){
 
         $data="";
-        return view('Admin.usuario.create',compact('data'));
+        return view('admin.usuario.create',compact('data'));
     }
     public function edit($id){
 
@@ -609,7 +605,7 @@ class UsuarioController extends Controller
         }
 
         // dd($usersData);
-        return view('Admin.usuario.edit',compact('usersData'));
+        return view('admin.usuario.edit',compact('usersData'));
     }
 
     public function cuentaUser(Request $request){

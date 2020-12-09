@@ -78,6 +78,7 @@ $('.reset_formulario').on('click',function(){
 $('#Admin_btnRegisterUser').on('click',function(e){
     e.preventDefault();
 
+
     var foto_perfil=$('.file_usuario_image_search')[0].files[0];
     console.log(foto_perfil);
 
@@ -200,10 +201,10 @@ $('#Admin_btnRegisterUser').on('click',function(e){
                 if(limpiarFormulario){
                     $('.reset_formulario').click();
                 }
-
-                var img=URL.createObjectURL(foto_perfil);
-                $('.imagen_perfil_navar').attr('src',img);
-
+                if($('.file_usuario_image_search').val()!=""){
+                    var img=URL.createObjectURL(foto_perfil);
+                    $('.imagen_perfil_navar').attr('src',img);
+                }
             }
 
         }).fail(function(jqXHR,textStatus) {

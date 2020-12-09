@@ -300,7 +300,30 @@
 
                             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Redireccionando.......');
 
-                            window.location.href = "/Admin/user";
+                            let ruta="";
+                            let tipo_usuario=data.data[0].tipo_usuario;
+
+                            if(tipo_usuario=="tutor"){
+                                ruta="/tutor"
+                            }else if(tipo_usuario=="asesor"){
+                                 ruta="/asesor"
+                            }
+                            else if(tipo_usuario=="alumno"){
+                                 ruta="/alumno"
+                            }
+                            else if(tipo_usuario=="director"){
+                                    ruta="/director"
+                            }
+                            else if(tipo_usuario=="subdirector"){
+                                    ruta="/subdirector"
+                            }
+                            else if(tipo_usuario=="administrador"){
+                                ruta="/Admin/user"
+                            }
+                            if(ruta==""){
+                                ruta="/";
+                            }
+                            window.location.href = ruta;
 
                             //nota debes de redireccionar dependiendo del usuario
                         }
