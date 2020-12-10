@@ -37,7 +37,8 @@
         </div>
 
         <div class="navbar-nav align-items-lg-center ml-auto">
-            <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
+
+            {{-- <div class="demo-navbar-notifications nav-item dropdown mr-lg-3">
                 <a class="nav-link dropdown-toggle hide-arrow" href="#" data-toggle="dropdown">
                     <i class="feather icon-bell navbar-icon align-middle"></i>
                     <span class="badge badge-danger badge-dot indicator"></span>
@@ -151,10 +152,10 @@
 
                     <a href="javascript:" class="d-block text-center text-light small p-2 my-1">Show all messages</a>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Divider -->
-            <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>
+            {{-- <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div> --}}
             <div class="demo-navbar-user nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">

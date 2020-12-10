@@ -11,7 +11,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-0">Modulo de subida de reportes</h4>
+        <h4 class="display-4" style="color:#DF480F">Modulo de subida de reportes</h4>
         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
             <ol class="breadcrumb">
                 {{-- <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
@@ -19,7 +19,7 @@
                 <li class="breadcrumb-item active">File Manger</li> --}}
             </ol>
         </div>
-        <div class="row">
+        <div class="row"  style="padding: 10px; background-color:white">
             <div class="col-sm-12 msg_error_conte_upload_file_DELETE">
 
             </div>

@@ -22,6 +22,7 @@ class Archivos extends Migration
             $table->enum('tipo_archivo',['formato','reporte']);
             $table->dateTime('fecha_created_archivo');
             $table->dateTime('fecha_update_archivo');
+            $table->string('id_user_upload');
         });
     }
 

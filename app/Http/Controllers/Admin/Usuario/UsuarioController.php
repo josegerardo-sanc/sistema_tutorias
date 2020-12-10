@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Mail;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
 use App\User;
 
 
@@ -338,7 +337,9 @@ class UsuarioController extends Controller
             return json_encode(['status'=>"200",'info'=>"Registro exitoso"]);
             } catch (\Throwable $e) {
                 DB::rollBack();
-                Storage::delete('public/'.$ruta_image_perfil);
+                if($request->hasFile('img_perfil')){
+                    Storage::delete('public/'.$ruta_image_perfil);
+                }
                 return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage()." line: ".$e->getLine(),'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
             }
     }
@@ -461,9 +462,8 @@ class UsuarioController extends Controller
             if($tipo_usuario=="alumno"){
                 // alumno
                 $validatedDatos_complementarios = Validator::make($data, [
-
-                    // 'matricula'=>['required','string','max:10','sometimes','unique:datos_alumnos,matricula,'.$user_id_alumno],
-                    'matricula'=>'required','string','max:10',Rule::unique('datos_alumnos','matricula')->ignore($user_id_alumno, 'id_datos_alumnos'),
+                    // 'matricula'=>'required','string','max:10',Rule::unique('datos_alumnos','matricula')->ignore($user_id_alumno, 'id_datos_alumnos'),
+                    'matricula' => ['required','string','max:10', Rule::unique('datos_alumnos')->ignore($user_id_alumno, 'id_datos_alumnos')],
                     'semestre_escolar'=>'required',
                     'carrera_escolar'=>'required',
                     'periodo_escolar'=>'required',
@@ -477,8 +477,9 @@ class UsuarioController extends Controller
             if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
                 // diferente de alumno y administardior, solictar cedula profesional etc.
                 $validatedDatos_complementarios = Validator::make($data, [
-                    // 'cedula_profesional'=>['required','string','max:10','sometimes','unique:datos_docentes,cedula_profesional,'.$user_id_docente]
-                    'cedula_profesional'=>'required','string','max:10',Rule::unique('datos_docentes','cedula_profesional')->ignore($user_id_docente, 'id_datos_docentes'),
+                    // 'cedula_profesional'=>'required','string','max:10',Rule::unique('datos_docentes','cedula_profesional')->ignore($user_id_docente, 'id_datos_docentes'),
+                    'cedula_profesional' => ['required','string','max:10', Rule::unique('datos_docentes')->ignore($user_id_docente, 'id_datos_docentes')],
+
                     //'grupo_escolar'=>'required'
                 ]);
             }
@@ -563,7 +564,10 @@ class UsuarioController extends Controller
 
           } catch (Exception  $e) {
               DB::rollBack();
-              Storage::delete('public/'.$ruta_image_perfil);
+
+              if($request->hasFile('img_perfil')){
+                Storage::delete('public/'.$ruta_image_perfil);
+              }
               return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage(),'Exeception_db'=>$e->getMessage(),'line'=>$e->getLine()]);
           }
     }

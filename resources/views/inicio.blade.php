@@ -113,7 +113,7 @@
                 <!-- Inner container -->
                 <!-- Have to add `.d-flex` to econtrol width via `.col-*` classes -->
                 <div class="d-flex col-sm-12 col-md-12 col-lg-12 px-0 px-xl-6 mx-auto">
-                    <div class="w-100">
+                    <div class="w-100" style="border:1px solid #C1C1C1; border-radius:7px;height: 600px;padding:20px">
 
                         <!-- [ Logo ] Start -->
                         {{-- <div class="d-flex justify-content-center align-items-center">
@@ -127,33 +127,41 @@
 
 
                             {{-- <h5 class="text-center mt-5 mb-0" style="color:#FF7133">Iniciar Sesión</h5> --}}
-                        <h5 class="text-center mb-0" style="color:#FF7133">Instituto tecnológico superior de la región sierra</h5>
 
-                        <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
-                        @if(session('status_confirm_error'))
-                            <div class="conte_confirm_error" style="width: 100%;padding:0px;margin:15px 0px;">
-                                <div class="alert alert-danger">
-                                    {{ session('status_confirm_error') }}
-                                 </div>
-                            </div>
-                        @endif
                         <!-- [ Form ] Start -->
-                        <form class="my-5">
+                        <form >
+                            <h5 class="d-flex justify-content-end align-items-center" >
+                                <img
+                                 src="{{asset('storage').'/Recursos_sistema/itss.jpg'}}" style="height:80px;object-fit: cover;"
+                                alt="logo">
+                            </h5>
+                            <h3 class="text-center mb-0 font-italic" style="color:#FF7133">
+                                Instituto tecnológico superior de la región sierra
+                            </h3>
+                            <hr>
+                            <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
+                            @if(session('status_confirm_error'))
+                                <div class="conte_confirm_error" style="width: 100%;padding:0px;margin:15px 0px;">
+                                    <div class="alert alert-danger">
+                                        {{ session('status_confirm_error') }}
+                                    </div>
+                                </div>
+                            @endif
                             <div class="form-group">
-                                <label class="form-label" id="titulo_tipo_clave">CURP</label>
+                                <label class="form-label mb-4" id="titulo_tipo_clave">CURP</label>
                                 <input type="text" class="form-control input_curp_validar" id="CURP" maxlength="20">
                                 <div class="content_error_curp"></div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label d-flex justify-content-between align-items-end">
+                                    <label class="form-label d-flex justify-content-between align-items-end mb-4">
                                         <span>Clave de Acceso</span>
                                         <a href="pages_authentication_password-reset.html" class="d-block small">¿Se te olvidó tu contraseña?</a>
                                     </label>
                                 <input type="password" class="form-control" id="CLAVE_USUARIO" maxlength="30">
                                 <div class="clearfix"></div>
                             </div>
-                            <button type="button" class="btn btn-primary" id="btn_IniciarSesion" style="display:block;width:100%">Iniciar Sesión</button>
+                            <button type="button" class="btn btn-primary" id="btn_IniciarSesion" style="display:block;width:100%;margin-top:30px; margin-bottom:20px;">Iniciar Sesión</button>
 
                             <div class="d-flex justify-content-end mt-2">
                                 <label class="custom-control custom-checkbox m-0">

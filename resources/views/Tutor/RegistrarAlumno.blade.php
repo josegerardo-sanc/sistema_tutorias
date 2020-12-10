@@ -12,19 +12,19 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#DF480F">Nuevo Usuario</h4>
+        <h4 class="display-4" style="color:#DF480F">Nuevo Alumno</h4>
 
-        @include('admin.usuario.navar')
-
-        {{-- <div class="row justify-content-end form-group">
-            <div class="col-sm-2">
-                <button id="btn_show_modal_preregistroUsuario" class="btn btn-info">PreRegistro</button>
-            </div>
-        </div> --}}
-
-        {{--  modal PREREGISTRO --}}
-       @include('admin.helpers.formularioPreRegistro')
-        {{-- end modal PREREGISTRO --}}
+        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
+                <li class="breadcrumb-item" ><a href="{{ url('/tutor')}}">Mis alumnos</a></li>
+                @if (count($asignaciones)>0)
+                    <li class="breadcrumb-item active open_modal_new_alumno active" >
+                        <a href="{{url('/tutor/create')}}">Registrar alumno</a>
+                    </li>
+                @endif
+            </ol>
+        </div>
 
         <div class="row">
             <div class="col-sm-12 list_error">
@@ -37,8 +37,7 @@
                     <a class="nav-link active btn_tab_conte_personal" data-toggle="tab" href="#user-edit-account">Datos Personales</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn_tab_conte_dtsAcademicos" data-toggle="tab" href="#user-edit-info"
-                    style="display: none;">Datos Académicos</a>
+                    <a class="nav-link btn_tab_conte_dtsAcademicos" data-toggle="tab" href="#user-edit-info">Datos Académicos</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -64,17 +63,9 @@
                         {{ csrf_field() }}
                         <div class="card-body pb-2">
 
-                            <div class="form-group">
+                            <div class="form-group" style="display: none;">
                                 <label class="form-label">Tipos De Usuarios</label>
-                                <select class="form-control" name="tipo_usuario" id="tipo_usuario">
-                                    <option selected disabled value="0">Seleccione  Tipo  Usuario</option>
-                                    <option value="tutor">Tutor</option>
-                                    {{-- <option value="asesor">Asesor</option> --}}
-                                    <option value="alumno">Alumno</option>
-                                    <option value="director">Director Academico</option>
-                                    <option value="subdirector">SubDirector Academico</option>
-                                    <option value="administrador">Administrador</option>
-                                </select>
+                                <input type="text" name="tipo_usuario" id="tipo_usuario" value="alumno">
                                 <div id="content_error_tipo_usuario"></div>
                             </div>
                             <div class="row form-group contenedor_referencia_btn_this">
@@ -84,12 +75,17 @@
                                     <div class="content_error_curp">info de validacion de la curp</div>
                                 </div>
                                 <div class="col-sm-2 form-group">
-                                    <label class="form-label">RFC</label>
+                                    <label class="form-label" style="display: flex; justify-content:space-between">
+                                        <strong>RFC</strong>
+                                        <small class="text-muted">Opcional</small>
+                                    </label>
                                     <input name="rfc" id="rfc" type="text" class="form-control" maxlength="4">
                                 </div>
-                                <div class="col-sm-2 display:flex justify-content-end">
+
+                                <div class="col-sm-2 form-group">
                                     <button  class="btn btn-sm btn_validar_curp_api" style="background-color:#336BFF;color:white;">Validar Curp</button>
                                 </div>
+
                             </div>
 
                             <div class="form-group">
@@ -177,7 +173,7 @@
                     </form>
 
                 </div>
-                <div class="tab-pane fade" id="user-edit-info">
+                <div class="tab-pane show" id="user-edit-info">
                      {{-- datos del alumno --}}
                      <form action="#" id="formData_Datos_alumno">
                         <div class="card-body pb-2 ocultar_conte_usuario_ " id="conte_alumno_academico">
@@ -191,22 +187,14 @@
                                 <div class="row form-group">
                                     <div class="col-sm-6 form-group">
                                             <label class="form-label">Semestre</label>
-                                            <select  name="semestre_escolar" id="semestre_escolar" class="form-control">
-                                                <option value="0" disabled selected>Seleccione Semestre</option>
-                                                <option value="1">1º Semestre</option>
-                                                <option value="2">2º Semestre</option>
-                                                <option value="3">3º Semestre</option>
-                                                <option value="4">4º Semestre</option>
-                                                <option value="5">5º Semestre</option>
-                                                <option value="6">6º Semestre</option>
-                                                <option value="7">8º Semestre</option>
-                                                <option value="8">9º Semestre</option>
+                                            <select  name="semestre_escolar" id="semestre_escolar" class="form-control" disabled>
+                                                 <option value="{{$asignaciones[0]->semestre }}" selected>{{$asignaciones[0]->semestre }}º Semestre</option>
                                             </select>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label class="form-label">Carrera <strong class="carreras_select_textError"></strong></label>
-                                        <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select">
-                                            <option value="0" disabled selected>Seleccione Carrera</option>
+                                        <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select" disabled>
+                                            <option value="{{$asignaciones[0]->id_carrera }}" selected> {{$asignaciones[0]->name_carrera }}</option>
                                         </select>
                                      </div>
                                 </div>
@@ -222,39 +210,24 @@
                                     </div>
                                     <div class="col-sm-4 form-group">
                                         <label class="form-label">Turno</label>
-                                        <select class="form-control" name="turno_escolar" id="turno_escolar">
-                                            <option value="0" disabled selected>Seleccione Turno</option>
-                                            <option value="1">Matutino</option>
-                                            <option value="2">Vespertino</option>
+                                        <select class="form-control" name="turno_escolar" id="turno_escolar" disabled>
+                                            <option value="{{$asignaciones[0]->turno }}" selected> {{$asignaciones[0]->turno }}</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-4 form-group">
                                         <label class="form-label">Grupo</label>
-                                        <select class="form-control" name="grupo_escolar" id="grupo_escolar">
-                                            <option value="0" disabled selected>Seleccione Grupo</option>
-                                            <option value="1">A</option>
-                                            <option value="2">B</option>
+                                        <select class="form-control" name="grupo_escolar" id="grupo_escolar" disabled>
+                                            <option value="{{$asignaciones[0]->grupo }}" selected> {{$asignaciones[0]->grupo }}</option>
                                         </select>
                                     </div>
                                 </div>
                             {{-- datos del docente --}}
                         </div>
-                     </form>
-
-                     <form action="#" id="formData_Datos_docente">
-                        <div  class="card-body pb-2 ocultar_conte_usuario_" id="conte_docente_academico">
-                            <div class="row form-group">
-                                <div class="col-sm-4 form-group">
-                                    <label class="form-label">Cedula Profesional</label>
-                                    <input  name="cedula_profesional" id="cedula_profesioanl" type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                     </form>
+                    </form>
                 </div>
         </div>
         <div class="text-right mt-3">
-            <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Registar Usuario</button>&nbsp;
+            <button type="button" class="btn btn-primary btn_alumno_send_db">Registar Alumno</button>&nbsp;
             <button type="button" class="btn btn-default reset_formulario">Limpiar</button>
         </div>
 
@@ -268,7 +241,7 @@
 @section('script')
 
 
-<script src="{{asset('js/helpers/GetCarreras.js')}}"></script>
+{{-- <script src="{{asset('js/helpers/GetCarreras.js')}}"></script> --}}
 <script src="{{asset('dashboard_assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
 <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>
 <script src="{{asset('dashboard_assets/js/pages/pages_users_edit.js')}}"></script>
@@ -279,7 +252,7 @@
 <script src="{{asset('js/helpers/codepostal.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarEMAIL_TELEFONO.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
-<script src="{{asset('js/admin/register_user.js')}}"></script>
+<script src="{{asset('js/tutor/alumno.js')}}"></script>
 
 
 @endsection

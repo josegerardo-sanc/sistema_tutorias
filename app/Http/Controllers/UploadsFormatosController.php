@@ -90,6 +90,10 @@ class UploadsFormatosController extends Controller
         $ruta_image_perfil="";
 
 
+        $user=auth()->user();
+        $id_user_logueado=$user->id;
+
+
         if($request['id_archivo']!=""){
             $datos_file=DB::table('archivos')->where('id_archivo','=',$data['id_archivo'])->get();
 
@@ -231,7 +235,8 @@ class UploadsFormatosController extends Controller
                      'ruta_archivo' => $ruta_image_perfil,
                      'datos_tipo_archivo' => $json_data_archivo ,//json
                      'tipo_archivo'=>1, // 1='formato',2='reporte'
-                     'fecha_created_archivo'=>$FECHA_REGISTER
+                     'fecha_created_archivo'=>$FECHA_REGISTER,
+                     'id_user_upload'=>$id_user_logueado
                     ]
                 );
 
@@ -288,6 +293,31 @@ class UploadsFormatosController extends Controller
            }
 
             return ['info'=>$msg_erro_archivo,'validacion'=>$validator];
+    }
+
+    // reportes enviados por los tutores
+    public function reportes_enviados(){
+        $users_tutores = DB::table('users')
+        ->where('tipo_usuario','=','tutor')
+        ->get();
+        return view('admin.ReportesRecibidos.index',compact('users_tutores'));
+    }
+    public function reportes_enviadosListar(Request $request){
+
+        $data=$request->all();
+
+        $Reportes=[];
+
+        if($data['action']=="todos_reportes"){
+            $Reportes = DB::table('archivos')->where('tipo_archivo',2)->orderBy('fecha_created_archivo', 'desc')->get();
+        }
+        else if($data['action']=="obtener_reportes_tutor_seleccionado"){
+            $Reportes = DB::table('archivos')->where('tipo_archivo',2)
+            ->where('archivos.id_user_upload','=',$data['id_tutor'])
+            ->orderBy('fecha_created_archivo', 'desc')->get();
+        }
+
+        return json_encode(['status'=>200,'data'=>$Reportes]);
     }
 
 }

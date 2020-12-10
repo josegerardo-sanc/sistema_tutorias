@@ -17,7 +17,7 @@
 <div class="layout-content">
 
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-0" id="titulo_module_asignacion">Asignacion individual</h4>
+        <h4 class="display-4" style="color:#DF480F" id="titulo_module_asignacion">Asignacion individual</h4>
 
         <div class="row">
             <div class="col-sm-12 error_alert_container">
@@ -177,6 +177,7 @@
 
 let init_selecte_tutores=0;
 let init_selecte_alumnos=0;
+
 function validarSelectAsignacionTutor(){
 
     $('.error_select_alumno').html('');

@@ -38,14 +38,27 @@ Route::group(['middleware' => ['role:Administrador','auth']], function () {
     Route::post('/subirFormato', 'UploadsFormatosController@SubirFormato');
     Route::post('/DeleteFormato', 'UploadsFormatosController@DeleteArchivo');
     Route::get('/downloadFormato/{id}', 'UploadsFormatosController@download_archivo');
+
+
+    // REPORTES ENVIADOS POR LOS TUTORES
+    Route::get('/reportes/reportes_enviados', 'UploadsFormatosController@reportes_enviados');
+    Route::post('/reportes/reportes_enviados/list', 'UploadsFormatosController@reportes_enviadosListar');
+
 });
 
 
 Route::group(['middleware' => ['role:Tutor','auth']], function () {
         // alumnos
         Route::resource('/tutor', 'Tutor\AlumnosController');
-        Route::resource('/tutor/registerAlumno', 'Tutor\AlumnosController@registerAlumnos');
-        Route::resource('/tutor/actualizarAlumno/{id}', 'Tutor\AlumnosController@actualizarAlumnos');
+
+        Route::post('/tutor/registerAlumno', 'Tutor\AlumnosController@registerAlumnos');
+        Route::post('/tutor/actualizarAlumno/{id}', 'Tutor\AlumnosController@actualizarAlumnos');
+
+        //formatosTutores
+        Route::resource('/formatosTutores', 'Tutor\FormatosTutoresController');
+        Route::post('/formatosTutores/formatos', 'Tutor\FormatosTutoresController@formatosIndex');
+        Route::get('/formatosTutores/downloadFormato/{id}', 'Tutor\FormatosTutoresController@downloadFormato');
+
         //reportes
         Route::get('/reportes', 'ArchivosUploadsController@reportesIndex');
         Route::post('/subirReporte', 'ArchivosUploadsController@SubirReporte');
@@ -54,12 +67,25 @@ Route::group(['middleware' => ['role:Tutor','auth']], function () {
 });
 
 Route::group(['middleware' => ['role:Alumno','auth']], function () {
+    Route::get('/alumno', 'Alumno\AlumnoController@index');
+    Route::get('/alumno/miTutor', 'Alumno\AlumnoController@miTutor');
+
+
+    //formatosAlumno
+    Route::get('/formatosAlumnos', 'Alumno\AlumnoController@page_formatos_alumnos');
+    Route::post('/formatosAlumnos/formatos', 'Alumno\AlumnoController@formatosIndex');
+    Route::get('/formatosAlumnos/formatos/downloadFormato/{id}', 'Alumno\AlumnoController@downloadFormato');
+
+
+    // cuestionario grupal
+    Route::get('/alumnoCuestionario/grupal', 'Alumno\CuestionarioController@pageCuestionarioGrupal');
+    Route::post('/alumnoCuestionario/Registrar', 'Alumno\CuestionarioController@RegistrarMi_CuestionarioGrupal');
+
+    // Cuestionarioindividual
+    Route::get('/alumnoCuestionario/individual', 'Alumno\CuestionarioController@pageCuestionarioIndividual');
 
 });
 
-Route::group(['middleware' => ['role:Asesor','auth']], function () {
-
-});
 
 Route::group(['middleware' => ['role:Director','auth']], function () {
 
@@ -73,7 +99,9 @@ Route::group(['middleware' => ['role:SubDirector','auth']], function () {
 
 // helpers
 Route::post('/Admin/carreras/getCarreras','Admin\carreraController@getCarreras');
+// helpers
 Route::post('/helpers/codePostal', 'helpers\CodepostalController@GetCodePostal');
+Route::post('/carrera/tutoresAsignados/{id}', 'helpers\CodepostalController@tutoresAsignados');
 
 // login
 Route::post('/IniciarSesion', 'loginController@IniciarSesion');

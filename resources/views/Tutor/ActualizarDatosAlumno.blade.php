@@ -13,20 +13,19 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#DF480F">Editar Usuario</h4>
-
-        @include('admin.usuario.navar')
-
-        {{-- <div class="row justify-content-end form-group">
-            <div class="col-sm-2">
-                <button id="btn_show_modal_preregistroUsuario" class="btn btn-info">PreRegistro</button>
-            </div>
-        </div> --}}
-
-        {{--  modal PREREGISTRO --}}
-        @include('admin.helpers.formularioPreRegistro')
-        {{-- end modal PREREGISTRO --}}
-
+        <h4 class="display-4" style="color:#DF480F">Editar Alumno</h4>
+        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
+                <li class="breadcrumb-item" ><a href="{{ url('/tutor')}}">Mis alumnos</a></li>
+                @if (count($asignaciones)>0)
+                    <li class="breadcrumb-item active open_modal_new_alumno" >
+                        <a href="{{url('/tutor/create')}}">Registrar alumno</a>
+                    </li>
+                @endif
+                <li class="breadcrumb-item active">Actualizando Datos</li>
+            </ol>
+        </div>
         <div class="row">
             <div class="col-sm-12 list_error">
                 <!--ampos invalidos o valor-->
@@ -35,12 +34,12 @@
         <div class="nav-tabs-top">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active btn_tab_conte_personal" data-toggle="tab" href="#user-edit-account">Datos
-                        Personales</a>
+                    <a class="nav-link active btn_tab_conte_personal" data-toggle="tab" href="#user-edit-account">
+                        Datos Personales</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn_tab_conte_dtsAcademicos" data-toggle="tab" href="#user-edit-info"
-                        style="display:none">Datos Académicos</a>
+                        style="">Datos Académicos</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -64,26 +63,16 @@
                     <form action="#" id="formData_DatosPersonales">
                         {{ csrf_field() }}
                         <div class="card-body pb-2">
-
+                            <div class="form-group" style="display: none;">
+                                <label class="form-label">Tipos De Usuario</label>
+                                <input type="text" name="tipo_usuario" id="tipo_usuario" value="alumno">
+                                <div id="content_error_tipo_usuario"></div>
+                            </div>
                             <div class="row form-group">
                                 <div class="col-sm-12 form-group">
                                     <!-- parametros adicionales para el update -->
-                                    <input value="{{$usersData[0]->id_user}}" name="id_user" id="id_user" type="hidden"
+                                    <input value="{{$usersData[0]->id_user_principal}}" name="id_user" id="id_user_alumno_db" type="hidden"
                                         style="opacity:0;" class="form-control">
-                                    <input value="update_user" name="action_user_update" id="action_user_update"
-                                        type="hidden" style="opacity:0;" class="form-control">
-                                    <!-- nota: el tipo de usuario lo agrego mediante .js -->
-                                    <label class="form-label">Tipos De Usuarios</label>
-                                    <select class="form-control" name="tipo_usuario" id="tipo_usuario">
-                                        <option selected disabled value="0">Seleccione Tipo Usuario</option>
-                                        <option value="tutor">Tutor</option>
-                                        <option value="asesor">Asesor</option>
-                                        <option value="alumno">Alumno</option>
-                                        <option value="director">Director Academico</option>
-                                        <option value="subdirector">SubDirector Academico</option>
-                                        <option value="administrador">Administrador</option>
-                                    </select>
-                                    <div id="content_error_tipo_usuario"></div>
                                 </div>
                             </div>
                             <!-- fin -->
@@ -95,7 +84,10 @@
                                     <div class="content_error_curp">info de validacion de la curp</div>
                                 </div>
                                 <div class="col-sm-2 form-group">
-                                    <label class="form-label">RFC</label>
+                                    <label class="form-label" style="display: flex; justify-content:space-between">
+                                        <strong>RFC</strong>
+                                        <small class="text-muted">Opcional</small>
+                                    </label>
                                     <input value="{{$usersData[0]->rfc}}" name="rfc" id="rfc" type="text"
                                         class="form-control" maxlength="4">
                                 </div>
@@ -234,7 +226,7 @@
                     </form>
 
                 </div>
-                <div class="tab-pane fade" id="user-edit-info">
+                <div class="tab-pane show" id="user-edit-info">
                     {{-- datos del alumno --}}
                     <form action="#" id="formData_Datos_alumno">
                         <div class="card-body pb-2 ocultar_conte_usuario_ " id="conte_alumno_academico">
@@ -242,29 +234,25 @@
                                 <div class="col-sm-12 form-group">
                                     <label class="form-label">Matricula</label>
                                     <input name="matricula" id="matricula_escolar" type="text"
-                                        class="form-control matricula_escolar_validar">
+                                        class="form-control matricula_escolar_validar" value="{{$usersData[0]->matricula}}">
                                     <div class="contenedor_input_matricula_alumno"></div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6 form-group">
                                     <label class="form-label">Semestre</label>
-                                    <select name="semestre_escolar" id="semestre_escolar" class="form-control">
-                                        <option value="0" disabled selected>Seleccione Semestre</option>
-                                        <option value="1">1º Semestre</option>
-                                        <option value="2">2º Semestre</option>
-                                        <option value="3">3º Semestre</option>
-                                        <option value="4">4º Semestre</option>
-                                        <option value="5">5º Semestre</option>
-                                        <option value="6">6º Semestre</option>
-                                        <option value="7">8º Semestre</option>
-                                        <option value="8">9º Semestre</option>
+                                    <select name="semestre_escolar" id="semestre_escolar" class="form-control" disabled>
+                                        <option value="{{$usersData[0]->semestre}}" selected>
+                                            {{$usersData[0]->semestre}}º Semestre
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6 form-group">
                                     <label class="form-label">Carrera <strong class="carreras_select_textError"></strong></label>
-                                    <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select">
-                                            <option value="0" disabled selected>Seleccione Carrera</option>
+                                    <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select" disabled>
+                                        <option value="{{$usersData[0]->id_carrera}}" selected>
+                                                {{$usersData[0]->name_carrera}}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -280,41 +268,29 @@
                                 </div>
                                 <div class="col-sm-4 form-group">
                                     <label class="form-label">Turno</label>
-                                    <select class="form-control" name="turno_escolar" id="turno_escolar">
-                                        <option value="0" disabled selected>Seleccione Turno</option>
-                                        <option value="1">Matutino</option>
-                                        <option value="2">Vespertino</option>
+                                    <select class="form-control" name="turno_escolar" id="turno_escolar" disabled>
+                                        <option value="{{$usersData[0]->turno}}" selected>
+                                            {{$usersData[0]->turno}}
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4 form-group">
                                     <label class="form-label">Grupo</label>
-                                    <select class="form-control" name="grupo_escolar" id="grupo_escolar">
-                                        <option value="0" disabled selected>Seleccione Grupo</option>
-                                        <option value="1">A</option>
-                                        <option value="2">B</option>
+                                    <select class="form-control" name="grupo_escolar" id="grupo_escolar" disabled>
+                                        <option value="{{$usersData[0]->grupo}}" selected>
+                                            {{$usersData[0]->grupo}}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
                             {{-- datos del docente --}}
                         </div>
                     </form>
-
-                    <form action="#" id="formData_Datos_docente">
-                        <div class="card-body pb-2 ocultar_conte_usuario_" id="conte_docente_academico">
-                            <div class="row form-group">
-                                <div class="col-sm-4 form-group">
-                                    <label class="form-label">Cedula Profesional</label>
-                                    <input name="cedula_profesional" id="cedula_profesioanl" type="text"
-                                        class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
             <div class="text-right mt-3">
-                <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Actualizar Usuario</button>&nbsp;
-                <button type="button" class="btn btn-default reset_formulario">Limpiar</button>
+                <button type="button" class="btn btn-primary btn_alumno_send_db">Actualizar</button>&nbsp;
+                {{-- <button type="button" class="btn btn-default reset_formulario">Limpiar</button> --}}
             </div>
 
         </div>
@@ -325,10 +301,6 @@
 
 
     @section('script')
-    <script src="{{asset('js/helpers/GetCarreras.js')}}"></script>
-
-    <script src="{{asset('js/helpers/verificarLada.js')}}"></script>
-
     <script src="{{asset('dashboard_assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>
     <script src="{{asset('dashboard_assets/js/pages/pages_users_edit.js')}}"></script>
@@ -337,58 +309,20 @@
     <script src="{{asset('js/helpers/codepostal.js')}}"></script>
     <script src="{{asset('js/helpers/ValidarEMAIL_TELEFONO.js')}}"></script>
     <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
+    <script src="{{asset('js/tutor/alumno.js')}}"></script>
 
-    <script src="{{asset('js/admin/register_user.js')}}"></script>
 
     <script>
-    let tipo_user_selected = "<?php echo $usersData[0]->tipo_usuario ?>";
-    $('#tipo_usuario').val(tipo_user_selected);
-    //console.log(tipo_user_selected);
 
-    $('#conte_alumno_academico').hide();
-    $('#conte_docente_academico').hide();
-
-    if (tipo_user_selected == "alumno") {
-
-        let periodo_selected = "<?php echo isset($usersData[0]->periodo)?$usersData[0]->periodo:''; ?>"
-        //console.log(periodo_selected);
-        if (periodo_selected == "FEBRERO-JULIO") {
-            periodo_selected = 1;
-        } else {
-            periodo_selected = 2;
-        }
-        $('#matricula_escolar').val("<?php echo isset($usersData[0]->matricula)?$usersData[0]->matricula:''; ?>");
-        $('#periodo_escolar').val(periodo_selected);
-        $('#semestre_escolar').val("<?php echo isset($usersData[0]->semestre)?$usersData[0]->semestre:''; ?>");
-
-        setTimeout(() => {
-            $('#carrera_escolar').val("<?php echo isset($usersData[0]->id_carrera)?$usersData[0]->id_carrera:''; ?>");
-        }, 1000);
-
-
-        $('#grupo_escolar').val("<?php echo isset($usersData[0]->grupo)?$usersData[0]->grupo=='A'?'1':'2':''; ?>");
-        $('#turno_escolar').val("<?php echo isset($usersData[0]->turno)?$usersData[0]->turno=='Matutino'?'1':'2':''; ?>");
-
-
-        $('.btn_tab_conte_dtsAcademicos').css({
-            'display': ''
-        }).html('DATOS DEL ALUMNO').show();
-        $('#conte_alumno_academico').show();
-    } else if (tipo_user_selected != "alumno" && tipo_user_selected != "administrador") {
-
-
-        let cedula_profesioanl =
-            "<?php echo isset($usersData[0]->cedula_profesional)?$usersData[0]->cedula_profesional:''; ?>"
-        $('#cedula_profesioanl').val(cedula_profesioanl);
-
-
-        $('.btn_tab_conte_dtsAcademicos').css({
-            'display': ''
-        }).html('DATOS DEL DOCENTE').show();
-        $('#conte_docente_academico').show();
+    let periodo_selected = "<?php echo isset($usersData[0]->periodo)?$usersData[0]->periodo:''; ?>"
+    //console.log(periodo_selected);
+    if (periodo_selected == "FEBRERO-JULIO") {
+        periodo_selected = 1;
+    } else {
+        periodo_selected = 2;
     }
+    $('#periodo_escolar').val(periodo_selected);
     $('.inputBuscarCodigoPostal').keyup();
-
 
 
     let localidad_selected = "<?php echo $usersData[0]->localidad ?>";
@@ -396,7 +330,6 @@
     setTimeout(() => {
         $('#localidad_edit').val(localidad_selected);
     }, 2000);
-
 
     let is_genero = "<?php echo $usersData[0]->genero ?>";
 

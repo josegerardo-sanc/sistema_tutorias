@@ -34,7 +34,7 @@
     <div class="layout-content">
         <!-- [ content ] Start -->
         <div class="container-fluid flex-grow-1 container-p-y">
-            <h4 class="font-weight-bold py-3 mb-0">Lista de usuarios</h4>
+            <h4 class="display-4" style="color:#DF480F">Lista de usuarios</h4>
             @include('admin.usuario.navar')
 
             <div class="col-sm-12 contenedor_exception">
@@ -74,7 +74,7 @@
                                             <option selected disabled value="0">Seleccione  Tipo  Usuario</option>
                                             <option value="all_todos_users" selected>Todos (*)</option>
                                             <option value="tutor">Tutor</option>
-                                            <option value="asesor">Asesor</option>
+                                            {{-- <option value="asesor">Asesor</option> --}}
                                             <option value="alumno">Alumno</option>
                                             <option value="director">Director Academico</option>
                                             <option value="subdirector">SubDirector Academico</option>

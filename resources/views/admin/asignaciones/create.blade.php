@@ -15,8 +15,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-0" id="titulo_module_asignacion">Nueva Asignacion</h4>
-
+        <h4 class="display-4" style="color:#DF480F" id="titulo_module_asignacion">Nueva Asignacion</h4>
         {{-- @include('admin.usuario.navar') --}}
 
         <div class="row">

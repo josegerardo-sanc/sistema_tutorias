@@ -1,44 +1,123 @@
+console.log("alumno.js")
+
+var img_perfil=$('.image_perfil').attr("src");
+
+$('.btn_alumno_send_db').on('click',function(e){
+    e.preventDefault();
+
+    //  var foto_perfil=$('.file_usuario_image_search')[0].files[0];
+     let formData_Datos_alumno=new FormData();
+
+     let formData_Datos=new FormData($('#formData_DatosPersonales')[0]);
+
+     for (let entry of formData_Datos.entries()){
+         formData_Datos_alumno.append(entry[0],entry[1]);
+        //  console.log(entry[0],entry[1]);
+     }
 
 
-/*
-$('#producto_fisico').on('click',function(){
-    if($("#producto_fisico").is(':checked')) {
-            $('#conte_producto_fisico').fadeIn();
-    } else {
-        $('#conte_producto_fisico').fadeOut();
+     formData_Datos_alumno.append('tipo_usuario',"alumno");
+     formData_Datos_alumno.append('img_perfil',$('.file_usuario_image_search')[0].files[0]);
+
+     formData_Datos_alumno.append('matricula',$('#matricula_escolar').val());
+     formData_Datos_alumno.append('periodo_escolar',$('#periodo_escolar option:selected').val());
+     formData_Datos_alumno.append('semestre_escolar',$('#semestre_escolar option:selected').val());
+     formData_Datos_alumno.append('carrera_escolar',$('#carrera_escolar option:selected').val());
+     formData_Datos_alumno.append('turno_escolar',$('#turno_escolar option:selected').val());
+     formData_Datos_alumno.append('grupo_escolar',$('#grupo_escolar option:selected').val());
+
+      //ver datos que serane nviados al backen
+
+    for (let entry of formData_Datos_alumno.entries()){
+        // console.log("clave: "+entry[0]+"   valor: "+entry[1]);
     }
+
+    let this_element=$(this);
+    let this_element_texto=$(this).html();
+
+    var ruta_ajax="/tutor/registerAlumno";
+
+    let id_user_alumno=$('#id_user_alumno_db').val();
+    if(id_user_alumno!=undefined&&id_user_alumno!=0){
+        ruta_ajax=`/tutor/actualizarAlumno/${id_user_alumno}`;
+    }
+
+
+    $.ajax(
+        {
+          url :ruta_ajax,
+          type:'POST',
+          headers:{"X-CSRF-Token": csrf_token},
+          data :formData_Datos_alumno,
+          processData: false,
+          contentType: false,
+          beforeSend:function(){
+             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Cargando.......').attr('disabled','disabled');
+            }
+        })
+        .done(function(respuesta) {
+            $('.conte_loader_MyStyle').css({display:'none'});
+            console.log(respuesta)
+            $(this_element).html(this_element_texto).removeAttr('disabled');
+            var data=JSON.parse(respuesta);
+            console.log(data);
+
+
+            var btn_close_Alert=` <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>`;
+
+            if(data.withErrrors){
+                var errors="";
+                var status=false;
+                for (const item in data.withErrrors){
+                    //console.log(`${item}: ${data.withErrrors[item]}`);
+                    errors+=`<li>${data.withErrrors[item]}</li>`;
+                    status=true;
+                }
+               if(status){
+                /*La propiedad scrollTop:0 nos desplaza hacia el comienzo de la página web, en la posición 0px, y 600*/
+                 $('.list_error').html(`<div class='alert alert-danger alert-dismissible fade show'><ul>${errors}</ul>${btn_close_Alert}</div>`);
+                 $("html, body").animate({ scrollTop: 0 }, 600);
+                }
+                return false;
+            }
+
+            if(data.status=="400"){
+                var errors_list="";
+
+                if(data.file_error){
+
+                        for (const item in data.info) {
+
+                            errors_list+=`<li><strong style="color:#FF334C">${item.toUpperCase()} : </strong> ${data.info[item]}</li>`;
+                        }
+                }else{
+                    errors_list=`<li>${data.info}</li>`;
+                }
+                $('.list_error').html(`<div class='alert alert-warning alert-dismissible fade show'>${errors_list}  ${btn_close_Alert}</div>`);
+            }
+            if(data.status=="200"){
+                if(data.register_alumno){
+                    $('.reset_formulario').click();
+                }
+
+                $('.list_error').html(`<div class='alert alert-success alert-dismissible fade show'>${data.info} ${btn_close_Alert}</div>`);
+                // if($('.file_usuario_image_search').val()!=""){
+                //     var img=URL.createObjectURL(foto_perfil);
+                //     $('.imagen_perfil_navar').attr('src',img);
+                // }
+            }
+
+            $("html, body").animate({ scrollTop: 0 }, 600);
+        }).fail(function(jqXHR,textStatus) {
+
+            console.error(jqXHR.responseJSON);
+             ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
+             $(this_element).html(this_element_texto).removeAttr('disabled');
+
+         })
 });
-*/
-
-/*REGISTRAR USUARIO*/
-
-
-var OBJ_DATA_USUARIO_NEW={};
-
-let TIPO_USER=0;
-
-$('#tipo_usuario').on('change',function(){
-
-   var tipo_user= $(this).val();
-   $('.ocultar_conte_usuario_').hide();
-   $('.btn_tab_conte_dtsAcademicos').hide();
-
-   if(tipo_user=="alumno"){
-    // formulario academico alumno
-     $('#conte_alumno_academico').show();
-     $('.btn_tab_conte_dtsAcademicos').html('DATOS DEL ALUMNO').show();
-   }
-
-   if(tipo_user!="alumno"&&tipo_user!="administrador"){
-       // formulario academico docente
-      $('#conte_docente_academico').show();
-      $('.btn_tab_conte_dtsAcademicos').html('DATOS DEL DOCENTE').show();
-   }
-
-   TIPO_USER=tipo_user;
-});
-
-
 
 $('.reset_formulario').on('click',function(){
 
@@ -65,163 +144,10 @@ $('.reset_formulario').on('click',function(){
 
     $('#formData_DatosPersonales')[0].reset();
     $('#formData_Datos_alumno')[0].reset();
-    $('#formData_Datos_docente')[0].reset();
+
 
 });
 
-
-
-
-
-$('#Admin_btnRegisterUser').on('click',function(e){
-    e.preventDefault();
-
-
-    var foto_perfil=$('.file_usuario_image_search')[0].files[0];
-    console.log(foto_perfil);
-
-    $('#tipo_usuario').removeClass('is-invalid is-valid');
-    $('#content_error_tipo_usuario').removeClass('invalid-feedback valid-feedback').css({'color':'#F9F5F6'});
-
-    TIPO_USER=$('#tipo_usuario').val();
-    if(TIPO_USER==0){
-        $('#tipo_usuario').addClass('is-invalid');
-        $('#content_error_tipo_usuario').addClass('invalid-feedback').html('<strong>selecione el tipo de usuario</strong>').css({'color':'#F71538'});
-
-        $("html, body").animate({ scrollTop: 0 }, 600);
-        return false;
-    }
-
-
-    let formData_DatosPersonales=new FormData($('#formData_DatosPersonales')[0]);
-        formData_DatosPersonales.append('img_perfil',$('.file_usuario_image_search')[0].files[0]);
-
-
-    if(TIPO_USER=="alumno"){
-        let formData_Datos_alumno=new FormData($('#formData_Datos_alumno')[0]);
-        for (let entry of formData_Datos_alumno.entries()){
-            formData_DatosPersonales.append(entry[0],entry[1]);
-        }
-    }
-    if(TIPO_USER!="alumno" && TIPO_USER!="administrador"){
-        let formData_Datos_docente=new FormData($('#formData_Datos_docente')[0]);
-        for (let entry of formData_Datos_docente.entries()){
-            formData_DatosPersonales.append(entry[0],entry[1]);
-        }
-
-    }
-
-
-    //ver datos que serane nviados al backen
-
-    /*for (let entry of formData_DatosPersonales.entries()){
-        console.log("clave: "+entry[0]+"   valor: "+entry[1]);
-    }*/
-
-    let this_element=$(this);
-    let this_element_texto=$(this).text();
-    $('.list_error').html('');
-
-    var ruta_ajax="/Admin/user";
-
-    var limpiarFormulario=true;
-    if(document.getElementById('action_user_update')){
-
-        if(document.getElementById('id_user')){
-            var id_user=document.getElementById('id_user').value;
-            ruta_ajax=`/Admin/user/actualizar/${id_user}`;
-            limpiarFormulario=false;
-            console.log(ruta_ajax);
-        }
-    }
-
-    $.ajax(
-        {
-          url :ruta_ajax,
-          //url :'/Admin/user/Register',
-          type:'POST',
-          headers:{"X-CSRF-Token": csrf_token},
-          data :formData_DatosPersonales,
-          processData: false,
-          contentType: false,
-          beforeSend:function(){
-             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Cargando.......').attr('disabled','disabled');
-             $('.conte_loader_MyStyle').css({display:'flex'});
-            }
-
-        })
-        .done(function(respuesta) {
-            $('.conte_loader_MyStyle').css({display:'none'});
-            //console.log(respuesta)
-            $(this_element).html(this_element_texto).removeAttr('disabled');
-            var data=JSON.parse(respuesta);
-            console.log(data);
-            // return false;
-            $("html, body").animate({ scrollTop: 0 }, 600);
-
-            var btn_close_Alert=` <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                     </button>`;
-
-            if(data.withErrrors){
-                var errors="";
-                var status=false;
-                for (const item in data.withErrrors){
-                    //console.log(`${item}: ${data.withErrrors[item]}`);
-                    errors+=`<li>${data.withErrrors[item]}</li>`;
-                    status=true;
-                }
-               if(status){
-                /*La propiedad scrollTop:0 nos desplaza hacia el comienzo de la página web, en la posición 0px, y 600*/
-                 $('.list_error').html(`<div class='alert alert-danger alert-dismissible fade show'><ul>${errors}</ul>${btn_close_Alert}</div>`);
-                }
-
-                return false;
-            }
-
-            if(data.status=="400"){
-                var errors_list="";
-
-                if(data.file_error){
-
-                        for (const item in data.info) {
-
-                            errors_list+=`<li><strong style="color:#FF334C">${item.toUpperCase()} : </strong> ${data.info[item]}</li>`;
-                        }
-                }else{
-                    errors_list=`<li>${data.info}</li>`;
-                }
-                $('.list_error').html(`<div class='alert alert-warning alert-dismissible fade show'>${errors_list}  ${btn_close_Alert}</div>`);
-            }
-            if(data.status=="200"){
-                if(limpiarFormulario){
-                    $('.reset_formulario').click();
-                }
-
-
-                $('.list_error').html(`<div class='alert alert-success alert-dismissible fade show'>${data.info} ${btn_close_Alert}</div>`);
-
-                // if($('.file_usuario_image_search').val()!=""){
-                //     var img=URL.createObjectURL(foto_perfil);
-                //     $('.imagen_perfil_navar').attr('src',img);
-                // }
-            }
-
-        }).fail(function(jqXHR,textStatus) {
-
-            console.error(jqXHR.responseJSON);
-            /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
-             incluyendo la propiedad jqXHR.status que contiene,
-             entre otros posibles, el código de estado HTTP de la respuesta. */
-             ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
-             $('.conte_loader_MyStyle').css({display:'none'});
-             $(this_element).html(this_element_texto).removeAttr('disabled');
-
-         })
-});
-
-
-var img_perfil=$('.image_perfil').attr("src");
 
 $('.image_perfil').on('click',function(){
     $('.file_usuario_image_search').click();

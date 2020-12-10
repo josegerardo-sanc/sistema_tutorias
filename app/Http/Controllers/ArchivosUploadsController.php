@@ -17,7 +17,12 @@ class ArchivosUploadsController extends Controller
         if($request->ajax()){
 
             $data=$request->all();
-            $Formatos = DB::table('archivos')->where('tipo_archivo',2)->orderBy('fecha_created_archivo', 'desc')->get();
+            $user=auth()->user();
+            $id_user_logueado=$user->id;
+
+            $Formatos = DB::table('archivos')->where('tipo_archivo',2)
+            ->where('id_user_upload','=',$id_user_logueado)
+            ->orderBy('fecha_created_archivo', 'desc')->get();
 
             return json_encode(['status'=>200,'data'=>$Formatos]);
         }
@@ -89,6 +94,10 @@ class ArchivosUploadsController extends Controller
     }
 
     public function SubirReporte(Request $request){
+
+        $user=auth()->user();
+
+        $id_user_logueado=$user->id;
         //  return json_encode(['files'=>$_FILES,'$request'=>$request->all(),'file'=>$_FILES['archivo_file_input']]);
 
         $data=$request->all();
@@ -154,7 +163,7 @@ class ArchivosUploadsController extends Controller
                                         'periodo'=>$data['periodo_escolar'],
                                         'turno'=>$data['turno_escolar'],
                                         'grupo'=>$data['grupo_escolar'],
-                                        'nombre_archivo'=>isset($_FILES['archivo_file_input'])?$_FILES['archivo_file_input']['name']:$data_json['nombre_archivo'],
+                                        'nombre_archivo'=>isset($_FILES['archivo_file_input'])?$_FILES['archivo_file_input']['name']:$data_json['nombre_archivo']
                                    ]);
 
                 $FECHA_REGISTER=date('Y-m-d H:i:s');
@@ -184,7 +193,6 @@ class ArchivosUploadsController extends Controller
                 DB::rollBack();
                 Storage::delete('public/'.$ruta_image_perfil);
                 return json_encode(['status'=>"400",'info'=>"Se produjo un problema de comunicación con el servidor Exeception_db: ".$e->getMessage()]);
-
             }
 
         }else{
@@ -240,7 +248,8 @@ class ArchivosUploadsController extends Controller
                      'ruta_archivo' => $ruta_image_perfil,
                      'datos_tipo_archivo' => $json_data_archivo ,//json
                      'tipo_archivo'=>2, // 1='formato',2='reporte'
-                     'fecha_created_archivo'=>$FECHA_REGISTER
+                     'fecha_created_archivo'=>$FECHA_REGISTER,
+                     'id_user_upload'=>$id_user_logueado
                     ]
                 );
 
@@ -259,7 +268,6 @@ class ArchivosUploadsController extends Controller
         }
 
     }
-
 
     public static function Image_validar($FILES){
         $validator=false;

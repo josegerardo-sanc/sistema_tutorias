@@ -9,7 +9,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-0">Lista de carreras</h4>
+        <h4 class="display-4" style="color:#DF480F">Lista de carreras</h4>
 
         <div class="row">
             {{-- error container --}}
