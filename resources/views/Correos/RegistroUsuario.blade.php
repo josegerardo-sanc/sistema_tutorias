@@ -46,13 +46,15 @@
         <tr>
             <th style="display:flex;justify-content:center;aling-items:center;width:100%;">
                <a
-               href="http://localhost:8000/ConfirmCorreo/val?id={{$msg['id_generado_user']}}"
+               href="https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/val?id={{$msg['id_generado_user']}}"
                style="border:none;display:block;padding:10px;background-color:#A66F24;color:#ffff;margin-top: 30px;">Confirmar correo</a>
             </th>
         </tr>
         <tr>
+			<th>Enlace:<strong>https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/val?id={{$msg['id_generado_user']}}</strong></th>
+			<!--
             <th>Enlace:<strong>http://localhost:8000/ConfirmCorreo/val?id={{$msg['id_generado_user']}}</strong></th>
-            {{-- <th>Enlace:<strong>https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/val?id={{$msg['id_generado_user']}}</strong></th> --}}
+			-->
         </tr>
     </table>
 </body>
