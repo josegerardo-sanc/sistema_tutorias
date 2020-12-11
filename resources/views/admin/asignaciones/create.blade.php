@@ -70,16 +70,16 @@
                     <label class="form-label label_filter">Turno</label>
                     <select class="form-control" name="turno_asignacion" id="turno_asignacion">
                         <option value="0" disabled selected>Seleccione Turno</option>
-                        <option value="1">Matutino</option>
-                        <option value="2">Vespertino</option>
+                        <option value="Matutino">Matutino</option>
+                        <option value="Vespertino">Vespertino</option>
                     </select>
                 </div>
                 <div class="col-sm-12 form-group">
                     <label class="form-label label_filter">Grupo</label>
                     <select class="form-control" name="grupo_asignacion" id="grupo_asignacion">
                         <option value="0" disabled selected>Seleccione Grupo</option>
-                        <option value="1">A</option>
-                        <option value="2">B</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
                     </select>
                 </div>
                 <div class="form-group">

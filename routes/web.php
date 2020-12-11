@@ -83,18 +83,33 @@ Route::group(['middleware' => ['role:Alumno','auth']], function () {
 
     // Cuestionarioindividual
     Route::get('/alumnoCuestionario/individual', 'Alumno\CuestionarioController@pageCuestionarioIndividual');
+    Route::post('/alumnoCuestionario/RegistrarCuestioarioIndividual', 'Alumno\CuestionarioController@RegistrarMi_CuestionarioIndividual');
 
 });
 
 
 Route::group(['middleware' => ['role:Director','auth']], function () {
 
-});
-Route::group(['middleware' => ['role:SubDirector','auth']], function () {
+    // REPORTES
+    Route::get('/director', 'Director\FormatosController@reportes_enviados');
+    Route::post('/director/reportes_enviados/list', 'Director\FormatosController@reportes_enviadosListar');
+    Route::get('/director/downloadFormato/{id}', 'Director\FormatosController@download_archivo');
+
+    Route::get('/director/formatos', 'Director\FormatosController@formatos_enviados');
+    Route::post('/director/formatosListar', 'Director\FormatosController@formatos_enviadosListar');
+
+
 
 });
+Route::group(['middleware' => ['role:Subdirector','auth']], function () {
 
+    Route::get('/subdirector', 'Subdirector\archivosController@reportes_enviados');
+    Route::post('/subdirector/reportes_enviados/list', 'Subdirector\archivosController@reportes_enviadosListar');
+    // Route::get('/subdirector/downloadFormato/{id}', 'Subdirector\archivosController@download_archivo');
 
+    Route::get('/subdirector/formatos', 'Subdirector\archivosController@formatos_enviados');
+    Route::post('/subdirector/formatosListar', 'Subdirector\archivosController@formatos_enviadosListar');
+});
 
 
 // helpers

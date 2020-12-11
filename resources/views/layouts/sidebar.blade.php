@@ -128,6 +128,7 @@
             </ul>
         </li>
         @endhasanyrole
+
         @role('Alumno')
             <li class="sidenav-divider mb-1"></li>
             <li class="sidenav-header small font-weight-semibold">Alumno</li>
@@ -173,9 +174,41 @@
                 </ul>
             </li>
         @endrole
+        @role('Director')
+            <li class="sidenav-divider mb-1"></li>
+            <li class="sidenav-header small font-weight-semibold">Director</li>
+            <li class="sidenav-item">
+                <a href="{{url('/director/formatos')}}" class="sidenav-link">
+                    <i class="sidenav-icon fas fa-file"></i>
+                    <div>Formatos</div>
+                </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="{{url('/director')}}" class="sidenav-link">
+                    <i class="sidenav-icon fas fa-file"></i>
+                    <div>Reportes</div>
+                </a>
+            </li>
+        @endrole
+        @role('Subdirector')
+            <li class="sidenav-divider mb-1"></li>
+            <li class="sidenav-header small font-weight-semibold">SubDirector</li>
+            <li class="sidenav-item">
+                <a href="{{url('/subdirector/formatos')}}" class="sidenav-link">
+                    <i class="sidenav-icon fas fa-file"></i>
+                    <div>Formatos</div>
+                </a>
+            </li>
+            <li class="sidenav-item">
+                <a href="{{url('/subdirector')}}" class="sidenav-link">
+                    <i class="sidenav-icon fas fa-file"></i>
+                    <div>Reportes</div>
+                </a>
+            </li>
+        @endrole
         <!-- Dashboards -->
         {{--
-        <li class="sidenav-item open active">
+        < class="sidenav-item open active">
             <a href="javascript:" class="sidenav-link sidenav-toggle">
                 <i class="sidenav-icon feather icon-users"></i>
                 <div>?????</div>
@@ -191,7 +224,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </>
         --}}
     </ul>
 </div>

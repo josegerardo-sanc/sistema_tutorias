@@ -42,7 +42,7 @@ class AsignacionesController extends Controller
     public function store(Request $request){
 
         $data=$request->all();
-        //return json_encode(['data'=>$data]);
+
         $msg_success="";
         $carrera=trim($data['carrera']);
         $semestre=trim($data['semestre']);
@@ -122,7 +122,9 @@ class AsignacionesController extends Controller
                 if($count_asignacion>=1){
                     return json_encode(['status'=>400,'countAsignacion'=>$count_asignacion,'info'=>'ya se encuntra registrado esta asignacion']);
                 }
-                $fecha_actual= new DateTime();
+            // return json_encode(['data'=>$count_asignacion]);
+
+            $fecha_actual= new DateTime();
 
                 try {
                     DB::table('asignacion')->insert(

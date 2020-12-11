@@ -23,17 +23,10 @@ class roles_permisosSeeder extends Seeder
         $user->assignRole($role1);
 
         $role2 = Role::create(['name' => 'Alumno']);
-        $user=User::find(2);
-        $user->assignRole($role2);
-
         $role3 = Role::create(['name' => 'Tutor']);
-        $user=User::find(3);
-        $user->assignRole($role3);
-
         $role4 = Role::create(['name' => 'Asesor']);
         $role5 = Role::create(['name' => 'Director']);
-        $role6 = Role::create(['name' => 'SubDirector']);
-
+        $role6 = Role::create(['name' => 'Subdirector']);
         // usuarios del sistemas
         Permission::create(['name' => 'crear.usuario']);
         Permission::create(['name' => 'actualizar.usuario']);

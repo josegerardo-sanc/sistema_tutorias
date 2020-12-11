@@ -445,7 +445,6 @@
             // console.log(preguntasArreglo[index].id_pregunta);
             let id=preguntasArreglo[index].id_pregunta;
 
-
             if(id==id_pregunta){
                 preguntasArreglo[index].respuesta=objectPregunta.respuesta;
                 search_status=true;
