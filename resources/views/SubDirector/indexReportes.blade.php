@@ -22,6 +22,13 @@
                 <li class="breadcrumb-item active">Reportes</li>
             </ol>
         </div>
+        @if(session('status_confirm'))
+                <div class="col-sm-12 conte_confirm_success" style="margin:15px 0px;">
+                    <div class="alert alert-success">
+                        {{ session('status_confirm') }} <i class="fas fa-grin-stars"></i>
+                        </div>
+                </div>
+        @endif
         <div class="row" style="padding: 10px; background-color:white">
             <div class="col-sm-12 msg_error_conte_upload_file_DELETE">
 

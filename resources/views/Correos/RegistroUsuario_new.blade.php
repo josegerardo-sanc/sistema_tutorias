@@ -188,22 +188,43 @@
                     <td height="21">
                         <center>
                             <strong>
-                                        <br>
-                                <span class="style25">%nombre</span>
+                                    @if($msg['tipo_usuario']=="alumno")
+                                         <br>
+                                         <span class="style25">Tipo de usuario:Alumno</span>
+                                         <br>
+                                         <span class="style25">Matricula: {{$msg['matricula']}}</span>
                                         <br><br>
-                                <span class="style25">Usuario: %users</span>
+                                    @endif
+                                    @if($msg['tipo_usuario']!="alumno"&&$msg['tipo_usuario']!="administrador")
+                                        <br>
+                                         <span class="style25">Tipo de usuario: {{ucwords($msg['tipo_usuario'])}}</span>
+                                         <br>
+                                         <span class="style25">Matricula: {{$msg['cedula_profesional']}}</span>
+                                        <br><br>
+                                    @endif
+                                    @if($msg['tipo_usuario']=="administrador")
+                                         <br>
+                                         <span class="style25">Administrador</span>
+                                         <br><br>
+                                    @endif
                                     <br>
-                                <span class="style25">constrasena: %password</span>
+                                <span class="style25">{{$msg['nombre']." ".$msg['ap_paterno']." ".$msg['ap_materno']}}</span>
+                                        <br><br>
+                                <span class="style25">Usuario: {{$msg['curp']}}</span>
+                                    <br>
+                                <span class="style25">constrasena: password</span>
+                                <br>
+
                             </strong>
                             <br>
                             <br>
                             <br>
                             <br>
-                            <a target="_blank" href="http://localhost:8000/ConfirmCorreo/val?id=1">
-                             <img border="0" src="https://tutoriasitss.granbazarmexico.store/imagenes/btn_confirmar.png"" width="250" height="50" align="center">
+                            <a target="_blank" href="http://localhost:8000/ConfirmCorreo/{{$msg['id_generado_user']}}">
+                               <img border="0" src="https://tutoriasitss.granbazarmexico.store/imagenes/btn_confirmar.png"" width="250" height="50" align="center">
                             </a>
                             <br>
-                            Enlace:<strong>http://localhost:8000/ConfirmCorreo/val?id=</strong>
+                            Enlace:<strong>http://localhost:8000/ConfirmCorreo/{{$msg['id_generado_user']}}</strong>
                         </center>
                     </td>
                 </tr>

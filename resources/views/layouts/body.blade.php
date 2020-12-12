@@ -5,7 +5,7 @@
 <head>
 
     <!-- CSRF Token -->
-    <title>{{ config('app.name', 'Tutorias') }}</title>
+    <title>{{ config('app.name') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

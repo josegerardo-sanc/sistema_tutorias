@@ -56,7 +56,13 @@
                         @endif
                 </ol>
             </div>
-
+            @if(session('status_confirm'))
+                <div class="col-sm-12 conte_confirm_success" style="margin:15px 0px;">
+                    <div class="alert alert-success">
+                        {{ session('status_confirm') }} <i class="fas fa-grin-stars"></i>
+                        </div>
+                </div>
+            @endif
             <div clas="row form-group" style="padding:20px 10px; background-color:white;">
                 <div class="col-sm-12">
                     @if (!count($asignaciones)>0)

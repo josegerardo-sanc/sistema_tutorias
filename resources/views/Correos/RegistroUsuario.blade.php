@@ -204,7 +204,7 @@
                                     @endif
                                     @if($msg['tipo_usuario']=="administrador")
                                          <br>
-                                         <span class="style25">Administrador</span>
+                                         <span class="style25">Tipo de usuario: Administrador</span>
                                          <br><br>
                                     @endif
                                     <br>
@@ -220,11 +220,10 @@
                             <br>
                             <br>
                             <br>
-                            <a target="_blank" href="http://localhost:8000/ConfirmCorreo/{{$msg['id_generado_user']}}">
+                            <a target="_blank" href="https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/{{$msg['id_generado_user']}}">
                                <img border="0" src="https://tutoriasitss.granbazarmexico.store/imagenes/btn_confirmar.png"" width="250" height="50" align="center">
                             </a>
                             <br>
-                            Enlace:<strong>http://localhost:8000/ConfirmCorreo/{{$msg['id_generado_user']}}</strong>
                         </center>
                     </td>
                 </tr>
@@ -232,6 +231,15 @@
 		</div>
 
 	</div>
+    <p align="center">
+        <b>
+			<font face="Century Gothic" size="1">
+                  <a target="_blank" href="https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/{{$msg['id_generado_user']}}">
+                    Enlace:{{$msg['id_generado_user']}}tutoriasitss.{{$msg['id_generado_user']}}granbazarmexico.store/{{$msg['id_generado_user']}}ConfirmCorreo/{{$msg['id_generado_user']}}
+                  </a>
+            </font>
+		</b>
+    </p>
 	<p align="center">
         <b>
 			<font face="Century Gothic" size="1">

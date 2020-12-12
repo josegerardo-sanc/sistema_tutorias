@@ -44,6 +44,13 @@
             <div class="col-sm-12 contenedor_exception">
 
             </div>
+            @if(session('status_confirm'))
+                <div class="col-sm-12 conte_confirm_success" style="margin:15px 0px;">
+                    <div class="alert alert-success">
+                        {{ session('status_confirm') }} <i class="fas fa-grin-stars"></i>
+                        </div>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-body">
 
