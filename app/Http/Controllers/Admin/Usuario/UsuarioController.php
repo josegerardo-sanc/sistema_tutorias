@@ -177,7 +177,6 @@ class UsuarioController extends Controller
         // return json_encode(['status'=>400,'info'=>'probando confirmacion de correo']);
 
         $data=$request->all();
-        // Mail::to('chelablanca2012@gmail.com')->send(new MessageRegistroUsuario);
         $file_permitido=false;
         $ruta_image_perfil="Recursos_sistema/upload_image.png"; #default
 
@@ -343,7 +342,7 @@ class UsuarioController extends Controller
             $token=md5('token_confirm_correo');
             $data['id_generado_user']=base64_encode($user_id_created.'---'.$token);
             Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
-            return json_encode(['status'=>"400",'info'=>"Registro exitoso"]);
+            return json_encode(['status'=>"200",'info'=>"Registro exitoso"]);
 
             } catch (\Throwable $e) {
                 DB::rollBack();
