@@ -174,7 +174,7 @@ class UsuarioController extends Controller
         // $data['id_generado_user']=base64_encode('7'.'---'.$token);
         // Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
 
-        return json_encode(['status'=>400,'info'=>'probando confirmacion de correo']);
+        // return json_encode(['status'=>400,'info'=>'probando confirmacion de correo']);
 
         $data=$request->all();
         // Mail::to('chelablanca2012@gmail.com')->send(new MessageRegistroUsuario);
