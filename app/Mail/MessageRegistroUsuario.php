@@ -29,6 +29,6 @@ class MessageRegistroUsuario extends Mailable
      */
     public function build()
     {
-        return $this->view('Correos.RegistroUsuario');
+        return $this->view('correos.RegistroUsuario');
     }
 }

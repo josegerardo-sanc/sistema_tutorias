@@ -233,11 +233,7 @@
 	</div>
     <p align="center">
         <b>
-			<font face="Century Gothic" size="1">
-                  <a target="_blank" href="https://tutoriasitss.granbazarmexico.store/ConfirmCorreo/{{$msg['id_generado_user']}}">
-                    Enlace:{{$msg['id_generado_user']}}tutoriasitss.{{$msg['id_generado_user']}}granbazarmexico.store/{{$msg['id_generado_user']}}ConfirmCorreo/{{$msg['id_generado_user']}}
-                  </a>
-            </font>
+
 		</b>
     </p>
 	<p align="center">
