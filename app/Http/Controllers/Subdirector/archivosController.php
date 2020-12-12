@@ -14,7 +14,7 @@ class archivosController extends Controller
         $users_tutores = DB::table('users')
         ->where('tipo_usuario','=','tutor')
         ->get();
-        return view('subDirector.indexReportes',compact('users_tutores'));
+        return view('SubDirector.indexReportes',compact('users_tutores'));
     }
     public function reportes_enviadosListar(Request $request){
 
@@ -49,7 +49,7 @@ class archivosController extends Controller
 
     public function formatos_enviados(){
 
-        return view('subDirector.indexFormatos');
+        return view('SubDirector.indexFormatos');
     }
 
     public function formatos_enviadosListar(Request $request){

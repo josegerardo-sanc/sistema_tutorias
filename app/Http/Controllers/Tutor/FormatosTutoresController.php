@@ -17,7 +17,7 @@ class FormatosTutoresController extends Controller
 
 
         // dd($formatos_tutores);
-        return view('tutor.formatos.index');
+        return view('Tutor.formatos.index');
     }
 
     public function formatosIndex(Request $request){

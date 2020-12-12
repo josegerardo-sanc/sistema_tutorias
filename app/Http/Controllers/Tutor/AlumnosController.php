@@ -52,7 +52,7 @@ class AlumnosController extends Controller
             $asignaciones=[];
         }
         // dd($data_codigoPostal);
-         return view('tutor.index',compact('asignaciones','alumnos'));
+         return view('Tutor.index',compact('asignaciones','alumnos'));
     }
 
 
@@ -65,7 +65,7 @@ class AlumnosController extends Controller
         ->get();
 
         // dd($asignaciones);
-       return view('tutor.RegistrarAlumno',compact('asignaciones'));
+       return view('Tutor.RegistrarAlumno',compact('asignaciones'));
     }
 
     public function edit($id){
@@ -99,7 +99,7 @@ class AlumnosController extends Controller
         }
 
         // dd($usersData);
-        return view('tutor.ActualizarDatosAlumno',compact('usersData','asignaciones'));
+        return view('Tutor.ActualizarDatosAlumno',compact('usersData','asignaciones'));
 
     }
 

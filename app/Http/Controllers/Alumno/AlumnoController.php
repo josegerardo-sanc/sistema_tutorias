@@ -31,7 +31,7 @@ class AlumnoController extends Controller
         ->get();
 
         $alumnos=[];
-        return view('alumno.index',compact('alumnos'));
+        return view('Alumno.index',compact('alumnos'));
 
     }
 
@@ -55,7 +55,7 @@ class AlumnoController extends Controller
         ->select('users.*','asignacion.*','carreras.carrera as name_carrera')
         ->get();
         // dd($tutor);
-        return view('alumno.tutor',compact('tutor'));
+        return view('Alumno.tutor',compact('tutor'));
     }
 
 
@@ -65,7 +65,7 @@ class AlumnoController extends Controller
     public function page_formatos_alumnos(){
 
         // dd($formatos_tutores);
-        return view('alumno.formatos');
+        return view('Alumno.formatos');
     }
     public function formatosIndex(Request $request){
 

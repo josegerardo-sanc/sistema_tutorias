@@ -61,7 +61,7 @@ class CuestionarioController extends Controller
 
         // dd($cuestionario);
 
-        return view('alumno.cuestionario',compact('tutor','preguntas','cuestionario'));
+        return view('Alumno.cuestionario',compact('tutor','preguntas','cuestionario'));
     }
 
     public function RegistrarMi_CuestionarioGrupal(Request $request){
@@ -272,6 +272,6 @@ class CuestionarioController extends Controller
         // dd($cuestionario);
 
 
-        return view('alumno.cuestionarioIndividual',compact('tutor','preguntas','cuestionario'));
+        return view('Alumno.cuestionarioIndividual',compact('tutor','preguntas','cuestionario'));
     }
 }

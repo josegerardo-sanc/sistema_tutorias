@@ -15,7 +15,7 @@ class FormatosController extends Controller
         $users_tutores = DB::table('users')
         ->where('tipo_usuario','=','tutor')
         ->get();
-        return view('director.indexReportes',compact('users_tutores'));
+        return view('Director.indexReportes',compact('users_tutores'));
     }
     public function reportes_enviadosListar(Request $request){
 
@@ -50,7 +50,7 @@ class FormatosController extends Controller
 
     public function formatos_enviados(){
 
-        return view('director.indexFormatos');
+        return view('Director.indexFormatos');
     }
 
     public function formatos_enviadosListar(Request $request){
