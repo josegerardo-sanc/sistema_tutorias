@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('inicio');
 });
 
-Auth::routes();
+// Auth::routes();
 
 Route::group(['middleware' => ['role:Administrador','auth']], function () {
     // carreras
@@ -106,6 +106,7 @@ Route::group(['middleware' => ['role:Director','auth']], function () {
 
 
 });
+
 Route::group(['middleware' => ['role:Subdirector','auth']], function () {
 
     Route::get('/subdirector', 'Subdirector\archivosController@reportes_enviados');

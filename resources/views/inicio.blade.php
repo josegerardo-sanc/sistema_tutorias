@@ -1,6 +1,3 @@
-
-@include('helpers.verificar_sesion')
-
 <!DOCTYPE html>
 
 <html lang="en" class="default-style layout-fixed layout-navbar-fixed">
@@ -17,196 +14,154 @@
     <meta name="author" content="Codedthemes" />
     <link rel="icon" type="image/x-icon" href="{{asset('dashboard_assets/img/favicon.ico')}}">
 
-
-    <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-
-    <!-- Icon fonts -->
-    <link rel="stylesheet" href="{{asset('dashboard_assets/fonts/fontawesome.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/fonts/ionicons.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/fonts/linearicons.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/fonts/open-iconic.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/fonts/pe-icon-7-stroke.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/fonts/feather.css')}}">
-
-    <!-- Core stylesheets -->
-    <link rel="stylesheet" href="{{asset('dashboard_assets/css/bootstrap-material.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/css/shreerang-material.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/css/uikit.css')}}">
-
-
-    <!-- Libs -->
-    <link rel="stylesheet" href="{{asset('dashboard_assets/libs/perfect-scrollbar/perfect-scrollbar.css')}}">
-    <link rel="stylesheet" href="{{asset('dashboard_assets/libs/flot/flot.css')}}">
-
-    <link rel="stylesheet" href="{{asset('css/Galeria_dashboard/loader.css')}}">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Page -->
-    <link rel="stylesheet" href="{{asset('dashboard_assets/css/pages/authentication.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
     <style>
-        a.fb {
-            font-family: Lucida Grande, Helvetica Neue, Helvetica, Arial, sans-serif;
-            display: inline-block;
-            font-size: 14px;
-            padding: 13px 30px 15px 44px;
-            background: #3A5A97;
-            color: #fff;
-            text-shadow: 0 -1px 0 rgba(0,0,20,.4);
+        .icon {
+            color: white;
             text-decoration: none;
-            line-height: 1;
-            position: relative;
-            border-radius: 5px;
+            padding: .7rem;
+            display: flex;
+            transition: all .5s;
+        }
+        .icon-facebook {
+            background: #2E406E;
         }
 
-        a>i{
-            font-size: 20px;
-            margin: 3px;
-
-        }
-        a.gmail {
-            font-family: Lucida Grande, Helvetica Neue, Helvetica, Arial, sans-serif;
-            display: inline-block;
-            font-size: 14px;
-            padding: 13px 30px 15px 44px;
-            background: #FF334F;
-            color: #fff;
-            text-shadow: 0 -1px 0 rgba(0,0,20,.4);
-            text-decoration: none;
-            line-height: 1;
-            position: relative;
-            border-radius: 5px;
+        .icon-twitter {
+            background: #339DC5;
         }
 
+        .icon-youtube {
+            background: #E83028;
+        }
 
+        .icon:hover {
+            box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.42);
+        }
+
+        .contenedor_imagen_itss {
+                display:block;
+        }
+        .formulario_registro_user{
+             border:1px solid transparent;
+         }
+
+        @media (max-width: 769px) {
+            .contenedor_imagen_itss {
+                display: none;
+            }
+        }
     </style>
+
 </head>
 
 <body>
-    <!-- [ Preloader ] Start -->
-    <div class="page-loader">
-        <div class="bg-primary"></div>
-    </div>
-    <!-- [ Preloader ] End -->
-    <!-- [ content ] Start -->
-    <div class="authentication-wrapper authentication-3">
-        <div class="authentication-inner">
 
-            <!-- [ Side container ] Start -->
-            <!-- Do not display the container on extra small, small and medium screens -->
-            <div class="d-none d-lg-flex col-lg-7 align-items-center ui-bg-cover ui-bg-overlay-container p-5" style="background-image: url('https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C');">
-                <div class="ui-bg-overlay bg-dark opacity-50"></div>
-                <!-- [ Text ] Start -->
-                <div class="w-100 text-white px-5">
-                    <h2 class="display-3 font-weight-bolder mb-4">TECNOLÓGICO NACIONAL DE MÉXICO</h2>
-                    <div class="text-large font-weight-light">
-                        DIRECCIÓN ACADÉMICA Y COORDINACIÓN DE TUTORÍAS
-                    </div>
-                </div>
-                <!-- [ Text ] End -->
+    <?php
+    /*
+    session_start();
+    session(['status_confirm_error' => 'olisss como estas']);
+    session()->forget('status_confirm_error');
+    */
+    ?>
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-between">
+            <div class="col-sm-8 d-flex align-items-center" style="height:80px">
+                <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
+                <strong  class="text-muted" style="font-size: 15px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
             </div>
-            <!-- [ Side container ] End -->
-
-            <!-- [ Form container ] Start -->
-            <div class="d-flex col-lg-5 align-items-center bg-white p-5">
-                <!-- Inner container -->
-                <!-- Have to add `.d-flex` to econtrol width via `.col-*` classes -->
-                <div class="d-flex col-sm-12 col-md-12 col-lg-12 px-0 px-xl-6 mx-auto">
-                    <div class="w-100" style="border:1px solid #C1C1C1; border-radius:7px;height: 600px;padding:20px">
-
-                        <!-- [ Logo ] Start -->
-                        {{-- <div class="d-flex justify-content-center align-items-center">
-                            <div class="ui-w-60">
-                                <div class="w-100 position-relative">
-                                    <img src="assets/img/logo-dark.png" alt="Brand Logo" class="img-fluid">
-                                    <div class="clearfix"></div>
+            <div class="col-sm-4  d-flex justify-content-end align-items-center" style="height:80px">
+                <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
+                   <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://twitter.com/TecSierra" class="icon icon-twitter">
+                   <i class="fab fa-twitter-square "></i>
+                </a>
+                <a href="https://www.youtube.com/user/ITSSTABASCO" class="icon icon-youtube">
+                   <i class="fab fa-youtube"></i>
+                </a>
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 contenedor_imagen_itss">
+                <img src="https://web.unican.es/unidades/coie/PublishingImages/Paginas/Emprendimiento/173.png"
+                    alt="itss"
+                    style="width:600px;height80%;">
+            </div>
+            <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;">
+                <div style="margin-bottom:5px;"></div>
+                <div class="form-group" style="width: 100%">
+                    <h3 class="text-center mt-4 mb-2 font-italic" style="color:#FF7133">
+                        Iniciar sesión
+                    </h3>
+                    <div class="form-group" style="width: 100%">
+                        @if(session('status_confirm_error'))
+                            <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ session('status_confirm_error') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
                             </div>
-                        </div> --}}
-
-
-                            {{-- <h5 class="text-center mt-5 mb-0" style="color:#FF7133">Iniciar Sesión</h5> --}}
-
-                        <!-- [ Form ] Start -->
-                        <form >
-                            <h5 class="d-flex justify-content-end align-items-center" >
-                                <img
-                                 src="{{asset('storage').'/Recursos_sistema/itss.jpg'}}" style="height:80px;object-fit: cover;"
-                                alt="logo">
-                            </h5>
-                            <h3 class="text-center mb-0 font-italic" style="color:#FF7133">
-                                Instituto tecnológico superior de la región sierra
-                            </h3>
-                            <hr>
-                            <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
-                            @if(session('status_confirm_error'))
-                                <div class="conte_confirm_error" style="width: 100%;padding:0px;margin:15px 0px;">
-                                    <div class="alert alert-danger">
-                                        {{ session('status_confirm_error') }}
-                                    </div>
-                                </div>
-                            @endif
-                            <div class="form-group">
-                                <label class="form-label mb-4" id="titulo_tipo_clave">CURP</label>
-                                <input type="text" class="form-control input_curp_validar" id="CURP" maxlength="20">
-                                <div class="content_error_curp"></div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="form-group">
-                                    <label class="form-label d-flex justify-content-between align-items-end mb-4">
-                                        <span>Clave de Acceso</span>
-                                        <a href="pages_authentication_password-reset.html" class="d-block small">¿Se te olvidó tu contraseña?</a>
-                                    </label>
-                                <input type="password" class="form-control" id="CLAVE_USUARIO" maxlength="30">
-                                <div class="clearfix"></div>
-                            </div>
-                            <button type="button" class="btn btn-primary" id="btn_IniciarSesion" style="display:block;width:100%;margin-top:30px; margin-bottom:20px;">Iniciar Sesión</button>
-
-                            <div class="d-flex justify-content-end mt-2">
-                                <label class="custom-control custom-checkbox m-0">
-                                        <input type="checkbox" class="custom-control-input" name="Permanecer_registrado" id="Permanecer_registrado">
-                                        <span class="custom-control-label">Permanecer registrado</span>
-                                </label>
-                            </div>
-
-                            <div class="form-group" style="margin-top:50px; display:none">
-                                <a href="" class="fb connect" style="width: 100%"><i class="fab fa-facebook-square"></i> Iniciar Sesión Facebook</a>
-                                <a href="" class="gmail" style="margin-top:20px;width: 100%"> <i class="fab fa-google-plus-square"></i> Iniciar Sesión Facebook</a>
-                            </div>
-                        </form>
-                        <!-- [ Form ] End -->
-
-                        {{-- <div class="text-center text-muted">
-                            Don't have an account yet?
-                            <a href="pages_authentication_register-v3.html">Sign Up</a>
-                        </div> --}}
-
+                        @endif
+                        <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
+                    </div>
+                    {{-- col --}}
+                    <label class="col-form-label mb-1" id="titulo_tipo_clave">Curp</label>
+                    <div class="clearfix"></div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control input_curp_validar" id="CURP" placeholder="Ingresa tu curp" aria-label="CURP" aria-describedby="basic-addon1" maxlength="20">
+                    </div>
+                    <div class="content_error_curp"></div>
+                </div>
+                <div class="form-group" style="width: 100%">
+                        <label class="col-form-label d-flex justify-content-between align-items-end mb-1">
+                            <span>Clave de acceso</span>
+                            <a href="pages_authentication_password-reset.html" class="d-block small">¿Se te olvidó tu contraseña?</a>
+                        </label>
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" class="form-control" id="CLAVE_USUARIO" placeholder="Ingresa tu clave" aria-label="CLAVE" aria-describedby="basic-addon1" maxlength="30">
                     </div>
                 </div>
-            </div>
-            <!-- [ Form container ] End -->
+                <div class="d-flex justify-content-end" style="width:100%;">
+                    <label class="custom-control custom-checkbox m-0">
+                            <input type="checkbox" class="custom-control-input" name="Permanecer_registrado" id="Permanecer_registrado">
+                            <span class="custom-control-label">Permanecer registrado</span>
+                    </label>
+                </div>
+                <button type="button" class="btn" id="btn_IniciarSesion" style="display:block;width:100%;margin-top:30px; margin-bottom:20px; background-color:#FF7133;color:white">Iniciar Sesión</button>
 
+                <div class="form-group" style="margin-top:50px; display:none">
+                    <a href="" class="fb connect" style="width: 100%"><i class="fab fa-facebook-square"></i> Iniciar Sesión Facebook</a>
+                    <a href="" class="gmail" style="margin-top:20px;width: 100%"> <i class="fab fa-google-plus-square"></i> Iniciar Sesión Facebook</a>
+                </div>
+
+            </div>
         </div>
     </div>
-    <!-- [ content ] End -->
 
 
 
     <script src="{{asset('dashboard_assets/js/jquery-3.2.1.min.js')}}"></script>
-    <script src="{{asset('dashboard_assets/js/pace.js')}}"></script>
-    <script src="{{asset('dashboard_assets/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('dashboard_assets/js/bootstrap.js')}}"></script>
-    <script src="{{asset('dashboard_assets/js/sidenav.js')}}"></script>
-    <script src="{{asset('dashboard_assets/js/layout-helpers.js')}}"></script>
-    <script src="{{asset('dashboard_assets/js/material-ripple.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <!-- Libs -->
-    <script src="{{asset('dashboard_assets/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
     <script src="{{asset('js/helpers/Ajax_fail.js')}}"></script>
     <script src="{{asset('js/helpers/helpersCurpAPI.js')}}"></script>
     <script>
-
         let csrf_token=$('meta[name="csrf-token"]').attr('content');
         const headers_config={"Content-Type": "application/json","Accept": "application/json","X-Requested-With": "XMLHttpRequest","X-CSRF-Token":csrf_token};
 

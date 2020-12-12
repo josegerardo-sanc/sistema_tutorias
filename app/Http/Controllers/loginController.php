@@ -32,6 +32,7 @@ class loginController extends Controller
         }
 
     }
+
     public function IniciarSesion(Request $request)
     {
 
@@ -222,5 +223,10 @@ class loginController extends Controller
            return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
         }
     }
+
+
+
+
+
 
 }

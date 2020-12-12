@@ -168,7 +168,7 @@ class UsuarioController extends Controller
     public function store(Request $request){
 
 
-        // // envio de correo
+        // envio de correo
         // $data=$request->all();
         // $token=md5('token_confirm_correo');
         // $data['id_generado_user']=base64_encode('7'.'---'.$token);
@@ -341,6 +341,7 @@ class UsuarioController extends Controller
             // envio de correo
             $token=md5('token_confirm_correo');
             $data['id_generado_user']=base64_encode($user_id_created.'---'.$token);
+            // Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
             Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
             return json_encode(['status'=>"200",'info'=>"Registro exitoso"]);
 
