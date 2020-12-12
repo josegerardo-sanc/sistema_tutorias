@@ -168,17 +168,20 @@ class loginController extends Controller
 
     }
 
-    public function ConfirmCorreo(Request $request){
+    public function ConfirmCorreo(Request $request,$id){
 
-        if(!isset($_GET['id'])){
-            return redirect('/');
-        }
-        $datos_get=explode('---',base64_decode($_GET['id']));
+
+        $datos_get=explode('---',base64_decode($id));
+
+
+        // dd($datos_get);
 
         $data_user=DB::table('users')->where('id','=',$datos_get[0])->get();
         if(count($data_user)<=0){
             return redirect('/');
         }
+
+        // dd($data_user);
 
         $fecha_now=date('Y-m-d H:i:s');
 
@@ -190,11 +193,33 @@ class loginController extends Controller
                 ]);
 
            if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>'password'],false)) {
-               $msg=ucwords($data_user[0]->{'nombre'})." Has activado tu cuenta.";
-               return redirect('/Admin/user')->with('status_confirm',$msg);
-           }
+
+                $msg=ucwords($data_user[0]->{'nombre'})." Has activado tu cuenta.";
+
+                // dd($data_user[0]->tipo_usuario);
+                if($data_user[0]->tipo_usuario=="tutor"){
+                    return redirect('/tutor')->with('status_confirm',$msg);
+                }
+                if($data_user[0]->tipo_usuario=="alumno"){
+                    return redirect('/alumno')->with('status_confirm',$msg);
+                }
+                if($data_user[0]->tipo_usuario=="director"){
+                    return redirect('/director')->with('status_confirm',$msg);
+
+                }
+                if($data_user[0]->tipo_usuario=="subdirector"){
+                    return redirect('/subdirector')->with('status_confirm',$msg);
+
+                }
+                if($data_user[0]->tipo_usuario=="administrador"){
+                    return redirect('/Admin/user')->with('status_confirm',$msg);
+
+                }
+               return redirect('/')->with('status_confirm','Lo sentimos no tienes ningun perfil,comunicate con tu tutor');
+
+            }
         }else{
-           return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
+           return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
         }
     }
 

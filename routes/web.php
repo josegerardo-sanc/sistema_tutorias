@@ -11,6 +11,11 @@
 |
 */
 
+// Route::get('/plantilla/correo', function () {
+//     // return "plantilla de correo";
+//     return view('correos.RegistroUsuario_new');
+// });
+
 
 Route::get('/', function () {
     //return view('welcome');
