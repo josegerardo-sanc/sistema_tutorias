@@ -16,6 +16,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse\RedirectResponse\redirect;
 
+use App\Mail\MessageResetPassword;
+use Illuminate\Support\Facades\Mail;
+
 
 class loginController extends Controller
 {
@@ -178,8 +181,19 @@ class loginController extends Controller
         // dd($datos_get);
 
         $data_user=DB::table('users')->where('id','=',$datos_get[0])->get();
+
         if(count($data_user)<=0){
             return redirect('/');
+        }
+
+
+        if($data_user[0]->{'active'}==1||$data_user[0]->{'active'}=="1"){
+            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})."Ya has utilizado este enlace para activar tu cuenta.";
+            return redirect('/')->with('status_confirm',$mensaje_activacion);
+        }
+        if($data_user[0]->{'active'}==2||$data_user[0]->{'active'}=="2"){
+            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})."Tu cuenta fue desactivada, por tu tutor o el administrador,comunicate con ellos.";
+            return redirect('/')->with('status_confirm',$mensaje_activacion);
         }
 
         // dd($data_user);
@@ -193,7 +207,7 @@ class loginController extends Controller
                 'active'=>1
                 ]);
 
-           if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>'password'],false)) {
+           if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>$data_user[0]->{'password'}],false)) {
 
                 $msg=ucwords($data_user[0]->{'nombre'})." Has activado tu cuenta.";
 
@@ -225,8 +239,107 @@ class loginController extends Controller
     }
 
 
+    public function enviarCorreo_resetPassword(Request $request){
+        $data=$request->all();
+        // return json_encode(['status'=>200]);
+
+        $data_user=DB::table('users')->where('email','=',$data['correo'])->get();
+
+        if(count($data_user)<=0){
+
+            return json_encode(['status'=>400,
+            'info'=>'<i class="fas fa-exclamation-circle"></i> La cuenta de correo electrónico no se encunetra en la bases de datos.']);
+
+        }
+
+        $data['nombre']=$data_user[0]->{'nombre'};
+        $data['ap_paterno']=$data_user[0]->{'ap_paterno'};
+        $data['ap_materno']=$data_user[0]->{'ap_materno'};
+        $data['curp']=$data_user[0]->{'curp'};
+        $data['id_generado_user']=$data_user[0]->{'id'};
+
+        // envio de correo
+        try {
+
+            $token=md5($data['nombre'].'token_reset_password_correo'.$data['ap_paterno'].$data['ap_materno'].$data['curp']);
+            $data['id_generado_user']=base64_encode($data['id_generado_user'].'---'.$token);
+            Mail::to($data['correo'])->send(new MessageResetPassword($data));
+
+            return json_encode(['status'=>200]);
+
+        } catch (\Throwable $th) {
+            return json_encode(['status'=>400,'info'=>'Lo sentimos, ha ocurrido un error,intentelo de nuevo']);
+        }
+    }
+
+    public function redirect_view_password_reset_user($id){
+
+        $datos_get=explode('---',base64_decode($id));
+
+        $data_user=DB::table('users')->where('id','=',$datos_get[0])->get();
 
 
+        // dd($data_user);
+        if(count($data_user)<=0){
+            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})." <i class='fas fa-exclamation-circle'></i> Tu enlace fue corrompido,Intentelo de nuevo";
+            return redirect('/')->with('status_confirm',$mensaje_activacion);
+        }
+        # /restablecer_password
+        
 
+
+        return view('Correos.nuevo_password',compact('data_user'));
+        //return redirect()->route('restablecer_password',['id'=>$id_user]);
+        
+    }
+
+
+    public function NuevoPassword_user(Request $request){
+
+
+        $data=$request->all();
+        $data_user=DB::table('users')->where('id','=',$data['id_user_db'])->get();
+        $password_new=$data['password_nueva'];
+
+
+        // dd($data_user);
+
+        if(count($data_user)>0){
+
+            DB::table('users')->where('id','=',$data['id_user_db'])
+            ->update([
+                'password'=>Hash::make($password_new)
+              ]);
+
+           if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>$password_new],false)) {
+
+                $msg=ucwords($data_user[0]->{'nombre'})." Has cambiado tu clave de acceso sastifactoriamente.";
+
+                // dd($data_user[0]->tipo_usuario);
+                if($data_user[0]->tipo_usuario=="tutor"){
+                    return redirect('/tutor')->with('status_confirm',$msg);
+                }
+                if($data_user[0]->tipo_usuario=="alumno"){
+                    return redirect('/alumno')->with('status_confirm',$msg);
+                }
+                if($data_user[0]->tipo_usuario=="director"){
+                    return redirect('/director')->with('status_confirm',$msg);
+
+                }
+                if($data_user[0]->tipo_usuario=="subdirector"){
+                    return redirect('/subdirector')->with('status_confirm',$msg);
+
+                }
+                if($data_user[0]->tipo_usuario=="administrador"){
+                    return redirect('/Admin/user')->with('status_confirm',$msg);
+
+                }
+               return redirect('/')->with('status_confirm','Lo sentimos no tienes ningun perfil,comunicate con tu tutor');
+
+            }
+        }else{
+           return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
+        }
+    }
 
 }

@@ -16,10 +16,10 @@ $('.matricula_escolar_validar').on('keyup',function(e){
 
             if(status){
                 this_referencs.find('.matricula_escolar_validar').addClass('is-valid');
-                this_referencs.find('.contenedor_input_matricula_alumno').addClass('valid-feedback').html('<strong>Matricula Valida</strong>');
+                this_referencs.find('.contenedor_input_matricula_alumno').addClass('valid-feedback').html('<strong>Matricula válida</strong>');
             }else{
                 this_referencs.find('.matricula_escolar_validar').addClass('is-invalid');
-                this_referencs.find('.contenedor_input_matricula_alumno').addClass('invalid-feedback').html('<strong>Matricula InValida</strong>');
+                this_referencs.find('.contenedor_input_matricula_alumno').addClass('invalid-feedback').html('<strong>Matricula inválida</strong>');
             }
             $(this).val(matricula);
         }
@@ -33,7 +33,7 @@ $('.matricula_escolar_validar').on('keyup',function(e){
 
 function Matricula_Alumno_Valida(matricula) {
 
-    var expreg =/^[1-9]{2}[Ee]{1}[0-9]{5}$/;
+    var expreg =/^[0-9]{2}[Ee]{1}[0-9]{5}$/;
     console.log(matricula)
 
     if(expreg.test(matricula))

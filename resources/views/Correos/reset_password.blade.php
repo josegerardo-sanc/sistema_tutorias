@@ -44,13 +44,11 @@
 </head>
 <body>
     <?php
-        $msg['nombre']="jose gerardo";
-        $msg['ap_paterno']="sánchez";
-        $msg['ap_materno']="alvarado";
-        $msg['curp']="SAAG950819HTCNLR07";
-        $msg['id_generado_user']="1";
-
-
+        // $msg['nombre']="jose gerardo";
+        // $msg['ap_paterno']="sánchez";
+        // $msg['ap_materno']="alvarado";
+        // $msg['curp']="SAAG950819HTCNLR07";
+        // $msg['id_generado_user']="1";
     ?>
 
 	<div class="Section1">

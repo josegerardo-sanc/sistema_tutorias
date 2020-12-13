@@ -26,10 +26,10 @@ $('.valid_email_express_regular').on('keyup',function(){
 
     if(status){
             this_referencs.find('.valid_email_express_regular').addClass('is-valid');
-            this_referencs.find('.content_error_validate_email').addClass('valid-feedback').html('<strong>Correo Valido</strong>');
+            this_referencs.find('.content_error_validate_email').addClass('valid-feedback').html('<strong>Correo válido</strong>');
         }else{
             this_referencs.find('.valid_email_express_regular').addClass('is-invalid');
-            this_referencs.find('.content_error_validate_email').addClass('invalid-feedback').html('<strong>Correo InValido</strong>');
+            this_referencs.find('.content_error_validate_email').addClass('invalid-feedback').html('<strong>Correo inválido</strong>');
     }
 });
 
@@ -57,10 +57,10 @@ $('.validate_telefono_lada').on('keyup',function(){
         this_referencs.find('.content_error_validar_lada').removeClass('invalid-feedback valid-feedback').css({'color':'#F9F5F6'});
         if(status){
             this_referencs.find('.validate_telefono_lada').addClass('is-valid');
-            this_referencs.find('.content_error_validar_lada').addClass('valid-feedback').html('<strong>Lada Valida</strong>').css({'color':'#3B9448'});
+            this_referencs.find('.content_error_validar_lada').addClass('valid-feedback').html('<strong>Lada válida</strong>').css({'color':'#3B9448'});
         }else{
             this_referencs.find('.validate_telefono_lada').addClass('is-invalid');
-            this_referencs.find('.content_error_validar_lada').addClass('invalid-feedback').html('<strong>Lada InValida</strong>').css({'color':'#DA1B47'});
+            this_referencs.find('.content_error_validar_lada').addClass('invalid-feedback').html('<strong>Lada inválida</strong>').css({'color':'#DA1B47'});
         }
     }
 });

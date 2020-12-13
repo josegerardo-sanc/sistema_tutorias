@@ -90,10 +90,10 @@ $('.input_curp_validar').on('keyup',function(e){
         $('.content_error_curp').removeClass('invalid-feedback valid-feedback').html('');
         if(status){
             $('.input_curp_validar').addClass('is-valid');
-            $('.content_error_curp').addClass('valid-feedback').html('<strong>Curp Valida</strong>');
+            $('.content_error_curp').addClass('valid-feedback').html('<strong>Curp válida</strong>');
         }else{
             $('.input_curp_validar').addClass('is-invalid');
-            $('.content_error_curp').addClass('invalid-feedback').html('<strong>Curp InValida</strong>');
+            $('.content_error_curp').addClass('invalid-feedback').html('<strong>Curp inválida</strong>');
         }
         //console.log("keyup"+status);
         $(this).val(curp);

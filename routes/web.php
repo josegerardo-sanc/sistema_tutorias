@@ -11,10 +11,10 @@
 |
 */
 
-// Route::get('/plantilla/correo', function () {
-//     // return "plantilla de correo";
-//     return view('correos.RegistroUsuario_new');
-// });
+Route::get('/plantilla/correo', function () {
+    // return "plantilla de correo";
+    return view('Correos.nuevo_password');
+});
 
 
 Route::get('/', function () {
@@ -119,6 +119,8 @@ Route::group(['middleware' => ['role:Subdirector','auth']], function () {
 
 
 // helpers
+
+
 Route::post('/Admin/carreras/getCarreras','Admin\carreraController@getCarreras');
 // helpers
 Route::post('/helpers/codePostal', 'helpers\CodepostalController@GetCodePostal');
@@ -127,6 +129,26 @@ Route::post('/carrera/tutoresAsignados/{id}', 'helpers\CodepostalController@tuto
 // login
 Route::post('/IniciarSesion', 'loginController@IniciarSesion');
 Route::post('/cerrarSesion', 'loginController@cerrarSesion');
+
+//restablecer password
+
+
+
+Route::get('/recuperar/password', function () {
+    // 1.-vista para enviar correo con el enlace
+    return view('Correos.formulario_resetPassword');
+});
+# 2.-esta ruta es la que envia el correo generando el enlace
+Route::post('/enviarCorreo_resetPassword', 'loginController@enviarCorreo_resetPassword');
+
+
+#3.-esta ruta es la qie valida el enlace y te redirecciona ala vista de ingresar las nueva contraseña
+Route::get('/password_reset/user/{id}', 'loginController@redirect_view_password_reset_user');
+
+# 4.- guardar la contraseña que ingreso el usuario
+Route::post('/NuevoPassword_user/update', 'loginController@NuevoPassword_user');
+
+
 
 Route::get('/account_settings/{nombre}', 'loginController@perfil_account_settings_view');//authenticate
 Route::post('/change_password_user', 'loginController@change_password_user');//authenticate

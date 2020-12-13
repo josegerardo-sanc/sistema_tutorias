@@ -271,10 +271,10 @@ function Password_SEGURO(this_element){
 
     if (regex.test(password)) {
         $(this_element).addClass('is-valid');
-        $(this_element).parents('.conte_password').find('.password_text').addClass('valid-feedback').html('<strong>Contraseña valida</strong>');
+        $(this_element).parents('.conte_password').find('.password_text').addClass('valid-feedback').html('<strong>Contraseña Segura</strong>');
     } else {
         $(this_element).addClass('is-invalid');
-        $(this_element).parents('.conte_password').find('.password_text').addClass('invalid-feedback').html('<strong>Contraseña InValida, poca segura</strong>');
+        $(this_element).parents('.conte_password').find('.password_text').addClass('invalid-feedback').html('<strong>Contraseña Poca segura</strong>');
     }
 }
 // FIN
@@ -289,7 +289,7 @@ $('.btn_change_password').on('click',function(e){
     let password_confirm=$('#password_confirm').val();
 
     let error_msg="";
-        if(password_actual==""||password_actual==""||password_confirm==""){
+        if(password_actual==""||password_nueva==""||password_confirm==""){
             error_msg="<li><i class='fas fa-exclamation-circle'></i> TODOS LOS CAMPOS SON REQUERIDOS.</li>";
         }
 

@@ -127,7 +127,7 @@
                 <div class="form-group" style="width: 100%">
                         <label class="col-form-label d-flex justify-content-between align-items-end mb-1">
                             <span>Clave de acceso</span>
-                            <a href="pages_authentication_password-reset.html" class="d-block small">¿Se te olvidó tu contraseña?</a>
+                            <a href="{{url('/recuperar/password')}}" class="d-block small">¿Se te olvidó tu contraseña?</a>
                         </label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
