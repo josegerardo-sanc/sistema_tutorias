@@ -104,8 +104,8 @@
                             <br>
                             <br>
                             <br>
-                            <a target="_blank" href="http://localhost:8000/password_reset/user/{{$msg['id_generado_user']}}">
-                                http://localhost:8000/password_reset/user/{{$msg['id_generado_user']}}
+                            <a target="_blank" href="https://tutoriasitss.granbazarmexico.store/password_reset/user/{{$msg['id_generado_user']}}">
+                                https://tutoriasitss.granbazarmexico.store/password_reset/user/{{$msg['id_generado_user']}}
                             </a>
                             <br>
                         </center>
