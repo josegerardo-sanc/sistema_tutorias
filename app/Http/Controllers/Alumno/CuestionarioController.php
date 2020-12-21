@@ -60,8 +60,18 @@ class CuestionarioController extends Controller
 
 
         // dd($cuestionario);
+        $periodo="";
+        $mes_actual=date("n");
+        //'FEBRERO-JULIO','AGOSTO-DICIEMBRE'
+        if($mes_actual>=8){
+            $periodo="AGOSTO-DICIEMBRE";
+        }else{
+            $periodo="FEBRERO-JULIO";
+        }
 
-        return view('Alumno.cuestionario',compact('tutor','preguntas','cuestionario'));
+        $periodo.="  ".date('Y');
+
+        return view('Alumno.cuestionario',compact('tutor','preguntas','cuestionario','periodo'));
     }
 
     public function RegistrarMi_CuestionarioGrupal(Request $request){
@@ -271,7 +281,17 @@ class CuestionarioController extends Controller
 
         // dd($cuestionario);
 
+        $periodo="";
+        $mes_actual=date("n");
+        //'FEBRERO-JULIO','AGOSTO-DICIEMBRE'
+        if($mes_actual>=8){
+            $periodo="AGOSTO-DICIEMBRE";
+        }else{
+            $periodo="FEBRERO-JULIO";
+        }
 
-        return view('Alumno.cuestionarioIndividual',compact('tutor','preguntas','cuestionario'));
+        $periodo.="  ".date('Y');
+
+        return view('Alumno.cuestionarioIndividual',compact('tutor','preguntas','cuestionario','periodo'));
     }
 }

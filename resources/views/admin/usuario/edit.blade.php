@@ -13,7 +13,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#DF480F">Editar Usuario</h4>
+        <h4 class="display-4" style="color:#B16A26">Editar Usuario</h4>
 
         @include('admin.usuario.navar')
 
@@ -304,8 +304,13 @@
                             <div class="row form-group">
                                 <div class="col-sm-4 form-group">
                                     <label class="form-label">Cedula Profesional</label>
-                                    <input name="cedula_profesional" id="cedula_profesioanl" type="text"
-                                        class="form-control">
+                                    <input name="cedula_profesional" id="cedula_profesioanl" type="text" class="form-control validar_numeric_input" maxlength="10">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-12 form-group">
+                                    <label class="form-label">Estudios Académicos</label>
+                                    <textarea name="estudio_academicos" id="estudio_academicos" cols="10" rows="10" class="form-control" maxlength="150"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -380,6 +385,10 @@
         let cedula_profesioanl =
             "<?php echo isset($usersData[0]->cedula_profesional)?$usersData[0]->cedula_profesional:''; ?>"
         $('#cedula_profesioanl').val(cedula_profesioanl);
+
+        let estudio_academicos =
+            "<?php echo isset($usersData[0]->estudios_docente)?$usersData[0]->estudios_docente:''; ?>"
+        $('#estudio_academicos').val(estudio_academicos);
 
 
         $('.btn_tab_conte_dtsAcademicos').css({

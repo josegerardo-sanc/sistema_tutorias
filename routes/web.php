@@ -11,11 +11,13 @@
 |
 */
 
+Route::get('/pdf/usuarios/{tipo_usuario}','PDF\pdfController@usuarios');
+
+
 Route::get('/plantilla/correo', function () {
     // return "plantilla de correo";
     return view('Correos.nuevo_password');
 });
-
 
 Route::get('/', function () {
     //return view('welcome');

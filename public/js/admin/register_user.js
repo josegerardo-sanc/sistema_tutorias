@@ -76,7 +76,6 @@ $('.reset_formulario').on('click',function(){
 $('#Admin_btnRegisterUser').on('click',function(e){
     e.preventDefault();
 
-
     var foto_perfil=$('.file_usuario_image_search')[0].files[0];
     console.log(foto_perfil);
 

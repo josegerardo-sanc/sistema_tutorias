@@ -201,7 +201,6 @@ class UsuarioController extends Controller
                 'curp'=>['required','string','max:20','unique:users'],
                 'telefono'=>['required','string','max:15','unique:users'],
                 'email'=>['required','email','max:50','unique:users'],
-                'rfc'=>'required',
                 'nombre'=>'required',
                 'ap_paterno'=>'required',
                 'genero'=>'required',
@@ -218,7 +217,7 @@ class UsuarioController extends Controller
             $curp=trim($data['curp']);
             $telefono=trim($data['telefono']);
             $correo=trim($data['email']);
-            $rfc=trim($data['rfc']);
+            $rfc=trim(isset($data['rfc'])?$data['rfc']:"");
             $nombre=trim($data['nombre']);
             $ap_paterno=trim($data['ap_paterno']);
             $ap_materno=trim($data['ap_materno']);
@@ -250,10 +249,16 @@ class UsuarioController extends Controller
 
                 // validacion datos_academicos_alumno
                 $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
+                $estudios_docente=isset($data['estudio_academicos'])?$data['estudio_academicos']:"";
+
+
                 if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
                     // diferente de alumno y administardior, solictar cedula profesional etc.
+
                     $validatedDatos_complementarios = Validator::make($data, [
-                        'cedula_profesional'=>['required','string','max:10','unique:datos_docentes']
+                        'cedula_profesional'=>['required','string','max:10','unique:datos_docentes'],
+                        'rfc'=>'required',
+                        'estudio_academicos'=>'required'
                         //'grupo_escolar'=>'required'
                     ]);
                 }
@@ -325,7 +330,8 @@ class UsuarioController extends Controller
                     $status=DB::table('datos_docentes')->insert([
                         [
                             'cedula_profesional'=>$cedula_profesional,
-                            'user_id_docente'=> $user_id_created
+                            'user_id_docente'=> $user_id_created,
+                            'estudios_docente'=>$estudios_docente
                         ],
                     ]);
                     if(!$status){
@@ -426,7 +432,6 @@ class UsuarioController extends Controller
               'curp'=>['required','string','max:20','sometimes','unique:users,curp,'.$user->id],
               'telefono'=>['required','string','max:15','sometimes','unique:users,telefono,'.$user->id],
               'email'=>['required','email','max:50','sometimes','unique:users,email,'.$user->id],
-              'rfc'=>'required',
               'nombre'=>'required',
               'ap_paterno'=>'required',
               'genero'=>'required',
@@ -443,7 +448,7 @@ class UsuarioController extends Controller
           $curp=trim($data['curp']);
           $telefono=trim($data['telefono']);
           $correo=trim($data['email']);
-          $rfc=trim($data['rfc']);
+          $rfc=trim(isset($data['rfc'])?$data['rfc']:"");
           $nombre=trim($data['nombre']);
           $ap_paterno=trim($data['ap_paterno']);
           $ap_materno=trim($data['ap_materno']);
@@ -484,12 +489,14 @@ class UsuarioController extends Controller
 
              // validacion datos_academicos_alumno
             $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
+            $estudios_docente=isset($data['estudio_academicos'])?$data['estudio_academicos']:"";
             if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
                 // diferente de alumno y administardior, solictar cedula profesional etc.
                 $validatedDatos_complementarios = Validator::make($data, [
                     // 'cedula_profesional'=>'required','string','max:10',Rule::unique('datos_docentes','cedula_profesional')->ignore($user_id_docente, 'id_datos_docentes'),
                     'cedula_profesional' => ['required','string','max:10', Rule::unique('datos_docentes')->ignore($user_id_docente, 'id_datos_docentes')],
-
+                    'rfc'=>'required',
+                    'estudio_academicos'=>'required'
                     //'grupo_escolar'=>'required'
                 ]);
             }
@@ -564,7 +571,8 @@ class UsuarioController extends Controller
                   $affected=DB::table('datos_docentes')
                   ->where('id_datos_docentes',$user_id_docente)
                   ->update([
-                     'cedula_profesional'=>$cedula_profesional
+                     'cedula_profesional'=>$cedula_profesional,
+                     'estudios_docente'=>$estudios_docente
                   ]);
 
               }

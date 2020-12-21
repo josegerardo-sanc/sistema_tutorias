@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
-use App\GaleriaImages;
 use Exception;
 
 // use Spatie\Permission\Models\Role;
@@ -285,12 +284,12 @@ class loginController extends Controller
             return redirect('/')->with('status_confirm',$mensaje_activacion);
         }
         # /restablecer_password
-        
+
 
 
         return view('Correos.nuevo_password',compact('data_user'));
         //return redirect()->route('restablecer_password',['id'=>$id_user]);
-        
+
     }
 
 

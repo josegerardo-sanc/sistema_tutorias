@@ -4,15 +4,16 @@
 @include('../helpers.verificar_sesion')
 
 
-<nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center bg-dark container-p-x" id="layout-navbar">
+<nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center  container-p-x" id="layout-navbar"
+style="background-color: #9A5614; color:white !important;">
 
     <!-- Brand demo (see assets/css/demo/demo.css) -->
-    <a href="index.html" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
+    <a href="index.html" class="navbar-brand app-brand demo d-lg-none py-0 mr-4" style="color: white !important">
         <span class="app-brand-text demo font-weight-normal ml-2">Tutoría</span>
     </a>
 
     <!-- Sidenav toggle (see assets/css/demo/demo.css) -->
-    <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto">
+    <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto" style="color: white !important">
         <a class="nav-item nav-link px-0 mr-lg-4" href="javascript:">
             <i class="ion ion-md-menu text-large align-middle"></i>
         </a>
@@ -157,7 +158,7 @@
             <!-- Divider -->
             {{-- <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div> --}}
             <div class="demo-navbar-user nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">
                     <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
                         <img src="{{asset('storage').'/'.auth()->user()->photo}}" alt class="d-block ui-w-30 rounded-circle imagen_perfil_navar" style="height:30px; object-fit:cover;">
                         <span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{ucwords(auth()->user()->nombre)}}</span>

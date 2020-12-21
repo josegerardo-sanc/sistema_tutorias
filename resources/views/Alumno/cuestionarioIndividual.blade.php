@@ -34,7 +34,8 @@
     <div class="layout-content">
         <!-- [ content ] Start -->
         <div class="container-fluid flex-grow-1 container-p-y">
-            <h4 class="display-4" style="color:#DF480F">Cuestionario Individual</h4>
+            <h4 class="display-4" style="color:#B16A26">Evaluación del estudiante al tutor individual</h4>
+            <h5>Periodo {{$periodo}}</h5>
             <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#"><i class="feather icon-user"></i></a></li>

@@ -13,7 +13,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#DF480F">Editar Alumno</h4>
+        <h4 class="display-4" style="color:#B16A26">Editar Alumno</h4>
         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>

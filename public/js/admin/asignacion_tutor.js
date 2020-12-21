@@ -222,14 +222,14 @@ let tipo_user_asignacion="";
         let grupo=$(this).data('grupo');
 
 
-        console.log(`turno ${turno=='Matutino'?'1':'2'}`);
-        console.log(`grupo ${grupo=='A'?'1':'2'}`);
+        console.log(`turno ${turno=='Matutino'?'Matutino':'Vespertino'}`);
+        console.log(`grupo ${grupo=='A'?'1A':'B'}`);
 
        $('#tutor_asignacion').val(user_id_asignacion);
        $('#semestre_asignacion').val(semestre);
        $('#carrera_asignacion').val(id_carrera);
-       $('#turno_asignacion').val(`${turno=='Matutino'?'1':'2'}`);
-       $('#grupo_asignacion').val(`${grupo=='A'?'1':'2'}`);
+       $('#turno_asignacion').val(`${turno=='Matutino'?'Matutino':'Vespertino'}`);
+       $('#grupo_asignacion').val(`${grupo=='A'?'A':'B'}`);
 
        $('#conte_cancelar_actualizacion_asignacion').css({'display':''}).show();
        $('#btn_register_asignacion_tutor').html('<i class="fas fa-pen-square"></i> Actualizar Asignacón')

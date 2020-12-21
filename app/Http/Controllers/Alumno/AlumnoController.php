@@ -28,9 +28,11 @@ class AlumnoController extends Controller
         ->where('datos_alumnos.semestre','=',$MisDatos[0]->semestre)
         ->where('datos_alumnos.turno','=',$MisDatos[0]->turno)
         ->where('datos_alumnos.grupo','=',$MisDatos[0]->grupo)
+        ->where('users.id','!=',$id_user_logueado)
         ->get();
 
-        $alumnos=[];
+        // $alumnos=[];
+        //  dd($alumnos);
         return view('Alumno.index',compact('alumnos'));
 
     }

@@ -34,7 +34,7 @@
     <div class="layout-content">
         <!-- [ content ] Start -->
         <div class="container-fluid flex-grow-1 container-p-y">
-            <h4 class="display-4" style="color:#DF480F">Lista de usuarios</h4>
+            <h4 class="display-4" style="color:#B16A26">Lista de usuarios</h4>
             @include('admin.usuario.navar')
 
             <div class="col-sm-12 contenedor_exception">
@@ -68,7 +68,7 @@
                                       </select>
                                   </div>
 
-                                    <div class="col-sm-10 form-group">
+                                    <div class="col-sm-8 form-group">
                                         <label for="" class="col-form-label label_filter">Tipo de usuario</label>
                                         <select class="form-control selected_tipo_user" name="tipo_usuario_search" id="tipo_usuario_search">
                                             <option selected disabled value="0">Seleccione  Tipo  Usuario</option>
@@ -81,14 +81,21 @@
                                             <option value="administrador">Administrador</option>
                                           </select>
                                     </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="" class="col-form-label label_filter" style="display:block;opacity:0"><i class="far fa-file-pdf"></i>Imprimir</label>
+                                        <a class="btn btn-danger" href="{{url('/pdf/usuarios/all_todos_users')}}" id="generar_pdf_users" target="_blank">
+                                            Generar PDF <i class="far fa-file-pdf"></i>
+                                        </a>
+                                    </div>
+
 
                                     @include('admin.helpers.filtro_busqueda')
 
                                     <div class="col-sm-12 mt-4 d-flex justify-content-end">
                                         <div>
-                                        <button type="button" class="btn mr-2 BTN_SEND_SEARCH" style="background-color:#1050B9;color:white">Consultar</button>
-                                        <button type="button" class="btn mr-2 BTN_LIMPIAR_FILTRO" style="background-color:#FE9838;color:white; margin:0px 4px;">Limpiar</button>
-                                        <button type="button" class="btn mr-2 BTN_OCULTAR_FILTRO" style="background-color:#E61414;color:white">Ocultar</button>
+                                        <button type="button" class="btn mr-2 BTN_SEND_SEARCH" style="background-color:#B16A26;color:white">Consultar</button>
+                                        <button type="button" class="btn mr-2 BTN_LIMPIAR_FILTRO" style="background-color:#E7E6E5;color:black; margin:0px 4px;">Limpiar</button>
+                                        <button type="button" class="btn mr-2 BTN_OCULTAR_FILTRO" style="background-color:#B6B4B4;color:black">Ocultar</button>
 
                                         </div>
                                     </div>
@@ -229,6 +236,14 @@
 
 
 <script>
+
+
+    // pdf
+    $('#tipo_usuario_search').on('change',function(){
+        let tipo_user=$('#tipo_usuario_search option:selected').val();
+        $('#generar_pdf_users').attr('href',`/pdf/usuarios/${tipo_user}`);
+
+    });
 
    /*
     $(document).on('click','.btn_editar_user_index',function(e){

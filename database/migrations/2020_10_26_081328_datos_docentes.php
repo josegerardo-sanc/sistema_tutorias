@@ -16,6 +16,7 @@ class DatosDocentes extends Migration
         Schema::create('datos_docentes', function (Blueprint $table) {
         $table->bigIncrements('id_datos_docentes');
         $table->string('cedula_profesional')->unique();
+        $table->string('estudios_docente');
         $table->unsignedBigInteger('user_id_docente');
         $table->foreign('user_id_docente')->references('id')->on('users');
          });

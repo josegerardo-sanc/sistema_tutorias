@@ -20,6 +20,12 @@
 
 
     <style>
+
+        body{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
         .icon {
             color: white;
             text-decoration: none;
@@ -70,8 +76,8 @@
     ?>
 
 
-    <div class="container-fluid">
-        <div class="row d-flex justify-content-between">
+    <div class="container-fluid" style="padding: 0px;margin:0px;">
+        {{-- <div class="row d-flex justify-content-between">
             <div class="col-sm-8 d-flex align-items-center" style="height:80px">
                 <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
                 <strong  class="text-muted" style="font-size: 15px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
@@ -87,19 +93,38 @@
                    <i class="fab fa-youtube"></i>
                 </a>
            </div>
-        </div>
+        </div> --}}
         <div class="row">
-            <div class="col-sm-12 col-md-6 contenedor_imagen_itss">
-                <img src="https://web.unican.es/unidades/coie/PublishingImages/Paginas/Emprendimiento/173.png"
+            <div class="col-sm-12 col-md-6 contenedor_imagen_itss"  style="overflow: hidden">
+                <img src="https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C"
                     alt="itss"
-                    style="width:600px;height80%;">
+                    style="display:block;margin:0px;width:800px;height:100%;object-fit:cover;">
             </div>
             <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;">
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
-                    <h3 class="text-center mt-4 mb-2 font-italic" style="color:#FF7133">
-                        Iniciar sesión
-                    </h3>
+                    <div class="d-flex justify-content-between">
+                        <div class="col-sm-8 d-flex align-items-center" style="height:80px">
+                            <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
+                            <strong  class="text-muted" style="font-size: 15px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
+                        </div>
+                        <div class="col-sm-4  d-flex justify-content-end align-items-center" style="height:80px">
+                            <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
+                               <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="https://twitter.com/TecSierra" class="icon icon-twitter">
+                               <i class="fab fa-twitter-square "></i>
+                            </a>
+                            <a href="https://www.youtube.com/user/ITSSTABASCO" class="icon icon-youtube">
+                               <i class="fab fa-youtube"></i>
+                            </a>
+                       </div>
+                    </div>
+                    <div>
+                        <h3 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">
+                            Iniciar sesión
+                        </h3>
+                    </div>
                     <div class="form-group" style="width: 100%">
                         @if(session('status_confirm_error'))
                             <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
@@ -136,13 +161,13 @@
                         <input type="password" class="form-control" id="CLAVE_USUARIO" placeholder="Ingresa tu clave" aria-label="CLAVE" aria-describedby="basic-addon1" maxlength="30">
                     </div>
                 </div>
-                <div class="d-flex justify-content-end" style="width:100%;">
+                <div class="d-flex justify-content-end form-group" style="width:100%; margin-bottom:50px;">
                     <label class="custom-control custom-checkbox m-0">
                             <input type="checkbox" class="custom-control-input" name="Permanecer_registrado" id="Permanecer_registrado">
                             <span class="custom-control-label">Permanecer registrado</span>
                     </label>
                 </div>
-                <button type="button" class="btn" id="btn_IniciarSesion" style="display:block;width:100%;margin-top:30px; margin-bottom:20px; background-color:#FF7133;color:white">Iniciar Sesión</button>
+                <button type="button" class="btn btn-primary btn-block" id="btn_IniciarSesion">Iniciar Sesión</button>
 
                 <div class="form-group" style="margin-top:50px; display:none">
                     <a href="" class="fb connect" style="width: 100%"><i class="fab fa-facebook-square"></i> Iniciar Sesión Facebook</a>

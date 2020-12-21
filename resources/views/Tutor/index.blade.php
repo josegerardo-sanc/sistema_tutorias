@@ -75,7 +75,7 @@
                     @endif
                 </div>
                 <div clas="col-sm-12 form-group" style="margin-bottom:20px;">
-                    <h3 class="display-4" style="color: #DF480F">
+                    <h3 class="display-4" style="color: #B16A26">
                         Lista de alumnos
                         @if (count($asignaciones)>0)
                            <a class="mr-2 open_modal_new_alumno btn btn-primary" href="{{url('/tutor/create')}}">Registrar Alumno</a>

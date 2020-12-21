@@ -12,7 +12,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#DF480F">Nuevo Usuario</h4>
+        <h4 class="display-4" style="color:#B16A26">Nuevo Usuario</h4>
 
         @include('admin.usuario.navar')
 
@@ -184,7 +184,7 @@
                             <div class="row form-group conte_referencs_matricula">
                                 <div class="col-sm-12 form-group">
                                     <label class="form-label">Matricula</label>
-                                    <input name="matricula" id="matricula_escolar" type="text"  class="form-control matricula_escolar_validar">
+                                    <input name="matricula" id="matricula_escolar" type="text"  class="form-control matricula_escolar_validar" maxlength="10">
                                     <div class="contenedor_input_matricula_alumno"></div>
                                 </div>
                             </div>
@@ -246,7 +246,13 @@
                             <div class="row form-group">
                                 <div class="col-sm-4 form-group">
                                     <label class="form-label">Cedula Profesional</label>
-                                    <input  name="cedula_profesional" id="cedula_profesioanl" type="text" class="form-control">
+                                    <input  name="cedula_profesional" id="cedula_profesioanl" type="text" class="form-control validar_numeric_input" maxlength="10">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-12 form-group">
+                                    <label class="form-label">Estudios Académicos</label>
+                                    <textarea name="estudio_academicos" id="estudio_academicos" cols="10" rows="10" class="form-control" maxlength="150"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +260,7 @@
                 </div>
         </div>
         <div class="text-right mt-3">
-            <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Registar Usuario</button>&nbsp;
+            <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Registrar Usuario</button>&nbsp;
             <button type="button" class="btn btn-default reset_formulario">Limpiar</button>
         </div>
 
