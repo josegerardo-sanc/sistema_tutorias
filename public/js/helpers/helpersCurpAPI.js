@@ -29,6 +29,7 @@ function  AJAXgetDataCurp(this_element,curp){
 
         })
         .done(function(data) {
+            // console.log("data");
            console.log(data);
            $(this_element).html('Validar Curp').removeAttr('disabled');
 
@@ -59,6 +60,10 @@ function  AJAXgetDataCurp(this_element,curp){
                 $('.input_curp_validar').addClass('is-invalid');
                 $('.content_error_curp').addClass('invalid-feedback').html(`<strong>${data.DataUser.mensaje}</strong>`);
 
+            }
+            else{
+                alert(data.DataUser.mensaje)
+                return false;
             }
 
         }).fail(function(jqXHR,textStatus) {
