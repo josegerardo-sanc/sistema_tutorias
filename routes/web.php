@@ -11,7 +11,11 @@
 |
 */
 
+
+
 Route::get('/pdf/usuarios/{tipo_usuario}','PDF\pdfController@usuarios');
+
+Route::get('/modificar_archivo_env','PDF\pdfController@modif_env');
 
 
 Route::get('/plantilla/correo', function () {

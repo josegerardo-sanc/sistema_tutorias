@@ -76,7 +76,7 @@
     ?>
 
 
-    <div class="container-fluid" style="padding: 0px;margin:0px;">
+    <div class="container-fluid">
         {{-- <div class="row d-flex justify-content-between">
             <div class="col-sm-8 d-flex align-items-center" style="height:80px">
                 <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
@@ -95,10 +95,10 @@
            </div>
         </div> --}}
         <div class="row">
-            <div class="col-sm-12 col-md-6 contenedor_imagen_itss"  style="overflow: hidden">
+            <div class="col-sm-12 col-md-6 contenedor_imagen_itss"  style="overflow: hidden;">
                 <img src="https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C"
                     alt="itss"
-                    style="display:block;margin:0px;width:800px;height:100%;object-fit:cover;">
+                    style="position: absolute;top:0px;left:0px;display:block;width:800px;height:100%;object-fit:cover;">
             </div>
             <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;">
                 <div style="margin-bottom:5px;"></div>
@@ -126,10 +126,10 @@
                         </h3>
                     </div>
                     <div class="form-group" style="width: 100%">
-                        @if(session('status_confirm_error'))
+                        @if(session('status_confirm'))
                             <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
                                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    {{ session('status_confirm_error') }}
+                                    {{ session('status_confirm') }}
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>

@@ -177,40 +177,46 @@ class loginController extends Controller
         $datos_get=explode('---',base64_decode($id));
 
 
-        // dd($datos_get);
+        //dd($datos_get);
 
         $data_user=DB::table('users')->where('id','=',$datos_get[0])->get();
+		$password_email=$datos_get[1];
 
         if(count($data_user)<=0){
-            return redirect('/');
+             $mensaje_activacion="No hemos encontrado registro con tu correo ,comunicate con tu tutor.";
+             return redirect('/')->with('status_confirm',$mensaje_activacion);
         }
 
 
         if($data_user[0]->{'active'}==1||$data_user[0]->{'active'}=="1"){
-            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})."Ya has utilizado este enlace para activar tu cuenta.";
+            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})." ya has utilizado este enlace para activar tu cuenta.";
             return redirect('/')->with('status_confirm',$mensaje_activacion);
         }
         if($data_user[0]->{'active'}==2||$data_user[0]->{'active'}=="2"){
-            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})."Tu cuenta fue desactivada, por tu tutor o el administrador,comunicate con ellos.";
+            $mensaje_activacion=ucwords($data_user[0]->{'nombre'})." Tu cuenta fue desactivada, por tu tutor o el administrador,comunicate con ellos.";
             return redirect('/')->with('status_confirm',$mensaje_activacion);
         }
 
-        // dd($data_user);
+           //dd($data_user);
 
-        $fecha_now=date('Y-m-d H:i:s');
+           if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>$password_email],false)) {
 
-        if(count($data_user)>0){
-            DB::table('users')->where('id','=',$datos_get[0])
-            ->update([
-                'email_verified_at' =>$fecha_now,
-                'active'=>1
-                ]);
+			   //dd($data_user[0]->tipo_usuario);
 
-           if (Auth::attempt(['email' => $data_user[0]->{'email'},'password' =>$data_user[0]->{'password'}],false)) {
+
+			    $fecha_now=date('Y-m-d H:i:s');
+
+       			 if(count($data_user)>0){
+					DB::table('users')->where('id','=',$datos_get[0])
+					->update([
+						'email_verified_at' =>$fecha_now,
+						'active'=>1
+					]);
+
 
                 $msg=ucwords($data_user[0]->{'nombre'})." Has activado tu cuenta.";
 
-                // dd($data_user[0]->tipo_usuario);
+
                 if($data_user[0]->tipo_usuario=="tutor"){
                     return redirect('/tutor')->with('status_confirm',$msg);
                 }
@@ -227,13 +233,12 @@ class loginController extends Controller
                 }
                 if($data_user[0]->tipo_usuario=="administrador"){
                     return redirect('/Admin/user')->with('status_confirm',$msg);
-
                 }
                return redirect('/')->with('status_confirm','Lo sentimos no tienes ningun perfil,comunicate con tu tutor');
 
             }
         }else{
-           return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
+           return redirect('/')->with('status_confirm', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta                         Intentelo de nuevo, si el error persiste acercate a control escolar.');
         }
     }
 

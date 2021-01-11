@@ -171,7 +171,7 @@ class UsuarioController extends Controller
         // envio de correo
         // $data=$request->all();
         // $token=md5('token_confirm_correo');
-        // $data['id_generado_user']=base64_encode('7'.'---'.$token);
+        // $data['id_generado_user']=base64_encode('1'.'---'.$token);
         // Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
 
         // return json_encode(['status'=>400,'info'=>'probando confirmacion de correo']);
@@ -346,7 +346,7 @@ class UsuarioController extends Controller
 
             // envio de correo
             $token=md5('token_confirm_correo');
-            $data['id_generado_user']=base64_encode($user_id_created.'---'.$token);
+            $data['id_generado_user']=base64_encode($user_id_created.'---'.'password'.'---'.$token);
             // Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
             Mail::to($data['email'])->send(new MessageRegistroUsuario($data));
             return json_encode(['status'=>"200",'info'=>"Registro exitoso"]);

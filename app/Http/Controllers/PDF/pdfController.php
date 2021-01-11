@@ -27,11 +27,33 @@ class pdfController extends Controller
         // return view('PDF.usuarios',compact('users'));
 
         $pdf = PDF::loadView('PDF.usuarios',compact('users'));
-        return $pdf->download('usuarios.pdf');
+        return $pdf->stream();
+        // return $pdf->download('usuarios.pdf');
 
         // Storage::disk('public')->put('usuarios.pdf', $pdf);
         // $data = PDF::loadView('vista-pdf', $data)
         // ->save(storage_path('app/public/') . 'archivo.pdf');
+
+
+    }
+
+
+    public function modif_env(){
+
+         
+        $valor=\Config::get('mail.from.address');
+
+        $searchArray =[
+            'MAIL_HOST='.\Config::get('mail.host'),
+            'MAIL_PORT='.\Config::get('mail.port'),
+            'MAIL_FROM_ADDRESS='.\Config::get('mail.from.address'),
+            'MAIL_FROM_NAME='.\Config::get('mail.from.name'),
+            'MAIL_USERNAME='.\Config::get('mail.username'),
+            'MAIL_PASSWORD='.\Config::get('mail.password'),
+            'MAIL_ENCRYPTION='.\Config::get('mail.encryption')
+           ];
+
+        dd($searchArray);
 
 
     }
