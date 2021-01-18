@@ -300,100 +300,117 @@
 
 <script>
 
-var btn_close_Alert=` <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  var id_tutor="<?php echo isset($id_tutor)?$id_tutor:0; ?>";
+  var id_carrera="<?php echo isset($id_carrera)?$id_carrera:0; ?>";
+
+//   console.log(id_tutor+"----"+id_carrera);
+
+
+
+   var btn_close_Alert=` <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                      </button>`;
 
-$('#filtro_carrera_escolar').on('change',function(){
+    $('#filtro_carrera_escolar').on('change',function(){
 
-    let id_carrera=$('#filtro_carrera_escolar option:selected').val();
-    console.log(id_carrera);
+        let id_carrera=$('#filtro_carrera_escolar option:selected').val();
+        console.log(id_carrera);
+        obtenerListutoresAsignadoCarrera(id_carrera);
+    });
 
-    $.ajax(
-        {
-          url :`/carrera/tutoresAsignados/${id_carrera}`,
-          type:'POST',
-          headers:{"X-CSRF-Token": csrf_token},
-          data :{},
-          beforeSend:function(){
+    function obtenerListutoresAsignadoCarrera(id_carrera,id_tutor){
 
-             $('#init_selecte_tutores').attr('disabled','disabled')
-             $('#conte_init_selecte_tutores').html('<i class="fas fa-sync fa-spin"></i> Cargando.......');
-           }
-        })
-        .done(function(respuesta) {
+        console.log("la carrera "+id_carrera);
 
-            $('#init_selecte_tutores').removeAttr('disabled')
-             $('#conte_init_selecte_tutores').html('');
+        $.ajax(
+            {
+            url :`/carrera/tutoresAsignados/${id_carrera}`,
+            type:'POST',
+            headers:{"X-CSRF-Token": csrf_token},
+            data :{'buscar_carreras':true},
+            beforeSend:function(){
 
-            var json=JSON.parse(respuesta);
-            console.log(json);
-
-            if(json.status=="400"){
-               $('.msg_error_conte_upload_file_DELETE').html(`<div class='alert alert-danger alert-dismissible fade show'>${json.info} ${btn_close_Alert}</div>`);
+                $('#init_selecte_tutores').attr('disabled','disabled')
+                $('#conte_init_selecte_tutores').html('<i class="fas fa-sync fa-spin"></i> Cargando.......');
             }
-            if(json.status=="200"){
-                let tutoresOptions="";
-                // console.log(json.data.length);
+            })
+            .done(function(respuesta) {
 
-                if(json.data.length>0){
-                    tutoresOptions="<option value='0' disabled selected>Seleccione un tutor</option>";
-                    for (const iterator of json.data) {
-                        tutoresOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno}</option>`;
-                    }
-                    $('#init_selecte_tutores').html(tutoresOptions).removeAttr('disabled');
-                }else{
-                    tutoresOptions="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARÓN REGISTROS</option>"
-                    $('#init_selecte_tutores').html(tutoresOptions).attr('disabled','disabled');
+                $('#init_selecte_tutores').removeAttr('disabled')
+                $('#conte_init_selecte_tutores').html('');
+
+                var json=JSON.parse(respuesta);
+                console.log(json);
+
+                if(json.status=="400"){
+                $('.msg_error_conte_upload_file_DELETE').html(`<div class='alert alert-danger alert-dismissible fade show'>${json.info} ${btn_close_Alert}</div>`);
                 }
-            }
-            $("html, body").animate({ scrollTop: 0 }, 600);
+                if(json.status=="200"){
+                    let tutoresOptions="";
+                    // console.log(json.data.length);
+
+                    if(json.data.length>0){
+                        tutoresOptions="<option value='0' disabled selected>Seleccione un tutor</option>";
+                        for (const iterator of json.data) {
+                            tutoresOptions+=`<option value='${iterator.id}' ${iterator.id==id_tutor?'selected':''}>${iterator.nombre} ${iterator.ap_paterno}</option>`;
+                        }
+                        $('#init_selecte_tutores').html(tutoresOptions).removeAttr('disabled');
 
 
-        }).fail(function(jqXHR,textStatus) {
-            console.error(jqXHR.responseJSON);
-             $('#init_selecte_tutores').removeAttr('disabled')
-             $('#conte_init_selecte_tutores').html('');
+                        let listCarrera="";
+                        if(json.carreras.length>0){
+                            for (const iterator of json.carreras) {
+                                listCarrera+=`<option value='${iterator.id_carrera}' ${iterator.id_carrera==id_carrera?'selected':''}>${iterator.carrera}</option>`;
+                            }
+                        }else{
+                            listCarrera="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARON REGISTROS bubu</option>"
+                        }
+                        $('.carreras_select').html(listCarrera);
 
-         })
+                    }else{
+                        tutoresOptions="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARÓN REGISTROS</option>"
+                        $('#init_selecte_tutores').html(tutoresOptions).attr('disabled','disabled');
+                    }
+                }
+                $("html, body").animate({ scrollTop: 0 }, 600);
 
-});
 
-
-$('#init_selecte_tutores').on('change',function(){
-
-    let id_tutor=$('#init_selecte_tutores option:selected').val();
-    let formData={
-        'action':'obtener_reportes_tutor_seleccionado',
-        'id_tutor':id_tutor
+                }).fail(function(jqXHR,textStatus) {
+                    console.error(jqXHR.responseJSON);
+                    $('#init_selecte_tutores').removeAttr('disabled')
+                    $('#conte_init_selecte_tutores').html('');
+            });
     }
 
-    getReportes_Tutores(formData);
+    $('#init_selecte_tutores').on('change',function(){
 
-})
+        let id_tutor=$('#init_selecte_tutores option:selected').val();
+        let formData={
+            'action':'obtener_reportes_tutor_seleccionado',
+            'id_tutor':id_tutor
+        }
+        getReportes_Tutores(formData);
 
-
-$('.init_selecte_carreras').each(function() {
-    $(this)
-    .wrap('<div class="position-relative"></div>')
-    .select2({
-    placeholder: 'Select value',
-    dropdownParent: $(this).parent()
     });
-})
-
-$('.init_selecte_tutores').each(function() {
-    $(this)
-    .wrap('<div class="position-relative"></div>')
-    .select2({
-    placeholder: 'Select value',
-    dropdownParent: $(this).parent()
-    });
-})
 
 
+    $('.init_selecte_carreras').each(function() {
+        $(this)
+        .wrap('<div class="position-relative"></div>')
+        .select2({
+        placeholder: 'Select value',
+        dropdownParent: $(this).parent()
+        });
+    })
 
-
+    $('.init_selecte_tutores').each(function() {
+        $(this)
+        .wrap('<div class="position-relative"></div>')
+        .select2({
+        placeholder: 'Select value',
+        dropdownParent: $(this).parent()
+        });
+    })
 
     // obtener reportes
 
@@ -491,7 +508,23 @@ $('.init_selecte_tutores').each(function() {
 
     }
 
-    getReportes_Tutores({'action':'todos_reportes'});
+    if(id_tutor!=undefined && id_tutor!=0 &&id_tutor!=""){
+
+        if(id_carrera!=undefined && id_carrera!=0 &&id_carrera!=""){
+            (async function(){
+                let formData={
+                    'action':'obtener_reportes_tutor_seleccionado',
+                    'id_tutor':id_tutor
+                }
+                await obtenerListutoresAsignadoCarrera(id_carrera,id_tutor);
+                await getReportes_Tutores(formData);
+            }());
+        }
+    }else{
+        getReportes_Tutores({'action':'todos_reportes'});
+    }
+
+
 
     $(document).on('click','.btn_archivo_editar',function(){
         $('.msg_error_conte_upload_file').html('');

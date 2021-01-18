@@ -9,6 +9,7 @@ function UNIQUE_getCarreras(){
           type:'POST',
           headers:{"X-CSRF-Token": csrf_token},
           data :{},
+          async: false,
           beforeSend:function(){
 
              $('.carreras_select').attr('disabled','disabled')

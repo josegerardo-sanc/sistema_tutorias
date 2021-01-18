@@ -13,7 +13,11 @@
 
 
 
-Route::get('/pdf/usuarios/{tipo_usuario}','PDF\pdfController@usuarios');
+Route::get('/generar/pdf/pruebas','PDF\pdfController@pruebas_pdf');
+
+
+
+Route::get('/generar_pdf','PDF\pdfController@usuarios');
 
 Route::get('/modificar_archivo_env','PDF\pdfController@modif_env');
 
@@ -53,6 +57,7 @@ Route::group(['middleware' => ['role:Administrador','auth']], function () {
 
     // REPORTES ENVIADOS POR LOS TUTORES
     Route::get('/reportes/reportes_enviados', 'UploadsFormatosController@reportes_enviados');
+    Route::get('/reportes/{id_tutor}/tutor/{id_carrera}', 'UploadsFormatosController@listar_reportes_tutor_selecionado');
     Route::post('/reportes/reportes_enviados/list', 'UploadsFormatosController@reportes_enviadosListar');
 
 });
@@ -141,8 +146,10 @@ Route::post('/cerrarSesion', 'loginController@cerrarSesion');
 
 
 Route::get('/recuperar/password', function () {
+
     // 1.-vista para enviar correo con el enlace
     return view('Correos.formulario_resetPassword');
+
 });
 # 2.-esta ruta es la que envia el correo generando el enlace
 Route::post('/enviarCorreo_resetPassword', 'loginController@enviarCorreo_resetPassword');

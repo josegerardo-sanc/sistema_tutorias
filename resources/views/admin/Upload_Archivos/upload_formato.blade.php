@@ -578,7 +578,7 @@
       $('.file_usuario_image_search').on('change', function() {
         $('.msg_error_conte_upload_file').html('');
         var picture=this;
-        //console.log(picture.files[0]);
+        console.log(picture.files[0]);
 
         var sizeByte = picture.files[0].size;
 

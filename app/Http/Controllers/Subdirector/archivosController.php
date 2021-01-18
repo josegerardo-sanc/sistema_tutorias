@@ -37,6 +37,9 @@ class archivosController extends Controller
 
         $datos_file=DB::table('archivos')->where('id_archivo','=',$id)->get();
 
+        if($datos_file[0]->{'ruta_archivo'}==""){
+            abort(403,"No se encontro el archivo solicitado.");
+        }
         $name_file_original=json_decode($datos_file[0]->{'datos_tipo_archivo'},true);
 
         $pathToFile=storage_path()."/app/".$datos_file[0]->{'ruta_archivo'};

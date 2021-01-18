@@ -181,7 +181,7 @@
                      {{-- datos del alumno --}}
                      <form action="#" id="formData_Datos_alumno">
                         <div class="card-body pb-2 ocultar_conte_usuario_ " id="conte_alumno_academico">
-                            <div class="row form-group conte_referencs_matricula">
+                            <div class="row form-group conte_referencs_matricula" id="conte_matricula">
                                 <div class="col-sm-12 form-group">
                                     <label class="form-label">Matricula</label>
                                     <input name="matricula" id="matricula_escolar" type="text"  class="form-control matricula_escolar_validar" maxlength="10">
@@ -199,8 +199,8 @@
                                                 <option value="4">4º Semestre</option>
                                                 <option value="5">5º Semestre</option>
                                                 <option value="6">6º Semestre</option>
-                                                <option value="7">8º Semestre</option>
-                                                <option value="8">9º Semestre</option>
+                                                <option value="7">7º Semestre</option>
+                                                <option value="8">8º Semestre</option>
                                             </select>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -212,7 +212,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col-sm-4 form-group">
+                                    <div class="col-sm-4 form-group" id="conte_periodo">
                                         <label class="form-label">Periodo {{date('Y')}}</label>
                                         <select class="form-control" name="periodo_escolar" id="periodo_escolar">
                                             <option value="0" disabled selected>Seleccione Periodo</option>
@@ -252,7 +252,19 @@
                             <div class="row form-group">
                                 <div class="col-sm-12 form-group">
                                     <label class="form-label">Estudios Académicos</label>
-                                    <textarea name="estudio_academicos" id="estudio_academicos" cols="10" rows="10" class="form-control" maxlength="150"></textarea>
+                                    <textarea name="estudio_academicos" id="estudio_academicos" cols="10" rows="10"
+                                    class="form-control" style="border:1px solid #dddd" maxlength="150"></textarea>
+                                </div>
+                            </div>
+                            <div class="row form-group" id="contenedor_horario_tutor" style="display: none">
+                                <div class="col-sm-12">
+                                    <button
+                                        title="Horario del tutor"
+                                        class="btn btn-info btn-block btn_asignarHorario_tutor float-right"
+                                        type="button">
+                                        <i class="fas fa-clock"></i>
+                                        Asignar Horario
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -263,6 +275,8 @@
             <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Registrar Usuario</button>&nbsp;
             <button type="button" class="btn btn-default reset_formulario">Limpiar</button>
         </div>
+
+        @include('admin.asignaciones.horario_tutor')
 
     </div>
     <!-- [ content ] End -->
@@ -285,6 +299,8 @@
 <script src="{{asset('js/helpers/codepostal.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarEMAIL_TELEFONO.js')}}"></script>
 <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
+
+<script src="{{asset('js/admin/horario_tutor.js')}}"></script>
 <script src="{{asset('js/admin/register_user.js')}}"></script>
 
 

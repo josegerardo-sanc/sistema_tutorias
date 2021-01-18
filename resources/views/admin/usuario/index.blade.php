@@ -57,6 +57,8 @@
                                     <h5>Filtrar Busqueda</h5>
                                 </div>
                                 <div class="col-sm-12 row">
+
+
                                   <div class="col-sm-2 form-group">
                                       <label for="" class="col-form-label label_filter">Mostrar</label>
                                       <select class="form-control" name="cantidad_data_mostrar_selected" id="cantidad_data_mostrar_selected">
@@ -68,7 +70,24 @@
                                       </select>
                                   </div>
 
-                                    <div class="col-sm-8 form-group">
+                                  {{-- carreras --}}
+                                  <div class="col-sm-12 row" id="conte_carreras_usuario_tutor" style="display:none">
+                                    <div class="col-sm-9 form-group">
+                                        <label class="form-label label_filter d-flex justify-content-between align-items-center">Carrera <strong class="carreras_select_textError"></strong></label>
+                                        <select  name="filtro_carrera_tutor" id="filtro_carrera_tutor" class="form-control carreras_select">
+                                            <option value="0" disabled selected>Seleccione Carrera</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"  style="opacity: 0">Reset Carrera</label>
+                                        <button class="btn-sm btn btn-info" id="btn_reset_carrera_default">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                    </div>
+                                  </div>
+
+                                    {{-- usuarios --}}
+                                    <div class="col-sm-12 form-group">
                                         <label for="" class="col-form-label label_filter">Tipo de usuario</label>
                                         <select class="form-control selected_tipo_user" name="tipo_usuario_search" id="tipo_usuario_search">
                                             <option selected disabled value="0">Seleccione  Tipo  Usuario</option>
@@ -81,13 +100,6 @@
                                             <option value="administrador">Administrador</option>
                                           </select>
                                     </div>
-                                    <div class="col-sm-2 form-group">
-                                        <label for="" class="col-form-label label_filter" style="display:block;opacity:0"><i class="far fa-file-pdf"></i>Imprimir</label>
-                                        <a class="btn btn-danger" href="{{url('/pdf/usuarios/all_todos_users')}}" id="generar_pdf_users" target="_blank">
-                                            Generar PDF <i class="far fa-file-pdf"></i>
-                                        </a>
-                                    </div>
-
 
                                     @include('admin.helpers.filtro_busqueda')
 
@@ -98,6 +110,16 @@
                                         <button type="button" class="btn mr-2 BTN_OCULTAR_FILTRO" style="background-color:#B6B4B4;color:black">Ocultar</button>
 
                                         </div>
+                                    </div>
+
+                                    <div class="col-sm-12 form-group">
+                                        <label for="" class="col-form-label label_filter" style="display:block;opacity:0"><i class="far fa-file-pdf"></i>Imprimir</label>
+                                        {{-- <a class="btn btn-danger float-right" href="{{url('/pdf/usuarios/all_todos_users')}}" id="generar_pdf_users" target="_blank">
+                                            Generar PDF <i class="far fa-file-pdf"></i>
+                                        </a> --}}
+                                        <a class="btn btn-danger float-right download-pdf" href="#">
+                                            Generar PDF<i class="far fa-file-pdf"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -237,12 +259,81 @@
 
 <script>
 
+    $(".download-pdf").click(function(e){
+        e.preventDefault();
+
+        let usuario=$('#tipo_usuario_search option:selected').val();
+        let FormData_filtro="";
+
+        if(usuario=="alumno"){
+            FormData_filtro=new FormData($('#form_filtro_alumno')[0]);
+        }else{
+            FormData_filtro=new FormData();
+        }
+
+        object_form_FILTRO_BUSQUEDA={
+        'usuario':usuario
+        };
+
+
+        for (let entry of FormData_filtro.entries()){
+            console.log("name="+entry[0]+"   value=: "+entry[1]);
+            object_form_FILTRO_BUSQUEDA[entry[0]]=entry[1];
+        }
+
+        let this_text=$(this).html();
+        let this_element=$(this);
+
+            $.ajax({
+                        url :'/generar_pdf',
+                        type: "GET",
+                        headers:{"X-CSRF-Token": csrf_token},
+                        data: object_form_FILTRO_BUSQUEDA,
+                        xhrFields: {
+                        responseType: 'blob'
+                        },
+                        beforeSend:function(){
+                            $('.conte_loader_MyStyle').css({display:'flex'});
+                            $(this_element).html('Generando PDF <i class="fas fa-sync fa-spin"></i> .......').attr('disabled','disabled');
+                        }
+                }).done(function(respuesta){
+                        console.log(respuesta);
+                        $(this_element).html(this_text).removeAttr('disabled');
+                        $('.conte_loader_MyStyle').css({display:'none'});
+                        var blob = new Blob([respuesta]);
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = "Sample.pdf";
+                        link.click();
+
+                }).fail(function(jqXHR,textStatus) {
+                    $(this_element).html(this_text).removeAttr('disabled');
+                    $('.conte_loader_MyStyle').css({display:'none'});
+                    console.error(jqXHR.responseJSON);
+                    ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
+
+                })
+
+        });
+
 
     // pdf
     $('#tipo_usuario_search').on('change',function(){
+
+        $('#conte_carreras_usuario_tutor').css({'display':'none'})
+
+        if($('#tipo_usuario_search option:selected').val()=="tutor"){
+            $('#filtro_carrera_tutor').val(0)
+            $('#conte_carreras_usuario_tutor').css({'display':'flex'})
+        }
+
         let tipo_user=$('#tipo_usuario_search option:selected').val();
         $('#generar_pdf_users').attr('href',`/pdf/usuarios/${tipo_user}`);
 
+    });
+
+    $('#btn_reset_carrera_default').on('click',function(){
+        $('#filtro_carrera_tutor').val(0)
     });
 
    /*
@@ -314,10 +405,9 @@
 
         }).fail(function(jqXHR,textStatus) {
 
-            console.error(jqXHR.responseJSON);
-
-            ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
             $('.conte_loader_MyStyle').css({display:'none'});
+            console.error(jqXHR.responseJSON);
+            ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
         })
     }
 
@@ -344,6 +434,7 @@
 
             }else if(is_selected_user!="alumno" && is_selected_user!="administrador"){
                 FormData_filtro=new FormData($('#form_filtro_docente')[0]);
+                FormData_filtro.append('carrera',$('#filtro_carrera_tutor option:selected').val());
                 status_formData=true;
             }
         }
@@ -382,9 +473,31 @@
             <p class="mb-0"><b>Turno ${usuario.turno} </b>Grupo ${usuario.grupo} <span class="badge badge-warning"></span></p>
             `;
         }
-        if(usuario.tipo_usuario!="alumno" && usuario.tipo_usuario!="administrador"){
+        if(usuario.tipo_usuario=="director" && usuario.tipo_usuario=="subdirector"){
+            console.log(usuario)
             complemento_html=`
             <p class="mb-0"><b>Cedula : ${usuario.cedula_profesional} </b></p>
+            `;
+        }
+        if(usuario.tipo_usuario=="tutor"){
+            console.log(usuario)
+
+            let color_badge=usuario.numero_archivos_uploads;
+            let button="";
+            if(color_badge==0){
+                button=`<b>Archivos subidos </b> <span class='badge badge-danger'>${usuario.numero_archivos_uploads}</span></p>`;
+            }else{
+                button=`<a href='/reportes/${usuario.id}/tutor/${usuario.id_carrera}' class='btn btn-link text-lowercase'>Ver archivos subidos <span class='badge badge-success'>${usuario.numero_archivos_uploads}</span></p></a>`
+            }
+
+            complemento_html=`
+            <p class="mb-0"><b>Cedula : </b>${usuario.cedula_profesional} <span class="badge badge-warning"></span></p>
+            <p class="mb-1 mt-1"><b>Asignado</b></span></p>
+            <p class="mb-0"><b>${usuario.semestre} ° semestre </b>${usuario.name_carrera} <span class="badge badge-warning"></span></p>
+            <p class="mb-0"><b>Turno ${usuario.turno} </b>Grupo ${usuario.grupo} <span class="badge badge-warning"></span></p>
+            <div class="col-sm-12">
+                ${button}
+            </div>
             `;
         }
 
@@ -402,8 +515,11 @@
                    //console.log(usuario);
                    let is_selected_user=$('#tipo_usuario_search').val();
                    let complemento_html="";
+
                    if(is_selected_user!="all_todos_users"){
+
                        complemento_html=tipoUserHTML(usuario);
+
                    }
 
                     //console.log(complemento_html)
@@ -451,7 +567,6 @@
                                         <p class="mb-3 text-muted"><i class="fas fa-user-tag"></i> </i>${usuario.tipo_usuario} </p>
                                         <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">${usuario.email}</a></p>
                                         ${complemento_html}
-                                        <small>Fecha de registro ${usuario.fecha_registro}</small>
                                     </div>
                                 </div>
                             </div>

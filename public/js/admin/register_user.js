@@ -22,10 +22,14 @@ $('#tipo_usuario').on('change',function(){
    var tipo_user= $(this).val();
    $('.ocultar_conte_usuario_').hide();
    $('.btn_tab_conte_dtsAcademicos').hide();
+   $('#contenedor_horario_tutor').css({'display':'none'});
 
    if(tipo_user=="alumno"){
     // formulario academico alumno
+     $('#conte_matricula').css({'display':''});
+     $('#conte_periodo').css({'display':''});
      $('#conte_alumno_academico').show();
+
      $('.btn_tab_conte_dtsAcademicos').html('DATOS DEL ALUMNO').show();
    }
 
@@ -33,6 +37,12 @@ $('#tipo_usuario').on('change',function(){
        // formulario academico docente
       $('#conte_docente_academico').show();
       $('.btn_tab_conte_dtsAcademicos').html('DATOS DEL DOCENTE').show();
+   }
+   if(tipo_user=="tutor"){
+        $('#conte_matricula').css({'display':'none'});
+        $('#conte_periodo').css({'display':'none'});
+        $('#contenedor_horario_tutor').css({'display':''});
+        $('#conte_alumno_academico').show();
    }
 
    TIPO_USER=tipo_user;
@@ -76,8 +86,13 @@ $('.reset_formulario').on('click',function(){
 $('#Admin_btnRegisterUser').on('click',function(e){
     e.preventDefault();
 
+    console.log(horario_asignadas_tutor);
+
     var foto_perfil=$('.file_usuario_image_search')[0].files[0];
-    console.log(foto_perfil);
+
+    if(foto_perfil!=undefined){
+        console.log(foto_perfil);
+    }
 
     $('#tipo_usuario').removeClass('is-invalid is-valid');
     $('#content_error_tipo_usuario').removeClass('invalid-feedback valid-feedback').css({'color':'#F9F5F6'});
@@ -102,20 +117,35 @@ $('#Admin_btnRegisterUser').on('click',function(e){
             formData_DatosPersonales.append(entry[0],entry[1]);
         }
     }
-    if(TIPO_USER!="alumno" && TIPO_USER!="administrador"){
+    if(TIPO_USER!="alumno" && TIPO_USER!="administrador" && TIPO_USER!="tutor"){
         let formData_Datos_docente=new FormData($('#formData_Datos_docente')[0]);
         for (let entry of formData_Datos_docente.entries()){
             formData_DatosPersonales.append(entry[0],entry[1]);
         }
 
     }
+    if(TIPO_USER=="tutor"){
+
+        let formData_Datos_docente=new FormData($('#formData_Datos_docente')[0]);
+        for (let entry of formData_Datos_docente.entries()){
+            formData_DatosPersonales.append(entry[0],entry[1]);
+        }
+        let formData_Datos_alumno=new FormData($('#formData_Datos_alumno')[0]);
+        for (let entry of formData_Datos_alumno.entries()){
+            formData_DatosPersonales.append(entry[0],entry[1]);
+        }
+        formData_DatosPersonales.append('horario_tutor',JSON.stringify(horario_asignadas_tutor));
+
+    }
 
 
     //ver datos que serane nviados al backen
 
-    /*for (let entry of formData_DatosPersonales.entries()){
-        console.log("clave: "+entry[0]+"   valor: "+entry[1]);
-    }*/
+    // for (let entry of formData_DatosPersonales.entries()){
+    //     console.log("clave: "+entry[0]+"   valor: "+entry[1]);
+    // }
+
+    // return false;
 
     let this_element=$(this);
     let this_element_texto=$(this).text();
@@ -207,14 +237,13 @@ $('#Admin_btnRegisterUser').on('click',function(e){
             }
 
         }).fail(function(jqXHR,textStatus) {
-
+            $('.conte_loader_MyStyle').css({display:'none'});
+            $(this_element).html(this_element_texto).removeAttr('disabled');
             console.error(jqXHR.responseJSON);
             /*object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
              incluyendo la propiedad jqXHR.status que contiene,
              entre otros posibles, el código de estado HTTP de la respuesta. */
              ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
-             $('.conte_loader_MyStyle').css({display:'none'});
-             $(this_element).html(this_element_texto).removeAttr('disabled');
 
          })
 });

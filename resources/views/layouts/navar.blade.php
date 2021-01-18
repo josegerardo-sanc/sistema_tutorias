@@ -15,12 +15,14 @@ style="background-color: #9A5614; color:white !important;">
     <!-- Sidenav toggle (see assets/css/demo/demo.css) -->
     <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto" style="color: white !important">
         <a class="nav-item nav-link px-0 mr-lg-4" href="javascript:">
-            <i class="ion ion-md-menu text-large align-middle"></i>
+            <i class="ion ion-md-menu text-large align-middle" style="color:#ffff !important;"></i>
         </a>
     </div>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#layout-navbar-collapse">
-        <span class="navbar-toggler-icon"></span>
+        {{-- <span class="navbar-toggler-icon"></span> --}}
+        <i class="fas fa-chevron-down" style="color:#ffff;font-size:18px;"></i>
+
     </button>
 
     <div class="navbar-collapse collapse" id="layout-navbar-collapse">

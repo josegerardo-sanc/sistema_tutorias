@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+
 class UploadsFormatosController extends Controller
 {
 
@@ -85,6 +86,16 @@ class UploadsFormatosController extends Controller
 
 
     public function SubirFormato(Request $request){
+
+        if($_FILES['archivo_file_input']!="undefined"||$_FILES['archivo_file_input']!=null){
+
+            if($request->hasFile('archivo_file_input')) {
+                $ruta_image_perfil =$request->file('archivo_file_input')->store('Archivos','public');
+             }
+        }
+
+        return json_encode(['status'=>400,'info'=>'info archivo','file'=>$_FILES,'ruta'=>$ruta_image_perfil]);
+
 
         $data=$request->all();
         $ruta_image_perfil="";
@@ -296,12 +307,31 @@ class UploadsFormatosController extends Controller
     }
 
     // reportes enviados por los tutores
+
     public function reportes_enviados(){
+
         $users_tutores = DB::table('users')
         ->where('tipo_usuario','=','tutor')
         ->get();
         return view('admin.ReportesRecibidos.index',compact('users_tutores'));
     }
+
+    public function listar_reportes_tutor_selecionado($id_tutor,$id_carrera,Request $request){
+
+        // $data=$request->all();
+        // $id_array=[$id_carrera,$id_tutor];
+        // dd($id_array);
+
+        $id_carrera=$id_carrera;
+        $id_tutor=$id_tutor;
+
+        $users_tutores = DB::table('users')
+        ->where('tipo_usuario','=','tutor')
+        ->get();
+        return view('admin.ReportesRecibidos.index',compact('users_tutores','id_tutor','id_carrera'));
+    }
+
+
     public function reportes_enviadosListar(Request $request){
 
         $data=$request->all();

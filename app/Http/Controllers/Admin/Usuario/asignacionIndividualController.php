@@ -54,7 +54,7 @@ class asignacionIndividualController extends Controller
             return json_encode([
                 'status'=>400,
                 'count'=>count($users),
-                'info'=>'<i class="fas fa-exclamation-circle"></i> YA SE ENCUNTRA EN USO ESTA ASIGNACIÓN'
+                'info'=>'<i class="fas fa-exclamation-circle"></i> Esta asignación ya está en uso.'
                 ]);
         }
 

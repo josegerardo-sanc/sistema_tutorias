@@ -54,19 +54,19 @@ class AsignacionesController extends Controller
 
         $horario=$data['horario_tutor'];
 
-        if($horario['lunes_hora']==0||$horario['lunes_hora']==""){
+        if(abs($horario['lunes_hora'])==0||$horario['lunes_hora']==""){
             $horario['lunes']="false";
         }
-        if($horario['martes_hora']==0||$horario['martes_hora']==""){
+        if(abs($horario['martes_hora'])==0||$horario['martes_hora']==""){
             $horario['martes']="false";
         }
-        if($horario['miercoles_hora']==0||$horario['miercoles_hora']==""){
+        if(abs($horario['miercoles_hora'])==0||$horario['miercoles_hora']==""){
             $horario['miercoles']="false";
         }
-        if($horario['jueves_hora']==0||$horario['jueves_hora']==""){
+        if(abs($horario['jueves_hora'])==0||$horario['jueves_hora']==""){
             $horario['jueves']="false";
         }
-        if($horario['viernes_hora']==0||$horario['viernes_hora']==""){
+        if(abs($horario['viernes_hora'])==0||$horario['viernes_hora']==""){
             $horario['viernes']="false";
         }
 
@@ -89,7 +89,7 @@ class AsignacionesController extends Controller
             ->count();
 
             if($count_asignacion>=1){
-                return json_encode(['status'=>400,'countAsignacion'=>$count_asignacion,'info'=>'ya se encuntra registrado esta asignacion']);
+                return json_encode(['status'=>400,'countAsignacion'=>$count_asignacion,'info'=>'Esta asignación ya está en uso.']);
             }
 
             try {

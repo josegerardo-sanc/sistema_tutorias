@@ -1,3 +1,16 @@
+<style>
+
+    li.sidenav-item>a{
+        color:#9A5614 !important;
+    }
+    li.sidenav-item>a:hover{
+        color:#D19356 !important;
+    }
+
+</style>
+
+
+
 <div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-white logo-dark">
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <div class="app-brand demo" style="background-color: #9A5614;color:white !important;">
@@ -206,6 +219,18 @@
                 </a>
             </li>
         @endrole
+        <li class="sidenav-item">
+            <a href="#" class="sidenav-link" id="btn_module_canalizacion">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Canalización</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="{{asset('/manual_usuario_sistema.pdf')}}" class="sidenav-link" id="btn_manual_usuario" target="_blank">
+                <i class="sidenav-icon fas fa-file-pdf"></i>
+                <div>Manual de usuario</div>
+            </a>
+        </li>
         <!-- Dashboards -->
         {{--
         < class="sidenav-item open active">
@@ -228,3 +253,12 @@
         --}}
     </ul>
 </div>
+
+<script>
+
+   document.getElementById('btn_module_canalizacion').addEventListener('click',function(e){
+        e.preventDefault();
+        alert("Por el momento este módulo no está disponible.");
+   });
+
+</script>

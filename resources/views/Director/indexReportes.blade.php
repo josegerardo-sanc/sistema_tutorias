@@ -244,7 +244,7 @@
                                     <select  name="carrera_escolar" id="carrera_escolar" class="form-control carreras_select" disabled>
                                         <option value="0" disabled selected>Seleccione Carrera</option>
                                     </select>
-                                 </div>
+                                </div>
                             </div>
                               {{-- col --}}
                               <div class="row form-group">

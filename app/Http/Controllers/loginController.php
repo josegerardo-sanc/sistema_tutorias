@@ -342,7 +342,7 @@ class loginController extends Controller
 
             }
         }else{
-           return redirect('/')->with('status_confirm_error', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
+           return redirect('/')->with('status_confirm', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
         }
     }
 

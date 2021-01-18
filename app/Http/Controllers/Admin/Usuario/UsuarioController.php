@@ -15,6 +15,7 @@ use App\Mail\MessageRegistroUsuario;
 use Illuminate\Support\Facades\Mail;
 
 
+
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
@@ -93,7 +94,53 @@ class UsuarioController extends Controller
                                       ->count();
 
         }
-        if($tipo_usuario!="alumno"&& $tipo_usuario!="administrador" && $tipo_usuario!="all_todos_users"){
+        if($tipo_usuario=="tutor"){
+
+            $SQL="";
+            $WHERE="";
+
+            $CEDULA_PROFESIONAL=isset($data['filtro_cedulaProfesional'])?$data['filtro_cedulaProfesional']:"";
+            $CARRERA=isset($data['carrera'])?$data['carrera']:"";
+
+            // if($CEDULA_PROFESIONAL!=""){
+            //     $WHERE.=" AND datos_docentes.cedula_profesional='$CEDULA_PROFESIONAL'";
+            // }
+            if($CARRERA!="" && $CARRERA!=0){
+                $SQL="SELECT us.*,asig.*,ca.id_carrera,ca.carrera AS name_carrera,datos.cedula_profesional,COUNT(arc.id_archivo) AS numero_archivos_uploads FROM users AS us
+                LEFT JOIN archivos AS arc ON us.id=arc.id_user_upload
+                INNER JOIN asignacion AS  asig ON  us.id=asig.user_id_asignado
+                INNER JOIN carreras AS ca ON asig.carrera=ca.id_carrera
+                INNER JOIN datos_docentes AS datos ON us.id=datos.user_id_docente
+                WHERE us.tipo_usuario='tutor'
+                AND ca.id_carrera=$CARRERA
+                AND us.id!=$ID_SESION_USER
+                GROUP BY us.id
+                LIMIT $inicio,$cantidad";
+
+            }else{
+                $SQL="SELECT us.*,asig.*,ca.id_carrera,ca.carrera AS name_carrera,datos.cedula_profesional,COUNT(arc.id_archivo) AS numero_archivos_uploads FROM users AS us
+                LEFT JOIN archivos AS arc ON us.id=arc.id_user_upload
+                INNER JOIN asignacion AS  asig ON  us.id=asig.user_id_asignado
+                INNER JOIN carreras AS ca ON asig.carrera=ca.id_carrera
+                INNER JOIN datos_docentes AS datos ON us.id=datos.user_id_docente
+                WHERE us.tipo_usuario='tutor'
+                AND us.id!=$ID_SESION_USER
+                GROUP BY us.id
+                LIMIT $inicio,$cantidad";
+            }
+
+            $users = DB::select("$SQL");
+            // return json_encode(['status'=>400,'data'=>[],'info'=>'prueba de sql','sql'=>$SQL]);
+
+            $TotalRegistros_of_users =DB::table('users')
+            ->leftJoin('datos_docentes','users.id', '=', 'datos_docentes.user_id_docente')
+            ->where('users.tipo_usuario', '=',"tutor")
+            ->where('users.id','!=',$ID_SESION_USER)
+            ->count();
+
+
+        }
+        if($tipo_usuario=="director"||$tipo_usuario=="subdirector"){
 
             $WHERE="";
             $CEDULA_PROFESIONAL=isset($data['filtro_cedulaProfesional'])?$data['filtro_cedulaProfesional']:"";
@@ -132,6 +179,11 @@ class UsuarioController extends Controller
         }
 
         $cantidad=$numeroPagina*$cantidad;
+
+        if(count($users)<=0){
+            $TotalRegistros_of_users=0;
+        }
+
         return json_encode([
           'data'=>$users,
           'inicio'=>$inicio,
@@ -167,7 +219,6 @@ class UsuarioController extends Controller
 
     public function store(Request $request){
 
-
         // envio de correo
         // $data=$request->all();
         // $token=md5('token_confirm_correo');
@@ -177,6 +228,7 @@ class UsuarioController extends Controller
         // return json_encode(['status'=>400,'info'=>'probando confirmacion de correo']);
 
         $data=$request->all();
+
         $file_permitido=false;
         $ruta_image_perfil="Recursos_sistema/upload_image.png"; #default
 
@@ -234,6 +286,10 @@ class UsuarioController extends Controller
             $turno_escolar=isset($data['turno_escolar'])?$data['turno_escolar']:"";
             $grupo_escolar=isset($data['grupo_escolar'])?$data['grupo_escolar']:"";
 
+
+            $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
+            $estudios_docente=isset($data['estudio_academicos'])?$data['estudio_academicos']:"";
+
             if($tipo_usuario!="administrador"){
                 if($tipo_usuario=="alumno"){
                     // alumno
@@ -247,12 +303,8 @@ class UsuarioController extends Controller
                     ]);
                 }
 
-                // validacion datos_academicos_alumno
-                $cedula_profesional=isset($data['cedula_profesional'])?$data['cedula_profesional']:"";
-                $estudios_docente=isset($data['estudio_academicos'])?$data['estudio_academicos']:"";
 
-
-                if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
+                if($tipo_usuario!="alumno" && $tipo_usuario!="administrador" && $tipo_usuario!="tutor"){
                     // diferente de alumno y administardior, solictar cedula profesional etc.
 
                     $validatedDatos_complementarios = Validator::make($data, [
@@ -262,14 +314,38 @@ class UsuarioController extends Controller
                         //'grupo_escolar'=>'required'
                     ]);
                 }
+                if($tipo_usuario=="tutor"){
+                    $validatedDatos_complementarios = Validator::make($data, [
+                        'cedula_profesional'=>['required','string','max:10','unique:datos_docentes'],
+                        'rfc'=>'required',
+                        'estudio_academicos'=>'required',
+                        'semestre_escolar'=>'required',
+                        'carrera_escolar'=>'required',
+                        'turno_escolar'=>'required',
+                        'grupo_escolar'=>'required'
+                    ]);
+                }
 
                 if($validatedDatos_complementarios->fails()) {
                     return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
                 }
+
+
+                $count_asignacion = DB::table('asignacion')
+                    ->where('carrera','=',intval($carrera_escolar))
+                    ->where('semestre','=',intval($semestre_escolar))
+                    ->where('turno','=',intval($grupo_escolar))
+                    ->where('grupo','=',intval($grupo_escolar))
+                    ->count();
+
+                    if($count_asignacion>=1){
+                        return json_encode(['status'=>400,'countAsignacion'=>$count_asignacion,'info'=>'Esta asignación ya está en uso. </br> puede verificarlo en el modulo de asignaciones grupal']);
+                    }
             }
 
             // //ver post
             // return json_encode(['data'=>$data]);
+
             try {
 
                 DB::beginTransaction();
@@ -326,7 +402,7 @@ class UsuarioController extends Controller
                     throw new Exception("NO SE PUDO REALIZAR EL REGISTRO DE DATOS DEL ALUMNO, EXEPTION");
                 }
                 }
-                if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"){
+                if($tipo_usuario!="alumno" && $tipo_usuario!="administrador"&&$tipo_usuario!="tutor"){
                     $status=DB::table('datos_docentes')->insert([
                         [
                             'cedula_profesional'=>$cedula_profesional,
@@ -337,6 +413,54 @@ class UsuarioController extends Controller
                     if(!$status){
                     throw new Exception("NO SE PUDO REALIZAR EL REGISTRO DE DATOS DEL DOCENTE, EXEPTION");
                     }
+                }
+
+                if($tipo_usuario=="tutor"){
+                    $status=DB::table('datos_docentes')->insert([
+                        [
+                            'cedula_profesional'=>$cedula_profesional,
+                            'user_id_docente'=> $user_id_created,
+                            'estudios_docente'=>$estudios_docente
+                        ],
+                    ]);
+
+                    $horario=json_decode($data['horario_tutor'],true);
+                    // return json_encode(['data'=>$data,'horario'=>$horario,'lunes_hora'=>$horario['lunes_hora']]);
+
+                    if(abs($horario['lunes_hora'])==0||$horario['lunes_hora']==""){
+                        $horario['lunes']="false";
+                    }
+                    if(abs($horario['martes_hora'])==0||$horario['martes_hora']==""){
+                        $horario['martes']="false";
+                    }
+                    if(abs($horario['miercoles_hora'])==0||$horario['miercoles_hora']==""){
+                        $horario['miercoles']="false";
+                    }
+                    if(abs($horario['jueves_hora'])==0||$horario['jueves_hora']==""){
+                        $horario['jueves']="false";
+                    }
+                    if(abs($horario['viernes_hora'])==0||$horario['viernes_hora']==""){
+                        $horario['viernes']="false";
+                    }
+
+                    $data['horario_tutor']=$horario;
+                    // return ['lunes'=>$data['horario_tutor']];
+
+                    $data_horario_tutor=json_encode($data['horario_tutor']);
+
+                    DB::table('asignacion')->insert(
+                        [
+                            'semestre' =>$semestre_escolar,
+                            'carrera' => $carrera_escolar,
+                            'turno' => $turno_escolar,
+                            'grupo' => $grupo_escolar,
+                            'fecha_created' =>now(),
+                            'user_register'=>0,
+                            'user_id_asignado' => $user_id_created,
+                            'horario'=>$data_horario_tutor
+                        ]
+                    );
+
                 }
 
             DB::commit();

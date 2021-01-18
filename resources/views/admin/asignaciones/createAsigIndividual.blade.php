@@ -24,10 +24,17 @@
 
             </div>
             <div class="col-sm-12 form-row"  style="background-color: #ffffff;padding:20px 10px;">
-                <div class="form-group col-sm-5">
-                        <label for="" class="col-form-label">Lista de tutores</label>
-                        <select class="form-control init_selecte_tutores" name="" id="init_selecte_tutores" style="width: 100%" data-allow-clear="true">
-                            <?php
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label">Lista de carreras <strong class="carreras_select_textError"></strong></label>
+                    <select   name="filtro_carrera_escolar" id="filtro_carrera_escolar" class="form-control carreras_select init_selecte_carreras_list" style="width: 100%" data-allow-clear="true" disabled>
+                        <option value="0" disabled selected>Seleccione Carrera</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label label_filter">Lista de tutores   <strong id="conte_init_selecte_tutores" class="text-muted"></strong></label>
+                    <select class="form-control init_selecte_tutores" name="" id="init_selecte_tutores" style="width: 100%" data-allow-clear="true">
+                         <?php
                             $list_tutores=false;
                             ?>
                             @forelse ($users_tutores as $user)
@@ -39,10 +46,11 @@
                             @empty
                                 <option selected disabled ="no_found_selected">No se encontrarón registros</option>
                             @endforelse
-                        </select>
-                        <div class="error_select_tutor"></div>
+                    </select>
+                    <div class="error_select_tutor"></div>
                 </div>
-                <div class="form-group col-sm-5">
+
+                <div class="form-group col-sm-4">
                         <label for="" class="col-form-label">Lista de alumnos</label>
                         <select class="form-control init_selecte_alumnos" name="" id="init_selecte_alumnos" style="width: 100%" data-allow-clear="true">
                             <?php
@@ -169,6 +177,7 @@
 
 <link rel="stylesheet" href="{{asset('dashboard_assets/libs/bootstrap-select/bootstrap-select.css')}}">
 <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>
+<script src="{{asset('js/helpers/GetCarreras.js')}}"></script>
 <script src="{{asset('js/helpers/idiomaEspañolDataTable.js')}}"></script>
 <script src="{{asset('js/helpers/Ajax_fail.js')}}"></script>
 
@@ -177,6 +186,81 @@
 
 let init_selecte_tutores=0;
 let init_selecte_alumnos=0;
+
+
+
+$('#filtro_carrera_escolar').on('change',function(){
+
+        let id_carrera=$('#filtro_carrera_escolar option:selected').val();
+        console.log(id_carrera);
+
+        $.ajax(
+            {
+            url :`/carrera/tutoresAsignados/${id_carrera}`,
+            type:'POST',
+            headers:{"X-CSRF-Token": csrf_token},
+            data :{'buscar_alumnos':true},
+            beforeSend:function(){
+
+                $('#init_selecte_tutores').attr('disabled','disabled')
+                $('#conte_init_selecte_tutores').html('<i class="fas fa-sync fa-spin"></i> Cargando.......');
+            }
+            })
+            .done(function(respuesta) {
+
+                $('#init_selecte_tutores').removeAttr('disabled')
+                $('#conte_init_selecte_tutores').html('');
+
+                var json=JSON.parse(respuesta);
+                console.log(json);
+
+                if(json.status=="400"){
+                $('.error_alert_container').html(`<div class='alert alert-danger alert-dismissible fade show'>${json.info} ${btn_close_Alert}</div>`);
+                }
+                if(json.status=="200"){
+                    let tutoresOptions="";
+                    // console.log(json.data.length);
+
+                    if(json.data.length>0){
+                        tutoresOptions="<option value='0' disabled selected>Seleccione un tutor</option>";
+                        for (const iterator of json.data) {
+                            tutoresOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno}</option>`;
+                        }
+                        $('#init_selecte_tutores').html(tutoresOptions).removeAttr('disabled');
+                    }else{
+                        tutoresOptions="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARÓN REGISTROS</option>"
+                        $('#init_selecte_tutores').html(tutoresOptions).attr('disabled','disabled');
+                    }
+
+                    // alumnos
+                    if(json.alumnos.length>0){
+                        alumnosOptions="<option value='0' disabled selected>Seleccione un alumno</option>";
+                        for (const iterator of json.alumnos) {
+                            alumnosOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno} --${iterator.matricula}</option>`;
+                        }
+                        $('#init_selecte_alumnos').html(alumnosOptions).removeAttr('disabled');
+                    }else{
+                        alumnosOptions="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARÓN REGISTROS</option>"
+                        $('#init_selecte_alumnos').html(alumnosOptions).attr('disabled','disabled');
+                    }
+
+
+
+
+
+                }
+                $("html, body").animate({ scrollTop: 0 }, 600);
+
+
+            }).fail(function(jqXHR,textStatus) {
+                console.error(jqXHR.responseJSON);
+                $('#init_selecte_tutores').removeAttr('disabled')
+                $('#conte_init_selecte_tutores').html('');
+
+            })
+
+});
+
 
 function validarSelectAsignacionTutor(){
 
@@ -187,6 +271,7 @@ function validarSelectAsignacionTutor(){
     init_selecte_alumnos=$("#init_selecte_alumnos option:selected").val();
 
     let bool_select=true;
+
 
     if(!(init_selecte_alumnos!=0&&init_selecte_alumnos!="no_found_selected")){
         $('.error_select_alumno').addClass('text-danger p-2').html('<strong>Opción Invalida</strong>');
@@ -503,6 +588,14 @@ $('#table_asignacion_individuales').DataTable({
     "language":language
 });
 
+$('.init_selecte_carreras_list').each(function() {
+    $(this)
+    .wrap('<div class="position-relative"></div>')
+    .select2({
+    placeholder: 'Select value',
+    dropdownParent: $(this).parent()
+    });
+})
 $('.init_selecte_tutores').each(function() {
     $(this)
     .wrap('<div class="position-relative"></div>')
