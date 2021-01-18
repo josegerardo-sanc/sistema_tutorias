@@ -75,6 +75,9 @@ class UploadsFormatosController extends Controller
 
     public function download_archivo($id){
 
+
+        return "olisss";
+
         $datos_file=DB::table('archivos')->where('id_archivo','=',$id)->get();
 
         $name_file_original=json_decode($datos_file[0]->{'datos_tipo_archivo'},true);
@@ -83,6 +86,8 @@ class UploadsFormatosController extends Controller
         return Storage::disk('public')->download($datos_file[0]->{'ruta_archivo'},$name_file_original['nombre_archivo']);
 
     }
+
+
 
 
     public function SubirFormato(Request $request){

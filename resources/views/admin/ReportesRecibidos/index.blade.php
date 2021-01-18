@@ -480,7 +480,7 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item btn_archivo_editar" href="javascript:void(0)">Editar</a>
-                                                    <a class="dropdown-item btn_archivo_descargar" href="/download_archivo/${iterator.id_archivo}">Descargar</a>
+                                                    <a class="dropdown-item btn_archivo_descargar" href="/downloadFormato/${iterator.id_archivo}">Descargar</a>
                                                 </div>
                                             </div>
                                     </div>`;

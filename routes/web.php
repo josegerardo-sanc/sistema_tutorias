@@ -13,8 +13,7 @@
 
 
 
-Route::get('/generar/pdf/pruebas','PDF\pdfController@pruebas_pdf');
-
+// Route::get('/generar/pdf/pruebas','PDF\pdfController@pruebas_pdf');
 
 
 Route::get('/generar_pdf','PDF\pdfController@usuarios');
@@ -53,7 +52,6 @@ Route::group(['middleware' => ['role:Administrador','auth']], function () {
     Route::post('/subirFormato', 'UploadsFormatosController@SubirFormato');
     Route::post('/DeleteFormato', 'UploadsFormatosController@DeleteArchivo');
     Route::get('/downloadFormato/{id}', 'UploadsFormatosController@download_archivo');
-
 
     // REPORTES ENVIADOS POR LOS TUTORES
     Route::get('/reportes/reportes_enviados', 'UploadsFormatosController@reportes_enviados');
