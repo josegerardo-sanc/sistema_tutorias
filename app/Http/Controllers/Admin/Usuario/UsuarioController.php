@@ -326,7 +326,7 @@ class UsuarioController extends Controller
                     ]);
 
                     $periodo=$periodo_escolar=="1"?'FEBRERO-JULIO':'AGOSTO-DICIEMBRE';
-                    
+
                     $count_asignacion = DB::table('asignacion')
                     ->where('carrera','=',intval($carrera_escolar))
                     ->where('semestre','=',intval($semestre_escolar))

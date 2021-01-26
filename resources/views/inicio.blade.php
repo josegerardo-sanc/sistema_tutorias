@@ -56,10 +56,29 @@
              border:1px solid transparent;
          }
 
+		.text_responsive{
+                font-size: 30px;
+            }
+            .text_responsive_tecnologico{
+             font-size: 15px;
+            }
+
         @media (max-width: 769px) {
+            .text_responsive{
+				 font-size: 15px;
+			 }
+			 .text_responsive_tecnologico{
+				 font-size: 15px;
+			 }
             .contenedor_imagen_itss {
                 display: none;
             }
+
+			#titulo_pagina{
+				display: flex;
+                flex-direction:row-reverse;
+			}
+
         }
     </style>
 
@@ -103,12 +122,12 @@
             <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;">
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
-                    <div class="d-flex justify-content-between">
-                        <div class="col-sm-8 d-flex align-items-center" style="height:80px">
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <div class="col-sm-12 col-md-8 d-flex align-items-center p-0 m-0" style="height:80px">
                             <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
-                            <strong  class="text-muted" style="font-size: 15px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
+                            <strong  class="text-muted text_responsive_tecnologico">Instituto Tecnológico Superior de la Región Sierra.</strong>
                         </div>
-                        <div class="col-sm-4  d-flex justify-content-end align-items-center" style="height:80px">
+                        <div class="col-sm-12 col-md-4  d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
                                <i class="fab fa-facebook"></i>
                             </a>
@@ -121,8 +140,8 @@
                        </div>
                     </div>
                     <div>
-                        <h3 class="mt-4 mb-2 font-italic text-justify d-flex justify-content-center text-primary">
-                            Tecnológico Nacional de México </br>
+                        <h3 class="mt-4 mb-2 font-italic text-justify d-flex justify-content-center text-primary text_responsive">
+                            Tecnológico Nacional de México
                             Dirección académica y coordinación de tutorías
                         </h3>
                         {{-- <h5 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">

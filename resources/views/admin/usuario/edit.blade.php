@@ -236,7 +236,7 @@
                 </div>
                 <div class="tab-pane fade" id="user-edit-info">
                     {{-- datos del alumno --}}
-                    <div class="col-sm-12 alert alert-warning" role="alert">
+                    <div class="col-sm-12 alert alert-warning" role="alert" id="conte_informativo_tutor" style="display:none">
                         <i class="fas fa-exclamation-circle"></i> Los datos de asignación no se pueden actualizar ,en este formulario. solo se pueden visualizar </br>
                         <a href="/Admin/Asignacion/create" class="alert-link" style="text-decoration: underline">Actualizar asignación</a>.
                     </div>
@@ -373,6 +373,7 @@
     $('#conte_alumno_academico').hide();
     $('#conte_docente_academico').hide();
 
+
     if (tipo_user_selected == "alumno") {
 
         let periodo_selected = "<?php echo isset($usersData[0]->periodo)?$usersData[0]->periodo:''; ?>"
@@ -449,6 +450,15 @@
         }).html('Datos tutor').show();
         $('#conte_docente_academico').show();
 
+
+        $('#conte_informativo_tutor').css({'display':'none'});
+
+        let horario =JSON.parse({!! isset($usersData[0]->horario)?json_encode($usersData[0]->horario):"{}" !!});
+        console.log(horario);
+        // var horario_asignadas_tutor=horario;
+        // console.log(horario)
+        Mostrar_Horario_tutor(horario);
+
     }
 
     $('.inputBuscarCodigoPostal').keyup();
@@ -477,12 +487,7 @@
         $('#modal_horario_tutor').modal('show');
     })
 
-    let horario =JSON.parse({!! json_encode($usersData[0]->horario) !!});
 
-    var horario_asignadas_tutor=horario;
-
-    console.log(horario)
-    Mostrar_Horario_tutor(horario);
 
     </script>
 
