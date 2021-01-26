@@ -84,6 +84,18 @@
                 <div>Carreras</div>
             </a>
         </li>
+        <li class="sidenav-item">
+            <a href="{{url('/evaluacion')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-chart-bar"></i>
+                <div>Grafica-evaluación tutor</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-tasks"></i>
+                <div>Segumiento actividad tutorial</div>
+            </a>
+        </li>
         @endrole
         {{-- otro modulo --}}
 

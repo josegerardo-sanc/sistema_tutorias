@@ -34,11 +34,11 @@
         <div class="nav-tabs-top">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active btn_tab_conte_personal" data-toggle="tab" href="#user-edit-account">Datos Personales</a>
+                    <a class="nav-link active btn_tab_conte_personal" data-toggle="tab" href="#user-edit-account">Datos personales</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn_tab_conte_dtsAcademicos" data-toggle="tab" href="#user-edit-info"
-                    style="display: none;">Datos Académicos</a>
+                    style="display: none;">Datos académicos</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -213,10 +213,9 @@
 
                                 <div class="row form-group">
                                     <div class="col-sm-4 form-group" id="conte_periodo">
-                                        <label class="form-label">Periodo {{date('Y')}}</label>
+                                        <label class="form-label">Periodo</label>
                                         <select class="form-control" name="periodo_escolar" id="periodo_escolar">
-                                            <option value="0" disabled selected>Seleccione Periodo</option>
-                                            <option value="1">FEBRERO-JULIO</option>
+                                            <option value="1" selected>FEBRERO-JULIO</option>
                                             <option value="2">AGOSTO-DICIEMBRE</option>
                                         </select>
                                     </div>
@@ -292,7 +291,6 @@
 <script src="{{asset('dashboard_assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
 <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>
 <script src="{{asset('dashboard_assets/js/pages/pages_users_edit.js')}}"></script>
-
 {{-- recursos propios --}}
 <script src="{{asset('js/helpers/verificarLada.js')}}"></script>
 <script src="{{asset('js/helpers/helpersCurpAPI.js')}}"></script>

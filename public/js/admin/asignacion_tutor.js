@@ -1,12 +1,4 @@
 
-    $('#table_tutores').DataTable({
-        "order": [
-            [0, 'desc'],
-            [1, 'desc']
-        ],
-        "language":language
-    });
-
 
     $(document).on('click','.btn_ver_horario_tutor',function(){
          // editar horario
@@ -52,10 +44,7 @@
         total_horas=parseInt(horario.lunes_hora)+parseInt(horario.martes_hora)+parseInt(horario.miercoles_hora)+parseInt(horario.jueves_hora)+parseInt(horario.viernes_hora);
         $('.total_hrs_asignadas_tutor').val(total_horas);
 
-
         horario_asignadas_tutor=horario;
-
-
     }
 
 
@@ -77,7 +66,9 @@
         let id_carrera=$(this).data('id_carrera');
         let turno=$(this).data('turno');
         let grupo=$(this).data('grupo');
+        let periodo=$(this).data('periodo');
 
+        console.log(periodo);
 
         console.log(`turno ${turno=='Matutino'?'Matutino':'Vespertino'}`);
         console.log(`grupo ${grupo=='A'?'1A':'B'}`);
@@ -87,6 +78,7 @@
        $('#carrera_asignacion').val(id_carrera);
        $('#turno_asignacion').val(`${turno=='Matutino'?'Matutino':'Vespertino'}`);
        $('#grupo_asignacion').val(`${grupo=='A'?'A':'B'}`);
+       $('#periodo_asignacion').val(`${periodo=='FEBRERO-JULIO'?'1':'2'}`);
 
        $('#conte_cancelar_actualizacion_asignacion').css({'display':''}).show();
        $('#btn_register_asignacion_tutor').html('<i class="fas fa-pen-square"></i> Actualizar Asignacón')
@@ -140,6 +132,7 @@
         let carrera=$('#carrera_asignacion').val();
         let turno=$('#turno_asignacion').val();
         let grupo_asignacion=$('#grupo_asignacion').val();
+        let periodo_asignacion=$('#periodo_asignacion option:selected').val();
 
 
         let erros="";
@@ -186,6 +179,7 @@
             'carrera':carrera,
             'turno':turno,
             'grupo':grupo_asignacion,
+            'periodo':periodo_asignacion,
             'id_user_asignacion':tutor,
             'id_user_register':'0',
             'action_update_save':action_UPDATE_SAVE, //campos para actualizar
@@ -242,6 +236,7 @@
                             <td>${item.carrera}</td>
                             <td>${item.semestre}º Semestre</td>
                             <td>${item.turno} Grupo ${item.grupo}</td>
+                            <td>${item.periodo}</td>
                             <td>
                                 <div>
                                     <button  class="btn btn-info ver_lista_de_alumnos" type="button"
@@ -252,6 +247,7 @@
                                      data-carrera_text="${item.carrera}"
                                      data-turno="${item.turno}"
                                      data-grupo="${item.grupo}"
+                                     data-periodo="${item.periodo}"
                                      title="Lista de alumnos">
                                         <a href="#" style="color:white;">Ver alumnos</a> <span class="badge badge-light">${item.COUNT_ALUMNOS}</span>
                                     </button>
@@ -268,6 +264,7 @@
                                     data-id_asignacion="${item.id_asignacion}"
                                     data-user_id_asignacion="${item.user_id_asignado}"
                                     data-count_alumnos="${item.COUNT_ALUMNOS}"
+                                    data-periodo="${item.periodo}"
                                     class="btn btn-warning btn_editar_asignacion" title="Editar registro">Editar</button>
                                     <button
                                     data-id="${item.id}"
@@ -426,6 +423,7 @@
                 let turno=$(this).data('turno');
                 let grupo=$(this).data('grupo');
                 let count_alumnos=$(this).data('count_alumnos');
+                let periodo=$(this).data('periodo');
 
                 let Turno_turno=turno;
 
@@ -438,7 +436,8 @@
                     'semestre':semestre,
                     'turno':Turno_turno,
                     'count_alumnos':count_alumnos,
-                    'grupo':grupo
+                    'grupo':grupo,
+                    'periodo':periodo
                 };
 
                 let this_element=$(this);

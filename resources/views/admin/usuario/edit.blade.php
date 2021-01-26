@@ -236,10 +236,15 @@
                 </div>
                 <div class="tab-pane fade" id="user-edit-info">
                     {{-- datos del alumno --}}
+                    <div class="col-sm-12 alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-circle"></i> Los datos de asignación no se pueden actualizar ,en este formulario. solo se pueden visualizar </br>
+                        <a href="/Admin/Asignacion/create" class="alert-link" style="text-decoration: underline">Actualizar asignación</a>.
+                    </div>
+
                     <form action="#" id="formData_Datos_alumno">
                         <div class="card-body pb-2 ocultar_conte_usuario_ " id="conte_alumno_academico">
                             <div class="row form-group conte_referencs_matricula">
-                                <div class="col-sm-12 form-group">
+                                <div class="col-sm-12 form-group" id="matricula_escolar_conte">
                                     <label class="form-label">Matricula</label>
                                     <input name="matricula" id="matricula_escolar" type="text"
                                         class="form-control matricula_escolar_validar">
@@ -270,7 +275,7 @@
                             </div>
 
                             <div class="row form-group">
-                                <div class="col-sm-4 form-group">
+                                <div class="col-sm-4 form-group" id="periodo_escolar_conte">
                                     <label class="form-label">Periodo</label>
                                     <select class="form-control" name="periodo_escolar" id="periodo_escolar">
                                         <option value="0" disabled selected>Seleccione Periodo</option>
@@ -310,7 +315,19 @@
                             <div class="row form-group">
                                 <div class="col-sm-12 form-group">
                                     <label class="form-label">Estudios Académicos</label>
-                                    <textarea name="estudio_academicos" id="estudio_academicos" cols="10" rows="10" class="form-control" maxlength="150"></textarea>
+                                    <textarea name="estudio_academicos" id="estudio_academicos" cols="10" rows="10" class="form-control"
+                                     style="border:1px solid #dddd" maxlength="150"></textarea>
+                                </div>
+                            </div>
+                            <div class="row form-group" id="contenedor_horario_tutor" style="display: none">
+                                <div class="col-sm-12">
+                                    <button
+                                        title="Horario del tutor"
+                                        class="btn btn-info btn-block  float-right"
+                                        type="button" id="btn_ver_horario">
+                                        <i class="fas fa-clock"></i>
+                                        Ver Horario
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -321,7 +338,7 @@
                 <button type="button" class="btn btn-primary" id="Admin_btnRegisterUser">Actualizar Usuario</button>&nbsp;
                 <button type="button" class="btn btn-default reset_formulario">Limpiar</button>
             </div>
-
+            @include('admin.asignaciones.horario_tutor')
         </div>
         <!-- [ content ] End -->
     </div>
@@ -343,9 +360,12 @@
     <script src="{{asset('js/helpers/ValidarEMAIL_TELEFONO.js')}}"></script>
     <script src="{{asset('js/helpers/ValidarMatriculaAlumno.js')}}"></script>
 
+    <script src="{{asset('js/admin/asignacion_tutor.js')}}"></script>
     <script src="{{asset('js/admin/register_user.js')}}"></script>
 
+
     <script>
+
     let tipo_user_selected = "<?php echo $usersData[0]->tipo_usuario ?>";
     $('#tipo_usuario').val(tipo_user_selected);
     //console.log(tipo_user_selected);
@@ -377,10 +397,10 @@
 
         $('.btn_tab_conte_dtsAcademicos').css({
             'display': ''
-        }).html('DATOS DEL ALUMNO').show();
+        }).html('Datos alumno').show();
         $('#conte_alumno_academico').show();
-    } else if (tipo_user_selected != "alumno" && tipo_user_selected != "administrador") {
 
+    } else if (tipo_user_selected == "director" || tipo_user_selected == "subdirector") {
 
         let cedula_profesioanl =
             "<?php echo isset($usersData[0]->cedula_profesional)?$usersData[0]->cedula_profesional:''; ?>"
@@ -393,9 +413,44 @@
 
         $('.btn_tab_conte_dtsAcademicos').css({
             'display': ''
-        }).html('DATOS DEL DOCENTE').show();
+        }).html('Datos académicos').show();
         $('#conte_docente_academico').show();
+
+
+    }else if(tipo_user_selected=="tutor"){
+
+        let cedula_profesioanl =
+            "<?php echo isset($usersData[0]->cedula_profesional)?$usersData[0]->cedula_profesional:''; ?>"
+        $('#cedula_profesioanl').val(cedula_profesioanl);
+
+        let estudio_academicos =
+            "<?php echo isset($usersData[0]->estudios_docente)?$usersData[0]->estudios_docente:''; ?>"
+        $('#estudio_academicos').val(estudio_academicos);
+
+
+        $('#semestre_escolar').val("<?php echo isset($usersData[0]->semestre)?$usersData[0]->semestre:''; ?>").attr('disabled','disabled');
+        setTimeout(() => {
+            $('#carrera_escolar').val("<?php echo isset($usersData[0]->id_carrera)?$usersData[0]->id_carrera:''; ?>").attr('disabled','disabled');
+        }, 1000);
+
+        $('#grupo_escolar').val("<?php echo isset($usersData[0]->grupo)?$usersData[0]->grupo=='A'?'1':'2':''; ?>").attr('disabled','disabled');
+        $('#turno_escolar').val("<?php echo isset($usersData[0]->turno)?$usersData[0]->turno=='Matutino'?'1':'2':''; ?>").attr('disabled','disabled');
+
+
+        $('#matricula_escolar_conte').css({'display':'none'});
+        $('#periodo_escolar_conte').css({'display':'none'});
+
+        $('#contenedor_horario_tutor').css({'display':''});
+        $('#conte_alumno_academico').show();
+
+
+        $('.btn_tab_conte_dtsAcademicos').css({
+            'display': ''
+        }).html('Datos tutor').show();
+        $('#conte_docente_academico').show();
+
     }
+
     $('.inputBuscarCodigoPostal').keyup();
 
 
@@ -414,6 +469,21 @@
     } else {
         $('#femenino').attr('checked', true);
     }
+
+
+
+    $('#btn_ver_horario').on('click',function(){
+        $('.btn_btn_restablecer_horario').css({'display':'none'})
+        $('#modal_horario_tutor').modal('show');
+    })
+
+    let horario =JSON.parse({!! json_encode($usersData[0]->horario) !!});
+
+    var horario_asignadas_tutor=horario;
+
+    console.log(horario)
+    Mostrar_Horario_tutor(horario);
+
     </script>
 
     @endsection

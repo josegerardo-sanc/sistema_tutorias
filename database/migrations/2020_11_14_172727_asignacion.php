@@ -22,6 +22,7 @@ class Asignacion extends Migration
         $table->string('user_register');
         $table->unsignedBigInteger('user_id_asignado');
         $table->dateTime('fecha_created');
+        $table->enum('periodo',['FEBRERO-JULIO','AGOSTO-DICIEMBRE']);
         $table->json('horario');
         $table->foreign('user_id_asignado')->references('id')->on('users');
 

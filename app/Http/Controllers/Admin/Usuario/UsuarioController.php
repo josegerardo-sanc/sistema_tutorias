@@ -324,23 +324,25 @@ class UsuarioController extends Controller
                         'turno_escolar'=>'required',
                         'grupo_escolar'=>'required'
                     ]);
-                }
 
-                if($validatedDatos_complementarios->fails()) {
-                    return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
-                }
-
-
-                $count_asignacion = DB::table('asignacion')
+                    $periodo=$periodo_escolar=="1"?'FEBRERO-JULIO':'AGOSTO-DICIEMBRE';
+                    
+                    $count_asignacion = DB::table('asignacion')
                     ->where('carrera','=',intval($carrera_escolar))
                     ->where('semestre','=',intval($semestre_escolar))
                     ->where('turno','=',intval($grupo_escolar))
                     ->where('grupo','=',intval($grupo_escolar))
+                    ->where('periodo','=',$periodo)
                     ->count();
 
                     if($count_asignacion>=1){
                         return json_encode(['status'=>400,'countAsignacion'=>$count_asignacion,'info'=>'Esta asignación ya está en uso. </br> puede verificarlo en el modulo de asignaciones grupal']);
                     }
+                }
+
+                if($validatedDatos_complementarios->fails()) {
+                    return json_encode(['withErrrors'=>$validatedDatos_complementarios->errors()->all()]);
+                }
             }
 
             // //ver post
@@ -457,7 +459,8 @@ class UsuarioController extends Controller
                             'fecha_created' =>now(),
                             'user_register'=>0,
                             'user_id_asignado' => $user_id_created,
-                            'horario'=>$data_horario_tutor
+                            'horario'=>$data_horario_tutor,
+                            'periodo'=>$periodo_escolar
                         ]
                     );
 
@@ -735,13 +738,23 @@ class UsuarioController extends Controller
                 ->where('users.id','=',$id)
                 ->get();
 
-            }else if($user->tipo_usuario!="alumno" && $user->tipo_usuario!="administrador"){
+            }else if($user->tipo_usuario=="tutor"){
+
+                $usersData = DB::table('users')
+                ->leftJoin('asignacion', 'users.id', '=', 'asignacion.user_id_asignado')
+                ->leftJoin('carreras', 'asignacion.carrera', '=', 'carreras.id_carrera')
+                ->leftJoin('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
+                ->select('users.*','users.id AS id_user','datos_docentes.*','asignacion.*','carreras.carrera as name_carrera','carreras.id_carrera')
+                ->where('users.id','=',$id)
+                ->get();
+
+            }else if($user->tipo_usuario=="director" || $user->tipo_usuario=="subdirector"){
                 $usersData = DB::table('users')
                 ->join('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
                 ->select('users.*','users.id AS id_user','datos_docentes.*')
                 ->where('users.id','=',$id)
                 ->get();
-            }else{
+            }else if($user->tipo_usuario!="administrador"){
                 $usersData = DB::table('users')
                 ->select('users.*','users.id AS id_user')
                 ->where('users.id','=',$id)
@@ -817,5 +830,56 @@ class UsuarioController extends Controller
 
             $info=['info'=>$arreglo,'validacion'=>$validator];
             return $info;
+    }
+
+
+    public function eliminar_usuario($id){
+
+        $user=DB::table('users')->where('id',$id)->get();
+        if(count($user)<=0){
+            return redirect()->back()->with('error_user','El usuario que intentas eliminar no se encontró  en la base de datos.');
+        }
+
+        // dd($user);
+
+        try {
+
+            DB::beginTransaction();
+
+            if($user[0]->tipo_usuario=="alumno"){
+
+                DB::table('datos_alumnos')->where('user_id_alumno', '=',$id)->delete();
+                DB::table('asignacion_individual')->where('id_user_alumno', '=',$id)->delete();
+                DB::table('cuestionario')->where('id_user_alumno', '=',$id)->delete();
+
+            }else if($user[0]->tipo_usuario=="tutor"){
+
+                DB::table('datos_docentes')->where('user_id_docente', '=',$id)->delete();
+                DB::table('asignacion')->where('user_id_asignado', '=',$id)->delete();
+                DB::table('asignacion_individual')->where('id_user_tutor', '=',$id)->delete();
+                DB::table('cuestionario')->where('id_user_tutor', '=',$id)->delete();
+                DB::table('archivos')->where('id_user_upload', '=',$id)->delete();
+
+            }
+            else if($user[0]->tipo_usuario=="subdirector"||$user[0]->tipo_usuario=="director"){
+                DB::table('archivos')->where('id_user_upload', '=',$id)->delete();
+
+            }else if($user[0]->tipo_usuario=="administrador"){
+
+                B::table('archivos')->where('id_user_upload', '=',$id)->delete();
+            }
+            DB::table('users')->where('id', '=',$id)->delete();
+
+            DB::commit();
+            return redirect()->back()->with('status_confirm','El usuario '.$user[0]->nombre.'se ha eliminado satisfactoriamente.');
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->with('error_user','Se produjo un problema de comunicación con el servidor </br> recargue la pagina (F5) e intentelo de nuevo.');
+        }
+
+
+
     }
 }

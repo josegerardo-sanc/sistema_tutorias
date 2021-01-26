@@ -126,14 +126,25 @@ class loginController extends Controller
             ->leftJoin('carreras', 'datos_alumnos.carrera', '=', 'carreras.id_carrera')
             ->where('user_id_alumno','=',$user->id)
             ->first();
-        }else if($user->tipo_usuario!="alumno"&&$user->tipo_usuario!="administrador"){
+        }else if($user->tipo_usuario=="director"||$user->tipo_usuario=="subdirector"){
             $datos_user=DB::table('datos_docentes')
             ->where('user_id_docente','=',$user->id)
             ->first();
+        }else if($user->tipo_usuario=="tutor"){
+
+            $datos_user = DB::table('users')
+                ->leftJoin('asignacion', 'users.id', '=', 'asignacion.user_id_asignado')
+                ->leftJoin('carreras', 'asignacion.carrera', '=', 'carreras.id_carrera')
+                ->leftJoin('datos_docentes', 'users.id', '=', 'datos_docentes.user_id_docente')
+                ->select('datos_docentes.*','asignacion.*','carreras.carrera','carreras.id_carrera')
+                ->where('users.id','=',$user->id)
+                ->get();
+
+            $datos_user=$datos_user[0];
+
         }
 
         // dd($datos_user);
-
 
         return view('myperfil.perfil',compact('user','domicilio','datos_user'));
 

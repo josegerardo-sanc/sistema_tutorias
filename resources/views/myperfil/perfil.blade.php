@@ -41,12 +41,14 @@
                 <div class="col-md-3 pt-0">
                     <div class="list-group list-group-flush account-settings-links">
                         <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general"><i class="far fa-eye"></i> información</a>
-                        @if ($user->tipo_usuario=="alumno")
-                            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-escolar_alumno"><i class="far fa-eye"></i> Datos alumno</a>
-                        @endif
-                        @if ($user->tipo_usuario!="alumno" &&$user->tipo_usuario!="administrador")
-                          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-escolar_docente"><i class="far fa-eye"></i> Datos Docente</a>
-                        @endif
+                            @if ($user->tipo_usuario=="alumno"||$user->tipo_usuario=="tutor")
+                                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-escolar_alumno"><i class="far fa-eye"></i>
+                                    {{$user->tipo_usuario=="tutor"?'Datos tutor':'Datos alumno'}}
+                                </a>
+                            @endif
+                            @if ($user->tipo_usuario=="director" || $user->tipo_usuario=="subdirector"||$user->tipo_usuario=="tutor")
+                              <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-escolar_docente"><i class="far fa-eye"></i> Datos académicos</a>
+                            @endif
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password"><i class="fas fa-key"></i> Cambiar contraseña</a>
                     </div>
                 </div>
@@ -106,12 +108,12 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($user->tipo_usuario=="alumno")
+                        @if ($user->tipo_usuario=="alumno"||$user->tipo_usuario=="tutor")
                         <div class="tab-pane fade" id="account-escolar_alumno">
                             <div class="card-body pb-2">
-                                <div class="form-group">
+                                <div class="form-group" style="{{$user->tipo_usuario=="tutor"?'display:none':''}}">
                                     <label class="form-label"><strong>Matricula</strong></label>
-                                    <input type="text" class="form-control" value="{{$datos_user->matricula}}" placeholder="Ingresa tu matricula" disabled>
+                                    <input type="text" class="form-control" value="{{isset($datos_user->matricula)?$datos_user->matricula:''}}" placeholder="Ingresa tu matricula" disabled>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
@@ -139,16 +141,16 @@
                                         <option value="" selected>{{$datos_user->grupo}}</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="{{$user->tipo_usuario=="tutor"?'display:none':''}}">
                                     <label class="form-label"><strong>Periodo</strong></label>
                                     <select class="form-control" disabled>
-                                        <option value="" selected>{{$datos_user->periodo}}</option>
+                                        <option value="" selected>{{isset($datos_user->periodo)?$datos_user->periodo:''}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         @endif
-                        @if ($user->tipo_usuario!="alumno" &&$user->tipo_usuario!="administrador")
+                        @if ($user->tipo_usuario=="tutor"||$user->tipo_usuario=="subdirector"||$user->tipo_usuario=="director")
                             <div class="tab-pane fade" id="account-escolar_docente">
                                 <div class="card-body pb-2">
                                     <div class="form-group">
@@ -156,9 +158,17 @@
                                         <input type="text" class="form-control" value="{{$datos_user->cedula_profesional}}" placeholder="Ingrese su cédula profesional" disabled>
                                         <div class="clearfix"></div>
                                     </div>
-
+                                    <div class="form-group">
+                                        <label class="form-label">Estudios Académicos</label>
+                                        <textarea name="" id="" cols="30" rows="10" class="form-control">{{$datos_user->estudios_docente}}</textarea>
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
                             </div>
+                        @endif
+                        @if ($user->tipo_usuario=="tutor")
+
+
                         @endif
                         <div class="tab-pane fade" id="account-change-password">
                             <div class="card-body pb-2">
@@ -188,7 +198,7 @@
                                      </div>
                                 </div>
                                 <div class="text-right mt-3">
-                                    <button type="button" class="btn btn-primary btn_change_password">Actualizar</button>
+                                    <button type="button" class="btn btn-primary btn_change_password">Actualizar contraseña</button>
                                 </div>
                             </div>
                         </div>

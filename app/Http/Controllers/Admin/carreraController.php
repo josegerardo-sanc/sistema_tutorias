@@ -24,7 +24,12 @@ class carreraController extends Controller
             ->where('carrera','=',$carrera->{'id_carrera'})
             ->count();
 
+            $tutores = DB::table('asignacion')
+            ->where('carrera','=',$carrera->{'id_carrera'})
+            ->count();
+
           $Listcarreras[$key]->{'numero_alumnos'}=$count_alumnos;
+          $Listcarreras[$key]->{'numero_tutores'}=$tutores;
         }
 
 

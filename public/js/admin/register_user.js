@@ -40,7 +40,7 @@ $('#tipo_usuario').on('change',function(){
    }
    if(tipo_user=="tutor"){
         $('#conte_matricula').css({'display':'none'});
-        $('#conte_periodo').css({'display':'none'});
+        $('#conte_periodo').css({'display':''});
         $('#contenedor_horario_tutor').css({'display':''});
         $('#conte_alumno_academico').show();
    }
@@ -78,9 +78,6 @@ $('.reset_formulario').on('click',function(){
     $('#formData_Datos_docente')[0].reset();
 
 });
-
-
-
 
 
 $('#Admin_btnRegisterUser').on('click',function(e){

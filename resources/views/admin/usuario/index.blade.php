@@ -44,6 +44,13 @@
                 <div class="col-sm-12 conte_confirm_success" style="margin:15px 0px;">
                     <div class="alert alert-success">
                         {{ session('status_confirm') }} <i class="fas fa-grin-stars"></i>
+                    </div>
+                </div>
+            @endif
+            @if(session('error_user'))
+                <div class="col-sm-12" style="margin:15px 0px;">
+                    <div class="alert alert-danger">
+                        {{ session('error_user') }}
                         </div>
                 </div>
             @endif
@@ -79,7 +86,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-2 form-group">
-                                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"  style="opacity: 0">Reset Carrera</label>
+                                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"  style="opacity:0">Reset</label>
                                         <button class="btn-sm btn btn-info" id="btn_reset_carrera_default">
                                             <i class="fas fa-redo"></i>
                                         </button>
@@ -103,13 +110,10 @@
 
                                     @include('admin.helpers.filtro_busqueda')
 
-                                    <div class="col-sm-12 mt-4 d-flex justify-content-end">
-                                        <div>
+                                    <div class=" row col-sm-12 mt-4 d-flex flex-wrap">
                                         <button type="button" class="btn mr-2 BTN_SEND_SEARCH" style="background-color:#B16A26;color:white">Consultar</button>
                                         <button type="button" class="btn mr-2 BTN_LIMPIAR_FILTRO" style="background-color:#E7E6E5;color:black; margin:0px 4px;">Limpiar</button>
                                         <button type="button" class="btn mr-2 BTN_OCULTAR_FILTRO" style="background-color:#B6B4B4;color:black">Ocultar</button>
-
-                                        </div>
                                     </div>
 
                                     <div class="col-sm-12 form-group">
@@ -179,9 +183,10 @@
                                             <div class="dropdown">
                                                 <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item btn_editar_user_index" href="{{url('/Admin/user/'.$usuario->id.'/edit')}}">Edit</a>
-                                                    <!-- <a class="dropdown-item" href="#">History</a>
-                                                    <a class="dropdown-item" href="#">Trash</a> -->
+                                                    <a class="dropdown-item btn_editar_user_index" href="{{url('/Admin/user/'.$usuario->id.'/edit')}}">Editar</a>
+                                                    <a class="dropdown-item" href="{{url('/Admin/user/'.$usuario->id.'/eliminar')}}">Eliminar</a>
+                                                    {{-- <a class="dropdown-item" href="#">History</a> --}}
+                                                    {{-- <a class="dropdown-item" href="#">Trash</a> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -202,7 +207,7 @@
                                         $fecha_registro =date('d-m-Y',strtotime($usuario->fecha_registro));
                                     ?>
                                     <p class="mb-3 text-muted"><i class="fas fa-user-tag"></i> </i>{{$usuario->tipo_usuario}} </p>
-                                    <p class="mb-1"><b>Email : </b><a href="mailto:dummy@example.com">{{$usuario->email }}</a></p>
+                                    <p class="mb-1"><b>Email : </b><a href="#">{{$usuario->email }}</a></p>
                                     <small>Fecha de registro {{$fecha_registro }}</small>
                                     <!-- <small>ruta:{{url('/Admin/user/'.$usuario->id.'/edit')}}</small> -->
                                 </div>
@@ -457,7 +462,6 @@
 
         GetDataUserDB(object_form_FILTRO_BUSQUEDA)
 
-
     });
 
 
@@ -555,6 +559,7 @@
                                                     <a class="drp-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-horizontal"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a class="dropdown-item btn_editar_user_index" href="/Admin/user/${usuario.id}/edit">Editar</a>
+                                                        <a class="dropdown-item" href="/Admin/user/${usuario.id}/eliminar">Eliminar</a>
                                                     </div>
                                                 </div>
                                             </div>

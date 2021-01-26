@@ -121,9 +121,13 @@
                        </div>
                     </div>
                     <div>
-                        <h3 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">
-                            Iniciar sesión
+                        <h3 class="mt-4 mb-2 font-italic text-justify d-flex justify-content-center text-primary">
+                            Tecnológico Nacional de México </br>
+                            Dirección académica y coordinación de tutorías
                         </h3>
+                        {{-- <h5 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">
+                            Iniciar sesión
+                        </h5> --}}
                     </div>
                     <div class="form-group" style="width: 100%">
                         @if(session('status_confirm'))
@@ -282,7 +286,9 @@
 
                             $('.conte_mensaje').html(
                            `<div div class='alert alert-warning alert-dismissible fade show'>
-                                <i class="fas fa-thumbs-up"></i>  Bienvendio ${datos.nombre} ${datos.ap_paterno}
+                                <ul>
+                                    <li><i class="fas fa-thumbs-up"></i>  Bienvenido ${datos.nombre} ${datos.ap_paterno}</li>
+                                </ul>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>`);
 

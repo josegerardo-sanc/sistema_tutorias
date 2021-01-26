@@ -32,7 +32,8 @@
                     <thead>
                         <tr>
                             <th>Carrera</th>
-                            <th>N# Alumnos</th>
+                            <th>N# alumnos</th>
+                            <th>N# tutores</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -44,6 +45,9 @@
                                 </td>
                                 <td>
                                     {{$carrera->numero_alumnos}}
+                                </td>
+                                <td>
+                                    {{$carrera->numero_tutores}}
                                 </td>
                                 <td>
                                     <div>

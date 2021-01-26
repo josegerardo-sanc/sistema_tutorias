@@ -15,7 +15,7 @@
 
     <!-- [ content ] Start -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#B16A26" id="titulo_module_asignacion">Nueva Asignacion</h4>
+        <h4 class="display-4" style="color:#B16A26" id="titulo_module_asignacion">Asignación grupal</h4>
         {{-- @include('admin.usuario.navar') --}}
 
         <div class="row">
@@ -82,6 +82,13 @@
                         <option value="B">B</option>
                     </select>
                 </div>
+                <div class="col-sm-12 form-group">
+                    <label class="form-label">Periodo</label>
+                    <select class="form-control" name="periodo_asignacion" id="periodo_asignacion">
+                        <option value="1" selected>FEBRERO-JULIO</option>
+                        <option value="2">AGOSTO-DICIEMBRE</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <button
                         title="Horario del tutor"
@@ -115,11 +122,12 @@
                 <table id="table_tutores" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Fec.asignacion</th>
+                            <th>Fec.asignación</th>
                             <th>Tutor</th>
                             <th>Carrera</th>
                             <th>Semestre</th>
                             <th>Turno</th>
+                            <th>Periodo</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -132,6 +140,7 @@
                                     <td>{{$user->carrera}}</td>
                                     <td>{{$user->semestre}}º Semestre</td>
                                     <td>{{$user->turno." Grupo ".$user->grupo}}</td>
+                                    <td>{{$user->periodo}}</td>
                                     <td>
                                         <div>
                                             <button class="btn btn-info ver_lista_de_alumnos" type="button"
@@ -141,6 +150,7 @@
                                                 data-carrera_text="{{$user->carrera}}"
                                                 data-turno="{{$user->turno}}"
                                                 data-grupo="{{$user->grupo}}"
+                                                data-periodo="{{$user->periodo}}"
                                                 title="Lista de alumnos"
                                                 {{$user->COUNT_ALUMNOS<=0?'disabled':''}}
                                                 >
@@ -161,6 +171,7 @@
                                                 data-id="{{$user->id}}"
                                                 data-id_asignacion="{{$user->id_asignacion}}"
                                                 data-user_id_asignacion="{{$user->user_id_asignado}}"
+                                                data-periodo="{{$user->periodo}}"
                                               title="Editar registro">Editar
                                             </button>
                                              <button class="btn btn-link btn_ver_horario_tutor"
@@ -175,16 +186,6 @@
                         @endforeach
 
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Fec.asignacion</th>
-                            <th>Tutor</th>
-                            <th>Carrera</th>
-                            <th>Semestre</th>
-                            <th>Turno</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -254,6 +255,15 @@
 var users_tutores=[];
     users_tutores=<?php echo json_encode($users_tutores) ?>;
     console.log(users_tutores)
+
+    $('#table_tutores').DataTable({
+        "order": [
+            [0, 'desc'],
+            [1, 'desc']
+        ],
+        "language":language
+    });
+
 </script>
 <script src="{{asset('js/helpers/Ajax_fail.js')}}"></script>
 <script src="{{asset('js/admin/horario_tutor.js')}}"></script>

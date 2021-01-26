@@ -1,17 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
 
 // Route::get('/generar/pdf/pruebas','PDF\pdfController@pruebas_pdf');
 
@@ -29,16 +17,26 @@ Route::get('/plantilla/correo', function () {
 Route::get('/', function () {
     //return view('welcome');
     return view('inicio');
-});
+})->name('inicio');
 
 // Auth::routes();
 
+
 Route::group(['middleware' => ['role:Administrador','auth']], function () {
+
+    // graficar
+    Route::get('/evaluacion','Admin\evaluaciones\evaluacionController@index');
+    Route::get('/seguimientoActividad/tutorial/','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorial');
+    Route::post('/seguimientoActividad/tutorial/enviarData','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorialStore');
+    Route::post('/obtenerlistaSegumiento/tutorial','Admin\evaluaciones\evaluacionController@obtenerlistaSegumiento');
+
     // carreras
+
     Route::resource('/Admin/carreras','Admin\carreraController');
     Route::resource('/Admin/user','Admin\Usuario\UsuarioController');
     Route::post('/Admin/user/cuenta', 'Admin\Usuario\UsuarioController@cuentaUser');
     Route::post('/Admin/user/actualizar/{id}', 'Admin\Usuario\UsuarioController@actualizar');
+    Route::get('/Admin/user/{id}/eliminar', 'Admin\Usuario\UsuarioController@eliminar_usuario');
     // asignacion grupal
     Route::resource('/Admin/Asignacion', 'Admin\Usuario\AsignacionesController');
     Route::post('/Admin/Asignacion/getListaAlumnos', 'Admin\Usuario\AsignacionesController@getListaAlumnos');
@@ -127,9 +125,7 @@ Route::group(['middleware' => ['role:Subdirector','auth']], function () {
 });
 
 
-// helpers
-
-
+//helpers
 Route::post('/Admin/carreras/getCarreras','Admin\carreraController@getCarreras');
 // helpers
 Route::post('/helpers/codePostal', 'helpers\CodepostalController@GetCodePostal');

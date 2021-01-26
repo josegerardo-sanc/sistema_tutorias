@@ -27,7 +27,10 @@ class CuestionarioController extends Controller
         ->where('users.id','=',$id_user_logueado)
         ->get();
 
-        $tutor= DB::table('users')
+
+
+        // dd($MisDatos);
+         $tutor= DB::table('users')
         ->leftJoin('asignacion','users.id', '=', 'asignacion.user_id_asignado')
         ->leftJoin('carreras','asignacion.carrera', '=', 'carreras.id_carrera')
         ->where('asignacion.carrera','=',$MisDatos[0]->carrera)
@@ -36,11 +39,14 @@ class CuestionarioController extends Controller
         ->where('asignacion.grupo','=',$MisDatos[0]->grupo)
         ->select('users.*','asignacion.*','carreras.carrera as name_carrera')
         ->get();
+
         // dd($tutor);
+
         $preguntas= DB::table('preguntas')
         ->orderBy('id_pregunta', 'asc')
         ->get();
 
+        // dd($preguntas);
 
         $periodo="";
         $mes_actual=date("n");
@@ -51,15 +57,18 @@ class CuestionarioController extends Controller
             $periodo="FEBRERO-JULIO";
         }
 
+        $id_tutor=isset($tutor[0]->user_id_asignado)?$tutor[0]->user_id_asignado:0;
+
         $cuestionario= DB::table('cuestionario')
         ->where('tipo_cuestionario','=','grupal')
         ->where('id_user_alumno','=',$id_user_logueado)
-        ->where('id_user_tutor','=',$tutor[0]->user_id_asignado)
+        ->where('id_user_tutor','=',$id_tutor)
         ->where('periodo','=',$periodo)
         ->get();
 
 
         // dd($cuestionario);
+
         $periodo="";
         $mes_actual=date("n");
         //'FEBRERO-JULIO','AGOSTO-DICIEMBRE'

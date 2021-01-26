@@ -363,7 +363,7 @@
                                 listCarrera+=`<option value='${iterator.id_carrera}' ${iterator.id_carrera==id_carrera?'selected':''}>${iterator.carrera}</option>`;
                             }
                         }else{
-                            listCarrera="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARON REGISTROS bubu</option>"
+                            listCarrera="<option value='0' disabled selected style='color:red;'>NO SE ENCONTRARON REGISTROS</option>"
                         }
                         $('.carreras_select').html(listCarrera);
 

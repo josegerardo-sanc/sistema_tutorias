@@ -20,7 +20,6 @@ class AsignacionesController extends Controller
         ->where('tipo_usuario','=','tutor')
         ->get();
 
-
         foreach ($users_tutores as $key => $user) {
             $count_alumnos=0;
 
@@ -30,10 +29,13 @@ class AsignacionesController extends Controller
                 ->where('semestre','=',$user->{'semestre'})
                 ->where('turno','=',$user->{'turno'})
                 ->where('grupo','=',$user->{'grupo'})
+                ->where('periodo','=',$user->{'periodo'})
                 ->count();
             }
           $users_tutores[$key]->{'COUNT_ALUMNOS'}=$count_alumnos;
         }
+
+
         // dd($users_tutores);
         return view('admin.asignaciones.create',compact('users_tutores'));
 
@@ -51,6 +53,10 @@ class AsignacionesController extends Controller
         $id_user_asignacion=$data['id_user_asignacion'];
         $user_register=$data['id_user_register'];
         $action_update_save=trim($data['action_update_save']);
+        $periodo=$data['periodo'];
+
+
+        $periodo=$periodo=="1"?'FEBRERO-JULIO':'AGOSTO-DICIEMBRE';
 
         $horario=$data['horario_tutor'];
 
@@ -70,6 +76,8 @@ class AsignacionesController extends Controller
             $horario['viernes']="false";
         }
 
+
+
         $data['horario_tutor']=$horario;
         // return ['lunes'=>$data['horario_tutor']];
 
@@ -86,6 +94,7 @@ class AsignacionesController extends Controller
             ->where('semestre','=',$semestre)
             ->where('turno','=',$turno)
             ->where('grupo','=',$grupo)
+            ->where('periodo','=',$periodo)
             ->count();
 
             if($count_asignacion>=1){
@@ -102,6 +111,7 @@ class AsignacionesController extends Controller
                         'turno' => $turno,
                         'horario'=>$horario,
                         'grupo'=>$grupo,
+                        'periodo'=>$periodo
                     ]);
 
             $msg_success="<i class='fas fa-history'></i> ASIGNACIÓN ACTUALIZADA CON EXITO";
@@ -117,6 +127,7 @@ class AsignacionesController extends Controller
                 ->where('semestre','=',$semestre)
                 ->where('turno','=',$turno)
                 ->where('grupo','=',$grupo)
+                ->where('periodo','=',$periodo)
                 ->count();
 
                 if($count_asignacion>=1){
@@ -136,7 +147,8 @@ class AsignacionesController extends Controller
                             'fecha_created' =>$fecha_actual->format('Y-m-d h:i:s'),
                             'user_register'=>$user_register,
                             'user_id_asignado' => $id_user_asignacion,
-                            'horario'=>$horario
+                            'horario'=>$horario,
+                            'periodo'=>$periodo
                         ]
                     );
 
@@ -168,6 +180,7 @@ class AsignacionesController extends Controller
                 ->where('semestre','=',$user->{'semestre'})
                 ->where('turno','=',$user->{'turno'})
                 ->where('grupo','=',$user->{'grupo'})
+                ->where('periodo','=',$user->{'periodo'})
                 ->count();
             }
           $users_tutores[$key]->{'COUNT_ALUMNOS'}=$count_alumnos;
@@ -186,6 +199,7 @@ class AsignacionesController extends Controller
         $id_carrera=$data_post['id_carrera'];
         $turno=$data_post['turno'];
         $grupo=$data_post['grupo'];
+        $periodo=$data_post['periodo'];
 
         $data= DB::table('users')
         ->leftJoin('datos_alumnos','users.id', '=', 'datos_alumnos.user_id_alumno')
@@ -194,6 +208,7 @@ class AsignacionesController extends Controller
         ->where('datos_alumnos.semestre','=',$semestre)
         ->where('datos_alumnos.turno','=',$turno)
         ->where('datos_alumnos.grupo','=',$grupo)
+        ->where('datos_alumnos.periodo','=',$periodo)
         ->get();
 
         return json_encode(['data'=>$data,'status'=>200]);
