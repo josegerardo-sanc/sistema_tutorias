@@ -224,7 +224,7 @@ $('#filtro_carrera_escolar').on('change',function(){
                     if(json.data.length>0){
                         tutoresOptions="<option value='0' disabled selected>Seleccione un tutor</option>";
                         for (const iterator of json.data) {
-                            tutoresOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno}</option>`;
+                            tutoresOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno!=""?iterator.ap_paterno:""} ${iterator.ap_materno!=""?iterator.ap_materno:""}</option>`;
                         }
                         $('#init_selecte_tutores').html(tutoresOptions).removeAttr('disabled');
                     }else{
@@ -236,7 +236,7 @@ $('#filtro_carrera_escolar').on('change',function(){
                     if(json.alumnos.length>0){
                         alumnosOptions="<option value='0' disabled selected>Seleccione un alumno</option>";
                         for (const iterator of json.alumnos) {
-                            alumnosOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno} --${iterator.matricula}</option>`;
+                            alumnosOptions+=`<option value='${iterator.id}'>${iterator.nombre} ${iterator.ap_paterno!=""?iterator.ap_paterno:""} ${iterator.ap_materno!=""?iterator.ap_materno:""} --${iterator.matricula}</option>`;
                         }
                         $('#init_selecte_alumnos').html(alumnosOptions).removeAttr('disabled');
                     }else{

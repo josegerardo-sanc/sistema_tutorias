@@ -483,7 +483,7 @@
                     tr+=`
                         <tr style="width:100%">
                             <td>${item.created_at}</td>
-                            <td><a href="#" class="btn-link">${item.nombre} ${item.ap_paterno} ${item.ap_materno}</a></td>
+                            <td><a href="#" class="btn-link">${item.nombre} ${item.ap_paterno!=""?item.ap_paterno:""} ${item.ap_materno!=""?item.ap_materno:""}</a></td>
                             <td>${item.matricula}</td>
                             <td>${item.curp}</td>
                             <td>${item.email}</td>

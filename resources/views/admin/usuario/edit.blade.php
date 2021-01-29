@@ -372,7 +372,7 @@
 
     $('#conte_alumno_academico').hide();
     $('#conte_docente_academico').hide();
-
+    var horario_asignadas_tutor="";
 
     if (tipo_user_selected == "alumno") {
 
@@ -455,8 +455,8 @@
 
         let horario =JSON.parse({!! isset($usersData[0]->horario)?json_encode($usersData[0]->horario):"{}" !!});
         console.log(horario);
-        // var horario_asignadas_tutor=horario;
-        // console.log(horario)
+        horario_asignadas_tutor=horario;
+        console.log(horario)
         Mostrar_Horario_tutor(horario);
 
     }

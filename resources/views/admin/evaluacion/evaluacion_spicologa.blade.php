@@ -470,7 +470,7 @@ function obtenerListutoresAsignadoCarrera(id_carrera,id_tutor){
                     if(json.data.length>0){
                         tutoresOptions="<option value='0' disabled selected>Seleccione un tutor</option>";
                         for (const iterator of json.data) {
-                            tutoresOptions+=`<option value='${iterator.id}' ${iterator.id==id_tutor?'selected':''}>${iterator.nombre} ${iterator.ap_paterno}</option>`;
+                            tutoresOptions+=`<option value='${iterator.id}' ${iterator.id==id_tutor?'selected':''}>${iterator.nombre} ${iterator.ap_paterno!=""?iterator.ap_paterno:""} ${iterator.ap_materno!=""?iterator.ap_materno:""}</option>`;
                         }
                         $('#init_selecte_tutores').html(tutoresOptions).removeAttr('disabled');
                     }else{
