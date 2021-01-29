@@ -92,7 +92,7 @@
                                     <td>
                                         <button type="button" class="btn btn-link btn_ver_tutor_AsigIndividual"
                                         data-id_tutor="{{$user->idTutor}}">
-                                        {{ucwords($user->nombre_tutor." ".$user->paterno_tutor)}}
+                                        {{ucwords($user->nombre)}} {{ucwords($user->ap_paterno!=""?$user->ap_paterno:"")}} {{ucwords($user->ap_materno!=""?$user->ap_materno:"")}}
                                         </button>
                                     </td>
                                     <td><button type="button" class="btn btn-link btn_ver_alumno_AsigIndividual"

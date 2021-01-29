@@ -30,11 +30,11 @@ class CodepostalController extends Controller
 
         if(isset($data['buscar_alumnos'])){
             $alumnos = DB::table('users')
-                            ->leftJoin('datos_alumnos','users.id','datos_alumnos.user_id_alumno')
-                            ->leftJoin('carreras','datos_alumnos.carrera','carreras.id_carrera')
-                            ->where('users.tipo_usuario','=','alumno')
-                            ->where('carreras.id_carrera','=',$id)
-                            ->get();
+            ->leftJoin('datos_alumnos','users.id','datos_alumnos.user_id_alumno')
+            ->leftJoin('carreras','datos_alumnos.carrera','carreras.id_carrera')
+            ->where('users.tipo_usuario','=','alumno')
+            ->where('carreras.id_carrera','=',$id)
+            ->get();
         }
         if(isset($data['buscar_carreras'])){
             $carreras = DB::table('carreras')->get();
@@ -43,13 +43,15 @@ class CodepostalController extends Controller
 
 
         try {
+
             $users_tutores = DB::table('asignacion')
-                                ->leftJoin('users','asignacion.user_id_asignado','users.id')
-                                ->where('asignacion.carrera','=',$id)
-                                ->where('users.tipo_usuario','=','tutor')
-                                ->get();
+            ->leftJoin('users','asignacion.user_id_asignado','users.id')
+            ->where('asignacion.carrera','=',$id)
+            ->where('users.tipo_usuario','=','tutor')
+            ->get();
 
              return json_encode(['status'=>200,'data'=>$users_tutores,'alumnos'=>$alumnos,'carreras'=>$carreras]);
+
         } catch (\Throwable $th) {
             return json_encode(['status'=>400,'info'=>'Se perdio la comunicación con el servidor, porfavor refresque la pagina F5.']);
 
