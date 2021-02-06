@@ -199,7 +199,7 @@
                                         <br>
                                          <span class="style25">Tipo de usuario: {{ucwords($msg['tipo_usuario'])}}</span>
                                          <br>
-                                         <span class="style25">Matricula: {{$msg['cedula_profesional']}}</span>
+                                         <span class="style25">Cedula Profesional: {{$msg['cedula_profesional']}}</span>
                                         <br><br>
                                     @endif
                                     @if($msg['tipo_usuario']=="administrador")
