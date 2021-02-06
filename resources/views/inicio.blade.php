@@ -123,11 +123,11 @@
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
                     <div class="d-flex justify-content-between flex-wrap">
-                        <div class="col-sm-12 col-md-8 d-flex align-items-center p-0 m-0" style="height:80px">
+                        <div class="col-sm-6 col-md-8 d-flex align-items-center p-0 m-0" style="height:80px">
                             <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
                             <strong  class="text-muted text_responsive_tecnologico"></strong>
                         </div>
-                        <div class="col-sm-12 col-md-4  d-flex justify-content-end align-items-center" style="height:80px">
+                        <div class="col-sm-6 col-md-4  d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
                                <i class="fab fa-facebook"></i>
                             </a>
@@ -193,7 +193,7 @@
                     </label>
                 </div>
                 <button type="button" class="btn btn-primary btn-block" id="btn_IniciarSesion">Iniciar Sesión</button>
-
+                <div style="margin-bottom: 30px;"></div>
                 <div class="form-group" style="margin-top:50px; display:none">
                     <a href="" class="fb connect" style="width: 100%"><i class="fab fa-facebook-square"></i> Iniciar Sesión Facebook</a>
                     <a href="" class="gmail" style="margin-top:20px;width: 100%"> <i class="fab fa-google-plus-square"></i> Iniciar Sesión Facebook</a>
