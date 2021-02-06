@@ -727,6 +727,8 @@ class UsuarioController extends Controller
         $usersData="";
         $user = DB::table('users')->where('id',$id)->first();
 
+        // dd($user);
+
         if($user==null || empty($user)){
             abort(404);
         }else{
@@ -754,7 +756,7 @@ class UsuarioController extends Controller
                 ->select('users.*','users.id AS id_user','datos_docentes.*')
                 ->where('users.id','=',$id)
                 ->get();
-            }else if($user->tipo_usuario!="administrador"){
+            }else if($user->tipo_usuario=="administrador"){
                 $usersData = DB::table('users')
                 ->select('users.*','users.id AS id_user')
                 ->where('users.id','=',$id)
@@ -762,8 +764,6 @@ class UsuarioController extends Controller
             }
 
         }
-
-        // dd($usersData);
         return view('admin.usuario.edit',compact('usersData'));
     }
 

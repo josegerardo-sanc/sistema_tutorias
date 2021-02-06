@@ -15,7 +15,7 @@ class UsuarioSeeder extends Seeder
      */
     public function run()
     {
-       // factory(App\User::class,300)->create();
+       factory(App\User::class,1000)->create();
 
         App\User::create([
             'tipo_usuario' => 'administrador',
