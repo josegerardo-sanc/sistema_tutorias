@@ -86,13 +86,16 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <p>Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes.</p>
+                                    <input type="radio" name="" class="" id="pregunta_1">
                                 </td>
                                 <td>
-                                    <input type="radio" name="" class="" id="pregunta_1">
+                                    <p>Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes.</p>
                                 </td>
                             </tr>
                             <tr>
+                                <td>
+                                    <input type="radio" name="" class="" id="pregunta_2">
+                                </td>
                                 <td>
                                     <p>
                                         Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
@@ -101,19 +104,19 @@
                                     </p>
 
                                 </td>
-                                <td>
-                                    <input type="radio" name="" class="" id="pregunta_2">
-                                </td>
                             </tr>
                             <tr>
-                                <td>
-                                   <p>Entrega los resportes en tiempo y forma</p>
-                                </td>
                                 <td>
                                     <input type="radio" name="" class="" id="pregunta_3">
                                 </td>
+                                <td>
+                                   <p>Entrega los resportes en tiempo y forma</p>
+                                </td>
                             </tr>
                             <tr>
+                                <td>
+                                    <input type="radio" name="" class="" id="pregunta_4">
+                                </td>
                                 <td>
                                     <p>
                                         Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
@@ -122,11 +125,11 @@
                                         Entrega reportes con evidencias de las actividades desarollada en el programa de accción tutorial en tiempo y forma
                                     </p>
                                 </td>
-                                <td>
-                                    <input type="radio" name="" class="" id="pregunta_4">
-                                </td>
                             </tr>
                             <tr>
+                                <td>
+                                    <input type="radio" name="" class="" id="pregunta_5">
+                                </td>
                                 <td>
                                 <p>
                                     Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
@@ -138,11 +141,8 @@
                                     </br>
                                     Elabora el plan de acción tutorial para el periodo escolar y da seguimiento.
                                 </p>
+                                </td>
 
-                                </td>
-                                <td>
-                                    <input type="radio" name="" class="" id="pregunta_5">
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -219,20 +219,31 @@ function ObtenerListaEvaluaciones(objecData,this_element){
                     if(json.data.length>0){
                         let html_table_evaluaciones="";
                         for (const item of json.data) {
+
+                            respuestas=JSON.parse(item.respuestas_evaluacion);
+                            console.log(respuestas);
+
                             html_table_evaluaciones+=`
-                               <h5 class="text-muted">
+                               <h5 class="text-muted text-primary">
                                 ${contador}.- Fecha de registro ${item.fecha_evaluacion} periodo ${item.periodo}</h5>
                                <table class="table table-responsive">
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <p>Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes.</p>
+                                                    ${respuestas.pregunta_1=="true"
+                                                    ?'<strong style="color:green;font-size:20px;"> <i class="far fa-check-square"></i></strong>'
+                                                    :'<strong style="color:red;font-size:20px;"> <i class="far fa-times-circle"></i></strong>'}
                                                 </td>
                                                 <td>
-                                                    <input type="radio" name="" class="" id="pregunta_1">
+                                                    <p>Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes.</p>
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td>
+                                                    ${respuestas.pregunta_2=="true"
+                                                    ?'<strong style="color:green;font-size:20px;"> <i class="far fa-check-square"></i></strong>'
+                                                    :'<strong style="color:red;font-size:20px;"> <i class="far fa-times-circle"></i></strong>'}
+                                                </td>
                                                 <td>
                                                     <p>
                                                         Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
@@ -241,19 +252,23 @@ function ObtenerListaEvaluaciones(objecData,this_element){
                                                     </p>
 
                                                 </td>
+                                            </tr>
+                                            <tr>
                                                 <td>
-                                                    <input type="radio" name="" class="" id="pregunta_2">
+                                                    ${respuestas.pregunta_3=="true"
+                                                    ?'<strong style="color:green;font-size:20px;"> <i class="far fa-check-square"></i></strong>'
+                                                    :'<strong style="color:red;font-size:20px;"> <i class="far fa-times-circle"></i></strong>'}
+                                                </td>
+                                                <td>
+                                                 <p>Entrega los resportes en tiempo y forma</p>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                <p>Entrega los resportes en tiempo y forma</p>
+                                                    ${respuestas.pregunta_4=="true"
+                                                    ?'<strong style="color:green;font-size:20px;"> <i class="far fa-check-square"></i></strong>'
+                                                    :'<strong style="color:red;font-size:20px;"> <i class="far fa-times-circle"></i></strong>'}
                                                 </td>
-                                                <td>
-                                                    <input type="radio" name="" class="" id="pregunta_3">
-                                                </td>
-                                            </tr>
-                                            <tr>
                                                 <td>
                                                     <p>
                                                         Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
@@ -262,11 +277,13 @@ function ObtenerListaEvaluaciones(objecData,this_element){
                                                         Entrega reportes con evidencias de las actividades desarollada en el programa de accción tutorial en tiempo y forma
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <input type="radio" name="" class="" id="pregunta_4">
-                                                </td>
                                             </tr>
                                             <tr>
+                                                <td>
+                                                    ${respuestas.pregunta_5=="true"
+                                                    ?'<strong style="color:green;font-size:20px;"> <i class="far fa-check-square"></i></strong>'
+                                                    :'<strong style="color:red;font-size:20px;"> <i class="far fa-times-circle"></i></strong>'}
+                                                </td>
                                                 <td>
                                                 <p>
                                                     Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
@@ -278,16 +295,10 @@ function ObtenerListaEvaluaciones(objecData,this_element){
                                                     </br>
                                                     Elabora el plan de acción tutorial para el periodo escolar y da seguimiento.
                                                 </p>
-
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="" class="" id="pregunta_5">
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>`;
-
-
                             contador=contador+1;
                         }
 
@@ -311,7 +322,7 @@ $('#carreras').on('change',function(){
     let carrera_text=$('#carreras option:selected').text();
 
     $('#carrera_selecionada').html(carrera_text);
-
+    $('#contenedor_busqueda_personalizada').html("");
     obtenerListutoresAsignadoCarrera(id_carrera);
 });
 
@@ -423,8 +434,7 @@ function EnviarData(objectData,this_element){
                     $('.contenedor_exception').html(`<div class='alert alert-danger alert-dismissible fade show'><ul style="margin:0px;padding:5px;">${json.info}</ul></div>`);
                 }
                 if(json.status=="200"){
-
-
+                    $('.contenedor_exception').html(`<div class='alert alert-success alert-dismissible fade show'>${json.info}</div>`);
                 }
                 $("html, body").animate({ scrollTop: 0 }, 600);
 

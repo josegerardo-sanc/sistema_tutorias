@@ -87,13 +87,13 @@
         <li class="sidenav-item">
             <a href="{{url('/evaluacion')}}" class="sidenav-link">
                 <i class="sidenav-icon fas fa-chart-bar"></i>
-                <div>Grafica-evaluación tutor</div>
+                <div>Grafica de evaluación tutor</div>
             </a>
         </li>
         <li class="sidenav-item">
             <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
                 <i class="sidenav-icon fas fa-tasks"></i>
-                <div>Segumiento actividad tutorial</div>
+                <div>Seguimiento actividad tutorial</div>
             </a>
         </li>
         @endrole
@@ -146,7 +146,7 @@
                     <li class="sidenav-item">
                         <a href="{{url('reportes/reportes_enviados')}}" class="sidenav-link">
                             <i class="sidenav-icon fas fa-file"></i>
-                            <div>Reportes de tutores</div>
+                            <div>Reporte de tutores</div>
                         </a>
                     </li>
                 @endrole

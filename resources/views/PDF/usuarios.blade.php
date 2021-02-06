@@ -78,7 +78,7 @@
                  @foreach ($users as $item)
                  <tr>
                      <td>{{$item->tipo_usuario}}</td>
-                     <td>{{ucwords($item->nombre." ".$item->ap_paterno."".$item->ap_materno)}}</td>
+                     <td>{{ucwords($item->nombre." ".$item->ap_paterno." ".$item->ap_materno)}}</td>
                      <td>{{$item->curp}}</td>
                      <td>{{$item->telefono}}</td>
                      <td>{{$item->email}}</td>

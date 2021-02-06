@@ -17,7 +17,7 @@
 <div class="layout-content">
 
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="display-4" style="color:#DF480F" id="titulo_module_asignacion">Asignacion individual</h4>
+        <h4 class="display-4" style="color:#DF480F" id="titulo_module_asignacion">Asignació individual</h4>
 
         <div class="row">
             <div class="col-sm-12 error_alert_container">
@@ -86,13 +86,17 @@
                             </tr>
                         </thead>
                         <tbody id="table_asignacion_individuales_body">
+
+                            {{-- {{
+                                dd($asignacionIndividuales)
+                            }} --}}
                             @foreach ($asignacionIndividuales as $user)
                                 <tr>
                                     <td>{{$user->fecha_created}}</td>
                                     <td>
                                         <button type="button" class="btn btn-link btn_ver_tutor_AsigIndividual"
                                         data-id_tutor="{{$user->idTutor}}">
-                                        {{ucwords($user->nombre)}} {{ucwords($user->ap_paterno!=""?$user->ap_paterno:"")}} {{ucwords($user->ap_materno!=""?$user->ap_materno:"")}}
+                                        {{ucwords($user->nombre_tutor)}} {{ucwords($user->paterno_tutor!=""?$user->paterno_tutor:"")}} {{ucwords($user->materno_tutor!=""?$user->materno_tutor:"")}}
                                         </button>
                                     </td>
                                     <td><button type="button" class="btn btn-link btn_ver_alumno_AsigIndividual"
@@ -174,6 +178,7 @@
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap4.min.js"></script>
+
 
 <link rel="stylesheet" href="{{asset('dashboard_assets/libs/bootstrap-select/bootstrap-select.css')}}">
 <script src="{{asset('dashboard_assets/libs/select2/select2.js')}}"></script>
@@ -560,7 +565,9 @@ function CrearTablaAsignacionIndividual(data){
     $('#table_asignacion_individuales').DataTable().clear().destroy();
     $('#table_asignacion_individuales_body').html(filas);
     $('#table_asignacion_individuales').DataTable({
-        "order": [[ 0, 'desc' ], [ 1, 'desc' ]]
+        "order": [[ 0, 'desc' ], [ 1, 'desc' ]],
+        "language":language
+
     });
 
 }

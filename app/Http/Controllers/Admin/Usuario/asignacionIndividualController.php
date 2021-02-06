@@ -30,7 +30,7 @@ class asignacionIndividualController extends Controller
         ->leftJoin('users as alumno', 'alumno.id', '=', 'asig.id_user_alumno')
         ->leftJoin('datos_alumnos AS dt_alumno', 'alumno.id', '=', 'dt_alumno.user_id_alumno')
         ->select(
-            'tutor.nombre as nombre_tutor','tutor.ap_paterno as paterno_tutor','alumno.nombre as nombre_alumno','alumno.ap_paterno as paterno_alumno','dt_alumno.matricula'
+            'tutor.nombre as nombre_tutor','tutor.ap_paterno as paterno_tutor','tutor.ap_materno as materno_tutor','alumno.nombre as nombre_alumno','alumno.ap_paterno as paterno_alumno','dt_alumno.matricula'
             ,'asig.fecha_created','asig.id_asignacion_individual as idAsignacionIndividual','tutor.id as idTutor','alumno.id as idAlumno')
         ->get();
 

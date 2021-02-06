@@ -173,8 +173,8 @@
                                         <label for="archivo_dirigido_selected" class="col-form-label">Dirigido</label>
                                         <select name="" id="archivo_dirigido_selected" class="custom-select">
                                             <option value="0" selected disabled>seleccione una opción</option>
-                                            <option value="1">Alumno</option>
-                                            <option value="2">Tutores</option>
+                                            <option value="1">Formato para alumnos</option>
+                                            <option value="2">Formato para tutores</option>
                                         </select>
                                   </div>
                                   {{-- col --}}

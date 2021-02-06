@@ -125,7 +125,7 @@
                     <div class="d-flex justify-content-between flex-wrap">
                         <div class="col-sm-12 col-md-8 d-flex align-items-center p-0 m-0" style="height:80px">
                             <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
-                            <strong  class="text-muted text_responsive_tecnologico">Instituto Tecnológico Superior de la Región Sierra.</strong>
+                            <strong  class="text-muted text_responsive_tecnologico"></strong>
                         </div>
                         <div class="col-sm-12 col-md-4  d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
@@ -142,8 +142,10 @@
                     <div>
                         <h3 class="mt-4 mb-2 font-italic text-justify d-flex justify-content-center text-primary text_responsive">
                             Tecnológico Nacional de México
-                            Dirección académica y coordinación de tutorías
                         </h3>
+                        <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Instituto Tecnológico Superior de la Región Sierra</span>
+                        <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Dirección académica y coordinación de tutorías</span>
+
                         {{-- <h5 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">
                             Iniciar sesión
                         </h5> --}}
@@ -305,7 +307,7 @@
 
                             $('.conte_mensaje').html(
                            `<div div class='alert alert-warning alert-dismissible fade show'>
-                                <ul>
+                                <ul style="list-style:none;margin:0px;padding:0px;">
                                     <li><i class="fas fa-thumbs-up"></i>  Bienvenido ${datos.nombre} ${datos.ap_paterno}</li>
                                 </ul>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

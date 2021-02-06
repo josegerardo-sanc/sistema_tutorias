@@ -95,7 +95,7 @@
              <tbody>
                  @foreach ($users as $item)
                  <tr>
-                     <td colspan="2"><strong>{{ucwords($item->nombre." ".$item->ap_paterno."".$item->ap_materno)}}</strong></td>
+                     <td colspan="2"><strong>{{ucwords($item->nombre." ".$item->ap_paterno." ".$item->ap_materno)}}</strong></td>
                      <td><strong>{{$item->curp}}</strong></td>
                      <td><strong>{{$item->telefono}}</strong></td>
                      <td><strong>{{$item->email}}</strong></td>
