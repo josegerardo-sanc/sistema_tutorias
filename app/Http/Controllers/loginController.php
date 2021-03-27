@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
+
 
 use App\User;
+use App\SocialProfile;
+
 use Exception;
 
 // use Spatie\Permission\Models\Role;
@@ -19,10 +21,109 @@ use App\Mail\MessageResetPassword;
 use Illuminate\Support\Facades\Mail;
 
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Laravel\Socialite\Facades\Socialite;
+
+
 class loginController extends Controller
 {
 
 
+    public function redirectToProvider($driver)
+    {
+
+
+        // dd(env('FACEBOOK_CLIENT_PUBLIC'));
+
+        $drivers = ['facebook', 'google'];
+
+        if(in_array($driver, $drivers)){
+            return Socialite::driver($driver)->redirect();
+        }else{
+            return redirect()->route('login')->with('info', $driver . ' no es una aplicación valida para poder loguearse');
+        }
+
+
+    }
+
+
+    public function handleProviderCallback(Request $request, $driver)
+    {
+        // dd($request);
+
+        if($request->get('error')){
+            return redirect()->route('inicio');
+        }
+
+        $userSocialite = Socialite::driver($driver)->user();
+
+
+        // dd($userSocialite->getEmail());
+
+        // $social_profile = SocialProfile::where('social_id', $userSocialite->getId())
+        //                                 ->where('social_name', $driver)->first();
+     
+        $social_profile = DB::table('social_profiles')
+                             ->where('name','=',"facebook")
+                             ->where('email','=',$userSocialite->getEmail())->first();
+
+        
+
+        // dd($social_profile);
+
+        if(!$social_profile){
+
+            return redirect('/')
+            ->with('status_confirm',"La cuenta de {$driver} no esta registrada, vaya al apartado de perfil de su cuenta en redes sociales y dele de alta.");
+                //     // if(!$user){
+                //     //     $user = User::create([
+                //     //         'name' => $userSocialite->getName(),
+                //     //         'email'=> $userSocialite->getEmail(),
+                //     //     ]);
+                //     // }
+
+                //     // $social_profile = SocialProfile::create([
+                //     //     'user_id' => $user->id,
+                //     //     'social_id' => $userSocialite->getId(),
+                //     //     'social_name' => $driver,
+                //     //     'social_avatar'  => $userSocialite->getAvatar()
+                //     // ]);
+        }
+
+       
+
+        $user = User::where('id', $social_profile->id_user)->first();
+
+        // dd($user);
+
+        $msg=ucwords($user->nombre)." Has iniciado sesión con {$driver}.";
+
+          auth()->login($user);
+
+            if($user->tipo_usuario=="tutor"){
+                return redirect('/tutor')->with('status_confirm',$msg);
+            }
+            if($user->tipo_usuario=="alumno"){
+                return redirect('/alumno')->with('status_confirm',$msg);
+            }
+            if($user->tipo_usuario=="director"){
+                return redirect('/director')->with('status_confirm',$msg);
+
+            }
+            if($user->tipo_usuario=="subdirector"){
+                return redirect('/subdirector')->with('status_confirm',$msg);
+
+            }
+            if($user->tipo_usuario=="administrador"){
+                return redirect('/Admin/user')->with('status_confirm',$msg);
+            }
+
+          return redirect('/')->with('status_confirm','Lo sentimos no tienes ningun perfil,comunicate con tu tutor');
+        // return redirect()->route('home');
+    }
+
+   
 
     public function cerrarSesion(){
 
@@ -115,12 +216,13 @@ class loginController extends Controller
         $user=auth()->user();
 
         // dd($user);
+
         $domicilio= DB::table('codigos')
         ->where('codigo','=',$user->code_postal)
         ->where('id',$user->localidad)
         ->first();
 
-        $datos_user="";
+        $datos_user=[];
         if($user->tipo_usuario=="alumno"){
             $datos_user=DB::table('datos_alumnos')
             ->leftJoin('carreras', 'datos_alumnos.carrera', '=', 'carreras.id_carrera')
@@ -146,9 +248,89 @@ class loginController extends Controller
 
         // dd($datos_user);
 
+        $dataSocialiteProfile=DB::table('social_profiles')
+        ->where('id_user','=',$user->id)
+        ->get();
+
+        $user->{'facebook'}=$user->email;
+        $user->{'gmail'}=$user->email;
+
+        foreach ($dataSocialiteProfile as $key => $redSocial) {
+            if($redSocial->name=="facebook"){
+                $user->{'facebook'}=$redSocial->email;
+            }
+            if($redSocial->name=="gmail"){
+                $user->{'gmail'}=$redSocial->email;
+            }
+        }
+        // dd($user);
         return view('myperfil.perfil',compact('user','domicilio','datos_user'));
 
     }
+
+
+    public function change_cuentas_social(Request $request){
+        
+        $data=$request->all();
+        $user=auth()->user();
+        $MENSAJE_ERROR="";
+
+        if($data['facebook_socialite']==""){
+            $MENSAJE_ERROR.="<li>Si no cuentas con cuenta de Facebook ,ingresa el correo con el que te diste de alta</li>";
+        }
+
+        if($data['gmail_socialite']==""){
+            $MENSAJE_ERROR.="<li>Si no cuentas con cuenta de Gmail ,ingresa el correo con el que te diste de alta.</li>";
+        }
+        
+        if($MENSAJE_ERROR!=""){
+            return json_encode(['status'=>400,'info'=>$MENSAJE_ERROR]);
+        }
+
+
+
+        try {
+             $social_profiles = DB::table('social_profiles')->count();
+
+            //  return json_encode(['status'=>200,'info'=>'Registro de cuenta exitoso']);
+            
+            $data['facebook_socialite']=trim($data['facebook_socialite']);
+            $data['gmail_socialite']=trim($data['gmail_socialite']);
+
+             if($social_profiles<=0){
+
+                    DB::table('social_profiles')->insert([
+                        ['email' =>$data['facebook_socialite'], 'name' =>"facebook",'id_user'=>$user->id],
+                        ['email' =>$data['gmail_socialite'], 'name' =>"gmail",'id_user'=>$user->id]
+                    ]);
+
+                    return json_encode(['status'=>200,'info'=>'Registro de cuenta exitoso']);
+
+                }else{
+                    $updateFacebook=DB::table('social_profiles')
+                    ->where('id_user',$user->id)
+                    ->where('name',"facebook")
+                    ->update(
+                        [
+                            'email' =>$data['facebook_socialite']
+                        ]);
+
+                    $updateGmail=DB::table('social_profiles')
+                    ->where('id_user',$user->id)
+                    ->where('name',"gmail")
+                    ->update([
+                        'email' =>$data['gmail_socialite']
+                        ]);
+
+                    return json_encode(['status'=>200,'info'=>'Actualizacion de cuenta exitoso']);
+             }
+
+        } catch (\Exception $e) {
+            return json_encode(['status'=>400,'info'=>'Se perdio comunicación con el servidor, intentelo de nuevo']);
+        }
+
+    }
+
     public function change_password_user(Request $request){
 
         $data=$request->all();
@@ -356,5 +538,8 @@ class loginController extends Controller
            return redirect('/')->with('status_confirm', 'Lo sentimos, ha ocurrido un error al querer verificar su cuenta</br> Intentelo de nuevo, si el error persiste acercate a control escolar.');
         }
     }
+
+
+
 
 }

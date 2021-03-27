@@ -4,6 +4,10 @@
 // Route::get('/generar/pdf/pruebas','PDF\pdfController@pruebas_pdf');
 
 
+
+
+
+
 Route::get('/generar_pdf','PDF\pdfController@usuarios');
 
 Route::get('/modificar_archivo_env','PDF\pdfController@modif_env');
@@ -20,6 +24,10 @@ Route::get('/', function () {
 })->name('inicio');
 
 // Auth::routes();
+
+
+Route::get('login/{driver}', 'loginController@redirectToProvider');
+Route::get('login/{driver}/callback', 'loginController@handleProviderCallback');
 
 
 Route::group(['middleware' => ['role:Administrador','auth']], function () {
@@ -154,11 +162,13 @@ Route::get('/password_reset/user/{id}', 'loginController@redirect_view_password_
 
 # 4.- guardar la contraseña que ingreso el usuario
 Route::post('/NuevoPassword_user/update', 'loginController@NuevoPassword_user');
+Route::post('/SocialProfile', 'loginController@SocialProfile');
 
 
 
 Route::get('/account_settings/{nombre}', 'loginController@perfil_account_settings_view');//authenticate
 Route::post('/change_password_user', 'loginController@change_password_user');//authenticate
+Route::post('/change_cuentas_social', 'loginController@change_cuentas_social');//authenticate
 Route::get('/ConfirmCorreo/{token}', 'loginController@ConfirmCorreo');//debe existir un id
 
 

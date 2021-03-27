@@ -50,6 +50,11 @@
                               <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-escolar_docente"><i class="far fa-eye"></i> Datos académicos</a>
                             @endif
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password"><i class="fas fa-key"></i> Cambiar contraseña</a>
+
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-socialprofile">
+                            <i class="fas fa-icons"></i>
+                            Cuentas-Redes sociales
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -202,29 +207,48 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- fin password --}}
+                        <div class="tab-pane fade" id="account-change-socialprofile">
+                            <div class="card-body pb-2">
+                                <div class="alert alert-warning" role="alert">
+                                    El ingresar tus cuentas de correo de facebook y gmail </br>
+                                    <strong>
+                                        te permitiran ingresar ala plataforma mediante la authenticación de redes sociales
+                                    </strong>
+                                    </br>
+                                    </br>
+                                    <small><i class='fas fa-exclamation-circle'></i> 
+                                        Si no cuentas con ninguna de estas ingresa el correo con el que te diste de alta. 
+                                    </small>
+                                  </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <img src="{{asset('storage/Recursos_sistema/facebook.png')}}" alt="gmail">
+                                         Correo Facebook
+                                    </label>
+                                    <input type="email" class="form-control" id="facebook_socialite" value="{{$user->facebook}}">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <img src="{{asset('storage/Recursos_sistema/gmail.svg')}}" alt="gmail">
+                                        Correo Gmail
+                                    </label>
+                                    <input type="email" class="form-control" id="gmail_socialite" value="{{$user->gmail}}">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="text-right mt-3">
+                                    <button type="button" class="btn btn-primary btn_change_cuentasRedesSociales">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- fin conter socialProfile --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- [ content ] End -->
-
-    <!-- [ Layout footer ] Start -->
-    <nav class="layout-footer footer footer-light">
-        <div class="container-fluid d-flex flex-wrap justify-content-between text-center container-p-x pb-3">
-            <div class="pt-3">
-                <span class="float-md-right d-none d-lg-block">&copy; Exclusive on Themeforest | Hand-crafted &amp; Made with <i class="fas fa-heart text-danger mr-2"></i></span>
-            </div>
-            <div>
-                <a href="javascript:" class="footer-link pt-3">About Us</a>
-                <a href="javascript:" class="footer-link pt-3 ml-4">Help</a>
-                <a href="javascript:" class="footer-link pt-3 ml-4">Contact</a>
-                <a href="javascript:" class="footer-link pt-3 ml-4">Terms &amp; Conditions</a>
-            </div>
-        </div>
-    </nav>
-    <!-- [ Layout footer ] End -->
-
 </div>
 @endsection
 
@@ -300,12 +324,10 @@ $('.btn_change_password').on('click',function(e){
 
     let error_msg="";
         if(password_actual==""||password_nueva==""||password_confirm==""){
-            error_msg="<li><i class='fas fa-exclamation-circle'></i> TODOS LOS CAMPOS SON REQUERIDOS.</li>";
+            error_msg="<i class='fas fa-exclamation-circle'></i> Los campos son obligatorios";
         }
 
-        if(password_nueva!=password_confirm){
-            error_msg+="<li> <i class='fas fa-exclamation-circle'></i>LA CONTRASEÑA DE CONFIRMACION NO COINCIDE.</li>";
-        }
+        
 
         if(error_msg!=""){
             alert=`
@@ -329,12 +351,12 @@ $('.btn_change_password').on('click',function(e){
         headers:{"X-CSRF-Token": csrf_token},
         data :object_change_password,
         beforeSend:function(){
-            $(this_element).attr('disabled','disabled');
+            $(this_element).html('Espere...........').attr('disabled','disabled');
         }
 
         }).done(function(respuesta){
             console.log(JSON.parse(respuesta));
-            $(this_element).removeAttr('disabled');
+            $(this_element).html('ACTUALIZAR CONTRASEÑA').removeAttr('disabled');
             let data=JSON.parse(respuesta);
             //console.log(data);
 
@@ -359,9 +381,81 @@ $('.btn_change_password').on('click',function(e){
 
         }).fail(function(jqXHR,textStatus) {
             ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
-            $(this_element).html(OBJECT_DATA.status).removeAttr('disabled');
+            $(this_element).html('ACTUALIZAR CONTRASEÑA').removeAttr('disabled');
         })
 
+
+});
+
+$('.btn_change_cuentasRedesSociales').on('click',function(e){
+    e.preventDefault();
+    $('.contenedor_exception').html('');
+
+    let this_element=$(this);
+    let facebook_socialite=$('#facebook_socialite').val();
+    let gmail_socialite=$('#gmail_socialite').val();
+    
+
+    let error_msg="";
+        if(facebook_socialite==""||gmail_socialite==""){
+            error_msg="<li><i class='fas fa-exclamation-circle'></i> TODOS LOS CAMPOS SON REQUERIDOS.</li>";
+        }
+
+        if(error_msg!=""){
+            alert=`
+                    <div class="alert alert-danger" role="alert">
+                        ${error_msg}
+                    </div>`;
+            $('.contenedor_exception').html(alert);
+            // $("html, body").animate({ scrollTop: 0 }, 600);
+            return false;
+        }
+
+        let object_change_cuentas={
+            'facebook_socialite':facebook_socialite,
+            'gmail_socialite':gmail_socialite
+        };
+
+        console.log(object_change_cuentas)
+
+    $.ajax({
+        url :'/change_cuentas_social',
+        type: "POST",
+        headers:{"X-CSRF-Token": csrf_token},
+        data :object_change_cuentas,
+        beforeSend:function(){
+            // $(this_element).html('Espere......').attr('disabled','disabled');
+        }
+
+        }).done(function(respuesta){
+            console.log(JSON.parse(respuesta));
+            $(this_element).html('ACTUALIZAR').removeAttr('disabled');
+            let data=JSON.parse(respuesta);
+            //console.log(data);
+
+            let alert="";
+            if(data.status=="400"){
+                alert=`
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    ${data.info}
+                </div>`;
+            }
+            if(data.status=="200"){
+                alert=`
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-thumbs-up"></i>
+                    ${data.info}
+                </div>`;
+            }
+
+            $('.contenedor_exception').html(alert);
+            $("html, body").animate({ scrollTop: 0 }, 600);
+
+        }).fail(function(jqXHR,textStatus) {
+            ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
+            $(this_element).html('ACTUALIZAR').removeAttr('disabled');
+        })
 
 });
 

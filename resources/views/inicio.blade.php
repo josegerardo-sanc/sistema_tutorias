@@ -57,11 +57,11 @@
          }
 
 		.text_responsive{
-                font-size: 30px;
-            }
-            .text_responsive_tecnologico{
-             font-size: 15px;
-            }
+                font-size: 20px;
+        }
+        .text_responsive_tecnologico{
+            font-size: 15px;
+        }
 
         @media (max-width: 769px) {
             .text_responsive{
@@ -80,6 +80,8 @@
 			}
 
         }
+
+
     </style>
 
 </head>
@@ -123,11 +125,8 @@
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
                     <div class="d-flex justify-content-between flex-wrap">
-                        <div class="col-sm-6 col-md-8 d-flex align-items-center p-0 m-0" style="height:80px">
-                            <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
-                            <strong  class="text-muted text_responsive_tecnologico"></strong>
-                        </div>
-                        <div class="col-sm-6 col-md-4  d-flex justify-content-end align-items-center" style="height:80px">
+                        <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
+                        <div class="d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
                                <i class="fab fa-facebook"></i>
                             </a>
@@ -181,9 +180,16 @@
                         </label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-key"></i></span>
+                          <span class="input-group-text"  style="background-color:white">
+                            <i class="fas fa-key"></i>
+                          </span>
                         </div>
                         <input type="password" class="form-control" id="CLAVE_USUARIO" placeholder="Ingresa tu clave" aria-label="CLAVE" aria-describedby="basic-addon1" maxlength="30">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="verPassword" style="background-color:white">
+                                <i class="far fa-eye-slash"></i>
+                            </span>
+                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end form-group" style="width:100%; margin-bottom:50px;">
@@ -194,10 +200,11 @@
                 </div>
                 <button type="button" class="btn btn-primary btn-block" id="btn_IniciarSesion">Iniciar Sesión</button>
                 <div style="margin-bottom: 30px;"></div>
-                <div class="form-group" style="margin-top:50px; display:none">
-                    <a href="" class="fb connect" style="width: 100%"><i class="fab fa-facebook-square"></i> Iniciar Sesión Facebook</a>
-                    <a href="" class="gmail" style="margin-top:20px;width: 100%"> <i class="fab fa-google-plus-square"></i> Iniciar Sesión Facebook</a>
-                </div>
+
+                </hr>
+                <a class="btn btn-block" style="background-color: #2E406E;color:white" href="{{url('login/facebook')}}">
+                    <i class="fab fa-facebook-square"></i> Facebook
+                </a>
 
             </div>
         </div>
@@ -211,10 +218,21 @@
 
     <script src="{{asset('js/helpers/Ajax_fail.js')}}"></script>
     <script src="{{asset('js/helpers/helpersCurpAPI.js')}}"></script>
+
     <script>
         let csrf_token=$('meta[name="csrf-token"]').attr('content');
         const headers_config={"Content-Type": "application/json","Accept": "application/json","X-Requested-With": "XMLHttpRequest","X-CSRF-Token":csrf_token};
 
+        $("#verPassword").on('click',function(){
+            console.log(document.getElementById('CLAVE_USUARIO').type)
+            if(document.getElementById('CLAVE_USUARIO').type=="text"){
+                $(this).html(`<i class="far fa-eye-slash"></i>`);
+                document.getElementById('CLAVE_USUARIO').type="password";
+            }else{
+                $(this).html(`<i class="far fa-eye"></i>`);
+                document.getElementById('CLAVE_USUARIO').type="text"
+            }
+        });
 
         $('#USUARIO_NUMERO').on('keyup',function(e){
                 e.preventDefault();
