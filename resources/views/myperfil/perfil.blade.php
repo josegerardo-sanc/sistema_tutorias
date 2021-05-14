@@ -226,7 +226,7 @@
                                         <img src="{{asset('storage/Recursos_sistema/facebook.png')}}" alt="gmail">
                                          Correo Facebook
                                     </label>
-                                    <input type="email" class="form-control" id="facebook_socialite" value="{{$user->facebook}}">
+                                    <input type="email" class="form-control" id="facebook_socialite"  value="{{$user->facebook}}">
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="form-group">
@@ -234,7 +234,7 @@
                                         <img src="{{asset('storage/Recursos_sistema/gmail.svg')}}" alt="gmail">
                                         Correo Gmail
                                     </label>
-                                    <input type="email" class="form-control" id="gmail_socialite" value="{{$user->gmail}}">
+                                    <input type="email" class="form-control" id="gmail_socialite"  value="{{$user->gmail}}">
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="text-right mt-3">

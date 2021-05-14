@@ -122,7 +122,7 @@ class loginController extends Controller
 
         $msg=ucwords($user->nombre)." Has iniciado sesión con {$driver}.";
 
-          auth()->login($user);
+            auth()->login($user);
 
             if($user->tipo_usuario=="tutor"){
                 return redirect('/tutor')->with('status_confirm',$msg);
@@ -279,10 +279,12 @@ class loginController extends Controller
         $user->{'gmail'}=$user->email;
 
         foreach ($dataSocialiteProfile as $key => $redSocial) {
+            
             if($redSocial->name=="facebook"){
                 $user->{'facebook'}=$redSocial->email;
             }
-            if($redSocial->name=="gmail"){
+
+            if($redSocial->name=="google"){
                 $user->{'gmail'}=$redSocial->email;
             }
         }
@@ -324,7 +326,7 @@ class loginController extends Controller
 
                     DB::table('social_profiles')->insert([
                         ['email' =>$data['facebook_socialite'], 'name' =>"facebook",'id_user'=>$user->id],
-                        ['email' =>$data['gmail_socialite'], 'name' =>"gmail",'id_user'=>$user->id]
+                        ['email' =>$data['gmail_socialite'], 'name' =>"google",'id_user'=>$user->id]
                     ]);
 
                     return json_encode(['status'=>200,'info'=>'Registro de cuenta exitoso']);
