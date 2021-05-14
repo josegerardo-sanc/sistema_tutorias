@@ -31,9 +31,9 @@ class evaluacionController extends Controller
             $tipoEvaluacion=isset($data['tipo_evaluacion'])?$data['tipo_evaluacion']:"grupal";
 
 
-               if(isset($data['busquedaPersonalizada'])){
+             if(isset($data['busquedaPersonalizada'])){
                     $mostrar_datos_bsuqueda=true;
-                   $WHERE="";
+                    $WHERE="";
 
                    $dataCarrera=DB::table('carreras')->where('id_carrera','=',$data['id_carrera'])->get();
 

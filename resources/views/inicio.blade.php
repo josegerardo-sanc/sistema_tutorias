@@ -116,12 +116,12 @@
            </div>
         </div> --}}
         <div class="row">
-            <div class="col-sm-12 col-md-6 contenedor_imagen_itss"  style="overflow: hidden;">
+            <div class="col-sm-12 col-md-6 contenedor_imagen_itss"  style="overflow: hidden;min-height:100vh;height:auto;">
                 <img src="https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C"
                     alt="itss"
-                    style="position: absolute;top:0px;left:0px;display:block;width:800px;height:100%;object-fit:cover;">
+                    style="position: absolute;top:0px;left:0px;display:block;width:800px;min-height:100vh;height:auto;object-fit:cover;">
             </div>
-            <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;">
+            <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;margin-bottom:150px;">
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
                     <div class="d-flex justify-content-between flex-wrap">
@@ -204,6 +204,10 @@
                 </hr>
                 <a class="btn btn-block" style="background-color: #2E406E;color:white" href="{{url('login/facebook')}}">
                     <i class="fab fa-facebook-square"></i> Facebook
+                </a>
+                <a class="btn btn-block btn-ligth"  href="{{url('login/google')}}">
+                     <img src="{{asset('storage/Recursos_sistema/gmail.svg')}}" alt="gmail">
+                     Google
                 </a>
 
             </div>

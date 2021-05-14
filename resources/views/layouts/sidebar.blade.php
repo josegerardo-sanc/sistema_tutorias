@@ -73,7 +73,7 @@
                 <li class="sidenav-item">
                     <a href="{{url('/Admin/AsignacionIndividual/create')}}" class="sidenav-link">
                         <i class="sidenav-icon fas fa-male"></i>
-                        <div>Asignación Individual</div>
+                        <div>Asignaciónes</div>
                     </a>
                 </li>
             </ul>
@@ -96,7 +96,10 @@
                 <div>Seguimiento actividad tutorial</div>
             </a>
         </li>
+
         @endrole
+
+
         {{-- otro modulo --}}
 
         @hasanyrole('Administrador||Tutor')
@@ -163,12 +166,12 @@
                     <div>Mi Tutor</div>
                 </a>
             </li>
-            <li class="sidenav-item">
+            {{-- <li class="sidenav-item">
                 <a href="{{url('/alumno')}}" class="sidenav-link">
                     <i class="sidenav-icon fas fa-list-ol"></i>
                     <div>Mis compañeros</div>
                 </a>
-            </li>
+            </li> --}}
             <li class="sidenav-item">
                 <a href="{{url('/formatosAlumnos')}}" class="sidenav-link">
                     <i class="sidenav-icon fas fa-file"></i>
@@ -193,7 +196,7 @@
                     <li class="sidenav-item">
                         <a href="{{url('/alumnoCuestionario/individual')}}" class="sidenav-link">
                             <i class="sidenav-icon fas fa-list-ol"></i>
-                            <div>Calificar Tutor Individual</div>
+                            <div>Evaluar tutor</div>
                         </a>
                     </li>
                 </ul>
@@ -231,7 +234,10 @@
                 </a>
             </li>
         @endrole
-        <li class="sidenav-item">
+       
+
+        @role('Administrador')
+         <li class="sidenav-item">
             <a href="#" class="sidenav-link" id="btn_module_canalizacion">
                 <i class="sidenav-icon fas fa-file"></i>
                 <div>Canalización</div>
@@ -243,6 +249,7 @@
                 <div>Manual de usuario</div>
             </a>
         </li>
+        @endrole
         <!-- Dashboards -->
         {{--
         < class="sidenav-item open active">

@@ -217,8 +217,8 @@
                                     </strong>
                                     </br>
                                     </br>
-                                    <small><i class='fas fa-exclamation-circle'></i> 
-                                        Si no cuentas con ninguna de estas ingresa el correo con el que te diste de alta. 
+                                    <small><i class='fas fa-exclamation-circle'></i>
+                                        Si no cuentas con ninguna de estas ingresa el correo con el que te diste de alta.
                                     </small>
                                   </div>
                                 <div class="form-group">
@@ -327,7 +327,7 @@ $('.btn_change_password').on('click',function(e){
             error_msg="<i class='fas fa-exclamation-circle'></i> Los campos son obligatorios";
         }
 
-        
+
 
         if(error_msg!=""){
             alert=`
@@ -351,12 +351,12 @@ $('.btn_change_password').on('click',function(e){
         headers:{"X-CSRF-Token": csrf_token},
         data :object_change_password,
         beforeSend:function(){
-            $(this_element).html('Espere...........').attr('disabled','disabled');
+            $(this_element).html('<i class="fas fa-sync fa-spin"></i> Actualizando......').attr('disabled','disabled').removeClass('btn-primary').addClass('btn-warning');
         }
 
         }).done(function(respuesta){
             console.log(JSON.parse(respuesta));
-            $(this_element).html('ACTUALIZAR CONTRASEÑA').removeAttr('disabled');
+            $(this_element).html('Actualizar').removeAttr('disabled').removeClass('btn-warning').addClass('btn-primary');
             let data=JSON.parse(respuesta);
             //console.log(data);
 
@@ -381,7 +381,8 @@ $('.btn_change_password').on('click',function(e){
 
         }).fail(function(jqXHR,textStatus) {
             ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
-            $(this_element).html('ACTUALIZAR CONTRASEÑA').removeAttr('disabled');
+            $(this_element).html('Actualizar').removeAttr('disabled').removeClass('btn-warning').addClass('btn-primary');
+
         })
 
 
@@ -394,7 +395,7 @@ $('.btn_change_cuentasRedesSociales').on('click',function(e){
     let this_element=$(this);
     let facebook_socialite=$('#facebook_socialite').val();
     let gmail_socialite=$('#gmail_socialite').val();
-    
+
 
     let error_msg="";
         if(facebook_socialite==""||gmail_socialite==""){
@@ -424,12 +425,12 @@ $('.btn_change_cuentasRedesSociales').on('click',function(e){
         headers:{"X-CSRF-Token": csrf_token},
         data :object_change_cuentas,
         beforeSend:function(){
-            // $(this_element).html('Espere......').attr('disabled','disabled');
+            $(this_element).html('<i class="fas fa-sync fa-spin"></i> Actualizando......').attr('disabled','disabled').removeClass('btn-primary').addClass('btn-warning');
         }
 
         }).done(function(respuesta){
             console.log(JSON.parse(respuesta));
-            $(this_element).html('ACTUALIZAR').removeAttr('disabled');
+            $(this_element).html('Actualizar').removeAttr('disabled').removeClass('btn-warning').addClass('btn-primary');
             let data=JSON.parse(respuesta);
             //console.log(data);
 
@@ -454,7 +455,7 @@ $('.btn_change_cuentasRedesSociales').on('click',function(e){
 
         }).fail(function(jqXHR,textStatus) {
             ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
-            $(this_element).html('ACTUALIZAR').removeAttr('disabled');
+            $(this_element).html('Actualizar').removeAttr('disabled').removeClass('btn-warning').addClass('btn-primary');
         })
 
 });

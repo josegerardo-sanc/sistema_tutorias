@@ -36,7 +36,7 @@
                             </select>
                     </div>
                     <div class="col-sm-3">
-                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"><strong>Fecha</strong></label>
+                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"><strong>Periodo</strong></label>
                         <input type="date" name="fechaEvaluacion" id="fechaEvaluacion" class="form-control" />
                     </div>
                     <div class="col-sm-2 form-group">

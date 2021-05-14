@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <th>Carrera</th>
-                            <th>N# alumnos</th>
+                            <th>alumnos</th>
                             <th>N# tutores</th>
                             <th></th>
                         </tr>
@@ -44,7 +44,24 @@
                                     {{$carrera->carrera}}
                                 </td>
                                 <td>
-                                    {{$carrera->numero_alumnos}}
+                                    <div class="d-flex justify-content-around">
+                                        <span>
+                                            <div>H</div>
+                                            <span class="badge text-white" style="background-color: #11aed2">
+                                                {{$carrera->numero_alumnos_m}}
+                                            </span>
+                                        </span>
+                                       <span>
+                                           <div>M</div>
+                                           <span class="badge text-white" style="background-color: #bc55bc">
+                                               {{$carrera->numero_alumnos_f}}
+                                           </span>
+                                       </span>
+                                       <span>
+                                           <div>Total</div>
+                                           {{$carrera->numero_alumnos_m+$carrera->numero_alumnos_f}}
+                                       </span>
+                                    </div>
                                 </td>
                                 <td>
                                     {{$carrera->numero_tutores}}
@@ -54,7 +71,8 @@
                                         <button
                                             type="button" class="btn btn-danger btn_delete_carrera"
                                             data-id_carrera="{{$carrera->id_carrera}}"
-                                            data-numero_alumnos="{{$carrera->numero_alumnos}}">
+                                            data-numero_alumnos="{{$carrera->numero_alumnos_m+$carrera->numero_alumnos_f}}"
+                                            >
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                         <button

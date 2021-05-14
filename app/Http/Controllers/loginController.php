@@ -39,9 +39,11 @@ class loginController extends Controller
         $drivers = ['facebook', 'google'];
 
         if(in_array($driver, $drivers)){
+
+            //el metodo socialite busca en el archivo de services las credenciales
             return Socialite::driver($driver)->redirect();
         }else{
-            return redirect()->route('login')->with('info', $driver . ' no es una aplicación valida para poder loguearse');
+            return redirect()->route('login')->with('info', $driver . 'No tenemos disponible esa red social aun para authenticacion');
         }
 
 
@@ -50,50 +52,71 @@ class loginController extends Controller
 
     public function handleProviderCallback(Request $request, $driver)
     {
-        // dd($request);
+        
 
         if($request->get('error')){
             return redirect()->route('inicio');
         }
 
         $userSocialite = Socialite::driver($driver)->user();
+        
+        // dd($userSocialite);
 
 
-        // dd($userSocialite->getEmail());
+        $idRedsocial=$userSocialite->getId();
+        $correRedsocial=$userSocialite->getEmail();
 
-        // $social_profile = SocialProfile::where('social_id', $userSocialite->getId())
-        //                                 ->where('social_name', $driver)->first();
-     
-        $social_profile = DB::table('social_profiles')
-                             ->where('name','=',"facebook")
-                             ->where('email','=',$userSocialite->getEmail())->first();
+
+        $userData = DB::table('users as us')
+                    ->where('us.email','=',$correRedsocial)
+                    ->get();
+        
+
+        $id_usuario="";
+
+        if(count($userData)<=0){
+            
+            $social_profile = DB::table('social_profiles')
+                   ->where('name','=',$driver)
+                   ->where('email','=',$userSocialite->getEmail())
+                   ->get();
+
+            if(count($social_profile)<=0){
+                return redirect('/')
+                ->with('status_confirm',"El correo de {$driver} no esta registrado en la plataforma, debes iniciar sesión y luego dirigete a tu perfil y agregar el correo.");
+            }
+
+            $id_usuario=$social_profile[0]->{'id_user'};
+
+        }else{
+            $id_usuario=$userData[0]->{'id'};
+        }
 
         
 
-        // dd($social_profile);
+        // dd($id_usuario);
 
-        if(!$social_profile){
+        //if(!$social_profile){
 
-            return redirect('/')
-            ->with('status_confirm',"La cuenta de {$driver} no esta registrada, vaya al apartado de perfil de su cuenta en redes sociales y dele de alta.");
-                //     // if(!$user){
-                //     //     $user = User::create([
-                //     //         'name' => $userSocialite->getName(),
-                //     //         'email'=> $userSocialite->getEmail(),
-                //     //     ]);
-                //     // }
+          
+                    // if(!$user){
+                    //     $user = User::create([
+                    //         'name' => $userSocialite->getName(),
+                    //         'email'=> $userSocialite->getEmail(),
+                    //     ]);
+                    // }
 
-                //     // $social_profile = SocialProfile::create([
-                //     //     'user_id' => $user->id,
-                //     //     'social_id' => $userSocialite->getId(),
-                //     //     'social_name' => $driver,
-                //     //     'social_avatar'  => $userSocialite->getAvatar()
-                //     // ]);
-        }
+                    // $social_profile = SocialProfile::create([
+                    //     'user_id' => $user->id,
+                    //     'social_id' => $userSocialite->getId(),
+                    //     'social_name' => $driver,
+                    //     'social_avatar'  => $userSocialite->getAvatar()
+                    // ]);
+        //}
 
        
 
-        $user = User::where('id', $social_profile->id_user)->first();
+        $user = User::where('id', $id_usuario)->first();
 
         // dd($user);
 

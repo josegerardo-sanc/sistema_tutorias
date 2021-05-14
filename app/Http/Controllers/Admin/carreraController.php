@@ -18,17 +18,27 @@ class carreraController extends Controller
         $Listcarreras=DB::table('carreras')->get();
 
         foreach ($Listcarreras as $key => $carrera) {
-            $count_alumnos=0;
 
-            $count_alumnos = DB::table('datos_alumnos')
+
+            $count_femininos_al = DB::table('datos_alumnos as dt')
+            ->leftJoin('users as us','dt.user_id_alumno','=','us.id')
             ->where('carrera','=',$carrera->{'id_carrera'})
+            ->where('us.genero','=',"femenino")
+            ->count();
+
+            $count_masculinos_al= DB::table('datos_alumnos as dt')
+            ->leftJoin('users as us','dt.user_id_alumno','=','us.id')
+            ->where('carrera','=',$carrera->{'id_carrera'})
+            ->where('us.genero','=',"masculino")
             ->count();
 
             $tutores = DB::table('asignacion')
             ->where('carrera','=',$carrera->{'id_carrera'})
             ->count();
 
-          $Listcarreras[$key]->{'numero_alumnos'}=$count_alumnos;
+          $Listcarreras[$key]->{'numero_alumnos_f'}=$count_femininos_al;
+          $Listcarreras[$key]->{'numero_alumnos_m'}=$count_masculinos_al;
+
           $Listcarreras[$key]->{'numero_tutores'}=$tutores;
         }
 
