@@ -17,8 +17,6 @@ class pdfController extends Controller
 
     public function pruebas_pdf(){
 
-
-
             $SEMESTRE=isset($data['filtro_semestre_escolar'])?$data['filtro_semestre_escolar']:"";
             $CARRERA=isset($data['filtro_carrera_escolar'])?$data['filtro_carrera_escolar']:"";
             $PERIODO=isset($data['filtro_periodo_escolar'])?$data['filtro_periodo_escolar']:"";
@@ -108,14 +106,14 @@ class pdfController extends Controller
     }
 
 
-    public function usuarios(Request $request){
+    public function usuarios($tipo_usuario){
+
+
 
         // dd($tipo_usuario);
-        $data=$request->all();
-        $users="";
 
 
-        switch ($data['usuario']) {
+        switch ($tipo_usuario) {
             case 'tutor':
                 $users=DB::table('users')
                     ->leftJoin('asignacion','users.id','=','asignacion.user_id_asignado')
@@ -151,7 +149,7 @@ class pdfController extends Controller
                             $users[$key]->{'total_horas'}=$total_horas;
                     }
 
-                    $pdf = PDF::loadView('PDF.tutor',compact('users'))->setPaper('a4', 'landscape');
+                    return PDF::loadView('PDF.tutor',compact('users'))->setPaper('a4', 'landscape')->stream('tutores.pdf');
 
                 break;
             case 'alumno':
@@ -194,23 +192,23 @@ class pdfController extends Controller
                    $SQL
                 ");
 
-                $pdf = PDF::loadView('PDF.alumno',compact('users'))->setPaper('a4', 'landscape');
+                return PDF::loadView('PDF.alumno',compact('users'))->setPaper('a4', 'landscape')->stream('alumno.pdf');
                 break;
             case 'director':
-                $users=DB::table('users')->where('tipo_usuario','=',$data['usuario'])->get();
-                $pdf = PDF::loadView('PDF.usuarios',compact('users'));
+                $users=DB::table('users')->where('tipo_usuario','=',tipo_usuario)->get();
+                return PDF::loadView('PDF.usuarios',compact('users'))->stream('director.pdf');
                 break;
             case 'subdirector':
-                $users=DB::table('users')->where('tipo_usuario','=',$data['usuario'])->get();
-                $pdf = PDF::loadView('PDF.usuarios',compact('users'));
+                $users=DB::table('users')->where('tipo_usuario','=',tipo_usuario)->get();
+                return PDF::loadView('PDF.usuarios',compact('users'))->stream('subdirector.pdf');
                 break;
             case 'administrador':
-                $users=DB::table('users')->where('tipo_usuario','=',$data['usuario'])->get();
-                $pdf = PDF::loadView('PDF.usuarios',compact('users'));
+                $users=DB::table('users')->where('tipo_usuario','=',tipo_usuario)->get();
+                return PDF::loadView('PDF.usuarios',compact('users'))->stream('administradores.pdf');
                 break;
             default:
                 $users=DB::table('users')->get();
-                $pdf = PDF::loadView('PDF.usuarios',compact('users'));
+                return PDF::loadView('PDF.usuarios',compact('users'))->stream('archivo.pdf');
                 # code...
                 break;
         }
@@ -229,6 +227,8 @@ class pdfController extends Controller
         $pdf->save($path . '/' . $fileName);
 
         $pdf = public_path('pdf/'.$fileName);
+
+        
 
         return response()->download($pdf);
 

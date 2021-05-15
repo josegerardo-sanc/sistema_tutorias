@@ -121,7 +121,7 @@
                                         {{-- <a class="btn btn-danger float-right" href="{{url('/pdf/usuarios/all_todos_users')}}" id="generar_pdf_users" target="_blank">
                                             Generar PDF <i class="far fa-file-pdf"></i>
                                         </a> --}}
-                                        <a class="btn btn-danger float-right download-pdf" href="#">
+                                        <a class="btn btn-danger float-right" href="{{url('/generar_pdf/all_todos_users')}}" target="_blank" id="generar_pdf_users">
                                             Generar PDF<i class="far fa-file-pdf"></i>
                                         </a>
                                     </div>
@@ -305,10 +305,11 @@
                         console.log(respuesta);
                         $(this_element).html(this_text).removeAttr('disabled');
                         $('.conte_loader_MyStyle').css({display:'none'});
+
                         var blob = new Blob([respuesta]);
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
-                        link.download = "Sample.pdf";
+                        link.download =`${usuario}.pdf`;
                         link.click();
 
                 }).fail(function(jqXHR,textStatus) {
@@ -333,7 +334,7 @@
         }
 
         let tipo_user=$('#tipo_usuario_search option:selected').val();
-        $('#generar_pdf_users').attr('href',`/pdf/usuarios/${tipo_user}`);
+        $('#generar_pdf_users').attr('href',`/generar_pdf/${tipo_user}`);
 
     });
 
