@@ -13,9 +13,7 @@
     <meta name="description" content="MODULO DE TUTORIAS" />
     <meta name="keywords" content="">
     <meta name="author" content="Codedthemes" />
-    <link rel="icon" type="image/x-icon" href="{{asset('dashboard_assets/img/favicon.ico')}}">
-
-
+     <link rel="icon" type="image/x-icon" href="{{asset('dashboard_assets/img/favicon.jpg')}}">
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
 

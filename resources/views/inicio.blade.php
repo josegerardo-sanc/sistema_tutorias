@@ -12,7 +12,7 @@
     <meta name="description" content="MODULO DE TUTORIAS" />
     <meta name="keywords" content="">
     <meta name="author" content="Codedthemes" />
-    <link rel="icon" type="image/x-icon" href="{{asset('dashboard_assets/img/favicon.ico')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('dashboard_assets/img/favicon.jpg')}}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Page -->
