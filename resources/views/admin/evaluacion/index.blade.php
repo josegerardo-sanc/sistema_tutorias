@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <section id="conte_1" style="display:none">
+            <section id="conte_1">
                 <div class="row" id="conte_graficas_respuestas_mas_frecuentes">
 
                 </div>
@@ -115,7 +115,7 @@
 
                 </div>
             </section>
-            <section id="conte_2">
+            <section id="conte_2" style="display:none">
                 <div class="row" id="list_evaluaciones">
 
                 </div>
@@ -176,6 +176,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
 
     <script>
+
+        $('#btn_ver_graficas').on('click', function() {
+
+            $('#conte_2').css({'display':'none'});
+            $('#conte_1').css({'display':''});
+
+        });
+        $('#btn_ver_evaluaciones').on('click', function() {
+
+            $('#conte_1').css({'display':'none'});
+            $('#conte_2').css({'display':''});
+
+        });
+
+
         var arreglo_datos_grafica = [];
 
 
@@ -309,7 +324,7 @@
                             // respuestas más frecuentes
                             let respFrec = json.respuestasFrecuentes[0];
                             let tipo_evaluacion = $('#tipo_evaluacion option:selected').val();
-                            
+
                             if(tipo_evaluacion=="individual"){
                                 listEvaluaciones(json.cuestionario,json.preguntas);
                             }
@@ -452,12 +467,12 @@
                            </a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
-                            <button type="button" class="ver_respuestas_btn btn btn-info" 
+                            <button type="button" class="ver_respuestas_btn btn btn-info"
                                 data-id_cuestionario="${item.id_cuestionario}"
                                 >
                                 ver Respuestas <i class="far fa-eye-slash"></i>
                             </button>
-                            <button type="button" class="descargar_pdf_btn btn btn-danger" 
+                            <button type="button" class="descargar_pdf_btn btn btn-danger"
                             data-id_cuestionario="${item.id_cuestionario}"
                                 >
                                 Descargar PDF <i class="far fa-file-pdf"></i>
@@ -485,7 +500,7 @@
 
             console.log(id_cuestionario);
             $('#modal_dataEvaluacionBody').modal('show');
-            
+
             console.log(cuestionarios[0].id_cuestionario);
 
             let datos=cuestionarios.find((item)=>item.id_cuestionario==id_cuestionario);
@@ -493,9 +508,9 @@
              console.log(datos);
 
              let filas="";
-            
+
             for (const pregunta of datosPreguntas) {
-                
+
                 let respuestas=JSON.parse(datos.respuestas_cuestionario);
 
                 for (const r of respuestas) {
@@ -508,25 +523,25 @@
                                 <div class="row">
                                     <div class="col-sm-2">
                                 ${r.respuesta=="siempre"?'<i class="fas fa-check" style="color:green;" ></i>':'<i class="fas fa-times" style="color:red"></i>'}
-                                
+
                                     </div>
                                     <div class="col-sm-2">
                                 ${r.respuesta=="casi_siempre"?'<i class="fas fa-check" style="color:green;" ></i>':'<i class="fas fa-times" style="color:red"></i>'}
-                                    
+
                                     </div>
                                     <div class="col-sm-2">
                                 ${r.respuesta=="a_veces"?'<i class="fas fa-check" style="color:green;" ></i>':'<i class="fas fa-times" style="color:red"></i>'}
-                                    
+
                                     </div>
                                     <div class="col-sm-2">
                                 ${r.respuesta=="nunca"?'<i class="fas fa-check" style="color:green;" ></i>':'<i class="fas fa-times" style="color:red"></i>'}
-                                    
+
                                     </div>
                                 </div>
-            
+
                             </th>
                       </tr>  `
-                        
+
                     }
                 }
             }
@@ -537,9 +552,9 @@
        });
 
        $(document).on('click','.descargar_pdf_btn',function(){
-  
+
         let id_cuestionario=$(this).data('id_cuestionario');
-        
+
         const this_text=$(this).html();
           $.ajax({
                 url :'/generar_pdf/evaluacion',
@@ -554,7 +569,7 @@
                     $(this).html('Generando PDF <i class="fas fa-sync fa-spin"></i> .......').attr('disabled','disabled');
                 }
             }).done(function(respuesta){
-                
+
                 $(this).html(this_text).removeAttr('disabled');
                 $('.conte_loader_MyStyle').css({display:'none'});
 
