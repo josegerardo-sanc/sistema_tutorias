@@ -72,9 +72,10 @@
 <body>
         <div style="margin-bottom:30px;margin-top:10px">
 
-                <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;float: left;" alt="logo">
-                <strong style="heigth:70px;line-height:70px;font-size:20px;margin-left:10px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
-
+                <img src="https://tutoriasitss.granbazarmexico.store/storage/imagenes/itss.jpg" style="height:70px;object-fit: cover;float: left;" alt="logo">
+                <center>
+                    <strong style="heigth:70px;line-height:70px;font-size:20px;margin-left:10px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
+                </center>
         </div>
          @if (count($users)>0)
          <h5>Lista de Tutores</h5>

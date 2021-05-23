@@ -63,16 +63,12 @@
                     <strong style="heigth:70px;line-height:70px;font-size:20px;margin-left:10px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
                 </center>
         </div>
-         @if (count($users)>0)
-         <h5>Lista de alumnos</h5>
+         @if (count($cuestionario)>0)
+         <h5>Evaluación individual</h5>
          <table class="table">
              <thead>
                  <tr>
                      <th>Nombre</th>
-                     <th>Curp</th>
-                     <th>Telefono</th>
-                     <th>Correo</th>
-                     <th>Genero</th>
                      <th>Matricula</th>
                      <th>Carrera</th>
                      <th>Semestre</th>
@@ -81,18 +77,31 @@
                  </tr>
              </thead>
              <tbody>
-                 @foreach ($users as $item)
+                <tr>
+                    <td>{{ucwords($cuestionario[0]->{'nombre'}." ".$cuestionario[0]->{'ap_paterno'}." ".$cuestionario[0]->{'ap_materno'})}}</td>
+                    <td>{{($cuestionario[0]->{'matricula'})}}</td>
+                    <td>{{ $cuestionario[0]->{'carrera'} }}</td>
+                    <td>{{($cuestionario[0]->{'semestre'})}}°</td>
+                    <td>{{($cuestionario[0]->{'grupo'})}}</td>
+                    <td>{{($cuestionario[0]->{'turno'})}}</td>
+                </tr>
+                 @foreach ($preguntas as $key => $pregunta)
+                 <?php
+                    $respuesta=json_decode($cuestionario[0]->{'respuestas_cuestionario'},true);
+                 ?>
                  <tr>
-                     <td>{{ucwords($item->nombre." ".$item->ap_paterno." ".$item->ap_materno)}}</td>
-                     <td>{{$item->curp}}</td>
-                     <td>{{$item->telefono}}</td>
-                     <td>{{$item->email}}</td>
-                     <td>{{$item->genero}}</td>
-                     <td>{{$item->matricula}}</td>
-                     <td>{{$item->name_carrera}}</td>
-                     <td>{{$item->semestre}}°</td>
-                     <td>{{$item->grupo}}</td>
-                     <td>{{$item->turno}}</td>
+                     <td>
+                         {{($pregunta->{'pregunta'})}}
+                     </td>
+                     @foreach ($respuesta as $respuesta)
+                            @if ($pregunta->{'id_pregunta'}==$respuesta['id_pregunta'])
+                                <td>{{$respuesta['respuesta'] == "siempre"?"si":"no"}}</td>
+                                <td>{{$respuesta['respuesta'] == "casi_siempre"?"si":"no"}}</td>
+                                <td>{{$respuesta['respuesta'] == "a_veces"?"si":"no"}}</td>
+                                <td>{{$respuesta['respuesta'] == "nunca"?"si":"no"}}</td>
+                            @endif    
+
+                    @endforeach
                  </tr>
                  @endforeach
              </tbody>

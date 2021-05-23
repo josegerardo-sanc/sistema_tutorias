@@ -81,6 +81,17 @@
 
         }
 
+        #conte_img{
+            background: url('https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C');
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-position:100% 50%;
+            background-size: cover;
+            /* filter: invert(10%); */
+            -webkit-filter: contrast(130%);
+             filter: contrast(130%);
+        }
+
 
     </style>
 
@@ -116,16 +127,17 @@
            </div>
         </div> --}}
         <div class="row">
-            <div class="col-sm-12 col-md-6 contenedor_imagen_itss"  style="overflow: hidden;min-height:100vh;height:auto;">
-                <img src="https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C"
+            <div class="col-sm-12 col-md-7 contenedor_imagen_itss" id="conte_img">
+                {{-- <img src="https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C"
                     alt="itss"
-                    style="position: absolute;top:0px;left:0px;display:block;width:800px;min-height:100vh;height:auto;object-fit:cover;">
+                    style="position: absolute;top:0px;left:0px;display:block;width:800px;min-height:100vh;height:auto;object-fit:cover;"> --}}
             </div>
-            <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;margin-bottom:150px;">
+
+            <div class="d-flex align-items-center flex-column col-sm-12 col-md-5 formulario_registro_user" style="height: 100vh;border:1px solid #ddd;padding:30px;">
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
                     <div class="d-flex justify-content-between flex-wrap">
-                        <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
+                        <img src="{{asset('storage/imagenes/itss.jpg')}}" style="height:70px;object-fit: cover;" alt="logo">
                         <div class="d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
                                <i class="fab fa-facebook"></i>
@@ -143,7 +155,7 @@
                             Tecnológico Nacional de México
                         </h3>
                         <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Instituto Tecnológico Superior de la Región Sierra</span>
-                        <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Dirección académica y coordinación de tutorías</span>
+                        <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Sudirección académica y coordinación de tutorías</span>
 
                         {{-- <h5 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">
                             Iniciar sesión

@@ -60,7 +60,7 @@
                     <td style="height: 33px">
 
                         <a target="_blank" href="https://tutoriasitss.granbazarmexico.store/" >
-                         <img border="0" src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" width="71" height="80" align="left">
+                         <img border="0" src="https://tutoriasitss.granbazarmexico.store/storage/imagenes/itss.jpg" width="71" height="80" align="left">
                         </a>
                         <br>
                         <font class="itss_escuela">

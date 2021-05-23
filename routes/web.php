@@ -4,7 +4,8 @@
 // Route::get('/generar/pdf/pruebas','PDF\pdfController@pruebas_pdf');
 
 
-Route::get('/generar_pdf/{tipo_usuario}','PDF\pdfController@usuarios');
+Route::post('/generar_pdf','PDF\pdfController@usuarios');
+Route::post('/generar_pdf/evaluacion','PDF\pdfController@evaluacion');
 
 Route::get('/modificar_archivo_env','PDF\pdfController@modif_env');
 

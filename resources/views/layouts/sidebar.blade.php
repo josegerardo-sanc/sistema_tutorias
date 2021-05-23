@@ -234,15 +234,15 @@
                 </a>
             </li>
         @endrole
-       
+
 
         @role('Administrador')
-         <li class="sidenav-item">
+         {{-- <li class="sidenav-item">
             <a href="#" class="sidenav-link" id="btn_module_canalizacion">
                 <i class="sidenav-icon fas fa-file"></i>
                 <div>Canalización</div>
             </a>
-        </li>
+        </li> --}}
         <li class="sidenav-item">
             <a href="{{asset('/manual_usuario_sistema.pdf')}}" class="sidenav-link" id="btn_manual_usuario" target="_blank">
                 <i class="sidenav-icon fas fa-file-pdf"></i>
@@ -270,6 +270,16 @@
             </ul>
         </>
         --}}
+
+        @hasanyrole('Subdirector||Tutor||Alumno')
+        <li class="sidenav-item">
+            <a href="#" class="sidenav-link" id="btn_module_canalizacion">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Canalización</div>
+            </a>
+        </li>
+        @endhasanyrole
+
     </ul>
 </div>
 

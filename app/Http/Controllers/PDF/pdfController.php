@@ -106,20 +106,48 @@ class pdfController extends Controller
     }
 
 
-    public function usuarios($tipo_usuario){
+    public function usuarios(Request $request){
 
 
+        $data=$request->all();
 
-        // dd($tipo_usuario);
+        $tipo_usuario=$request->get('usuario');
 
+        // $carrera=$request->get('filtro_carrera_escolar');
+        // $matricula=$request->get('filtro_matricula_escolar');
+        // $semestrer=$request->get('filtro_semestre_escolar');
+        // $turno=$request->get('filtro_turno_escolar');
+
+        // return json_encode([
+        //     'status'=>400,'data'=>$data,
+        //     'usuario'=>$tipo_usuario,
+        //     'carrera'=>$carrera
+
+        // ]);
 
         switch ($tipo_usuario) {
             case 'tutor':
-                $users=DB::table('users')
-                    ->leftJoin('asignacion','users.id','=','asignacion.user_id_asignado')
-                    ->leftJoin('carreras','carreras.id_carrera','=','asignacion.carrera')
-                    ->select('users.*','asignacion.*','carreras.carrera as name_carrera')
-                    ->where('users.tipo_usuario','=','tutor')->get();
+
+                $carrera=$request->get('filtro_carrera_escolar');
+
+                    if($carrera!=null){
+                        $users=DB::table('users')
+                        ->leftJoin('asignacion','users.id','=','asignacion.user_id_asignado')
+                        ->leftJoin('carreras','carreras.id_carrera','=','asignacion.carrera')
+                        ->select('users.*','asignacion.*','carreras.carrera as name_carrera')
+                        ->where('users.tipo_usuario','=','tutor')
+                        ->where('carreras.id_carrera',$carrera)
+                        ->get();
+                    }else{
+                        $users=DB::table('users')
+                        ->leftJoin('asignacion','users.id','=','asignacion.user_id_asignado')
+                        ->leftJoin('carreras','carreras.id_carrera','=','asignacion.carrera')
+                        ->select('users.*','asignacion.*','carreras.carrera as name_carrera')
+                        ->where('users.tipo_usuario','=','tutor')
+                        ->get();
+                    }
+
+
 
                     foreach ($users as $key => $user) {
                         $total_horas=0;
@@ -149,10 +177,11 @@ class pdfController extends Controller
                             $users[$key]->{'total_horas'}=$total_horas;
                     }
 
-                    return PDF::loadView('PDF.tutor',compact('users'))->setPaper('a4', 'landscape')->stream('tutores.pdf');
+                    $pdf= PDF::loadView('PDF.tutor',compact('users'))->setPaper('a4', 'landscape');
 
                 break;
             case 'alumno':
+
                 $SEMESTRE=isset($data['filtro_semestre_escolar'])?$data['filtro_semestre_escolar']:"";
                 $CARRERA=isset($data['filtro_carrera_escolar'])?$data['filtro_carrera_escolar']:"";
                 $PERIODO=isset($data['filtro_periodo_escolar'])?$data['filtro_periodo_escolar']:"";
@@ -179,7 +208,7 @@ class pdfController extends Controller
                 //     $WHERE.="  AND datos_alumnos.grupo='$GRUPO'";
                 // }
                 if($MATRICULA!=""){
-                    $WHERE.=" OR datos_alumnos.matricula='$MATRICULA'";
+                    $WHERE.=" AND datos_alumnos.matricula='$MATRICULA'";
                 }
 
                 $SQL=" select users.*,datos_alumnos.*,carreras.carrera as name_carrera from users
@@ -192,23 +221,23 @@ class pdfController extends Controller
                    $SQL
                 ");
 
-                return PDF::loadView('PDF.alumno',compact('users'))->setPaper('a4', 'landscape')->stream('alumno.pdf');
+                $pdf= PDF::loadView('PDF.alumno',compact('users'))->setPaper('a4', 'landscape');
                 break;
             case 'director':
-                $users=DB::table('users')->where('tipo_usuario','=',tipo_usuario)->get();
-                return PDF::loadView('PDF.usuarios',compact('users'))->stream('director.pdf');
+                $users=DB::table('users')->where('tipo_usuario','=',"director")->get();
+                $pdf= PDF::loadView('PDF.usuarios',compact('users'));
                 break;
             case 'subdirector':
-                $users=DB::table('users')->where('tipo_usuario','=',tipo_usuario)->get();
-                return PDF::loadView('PDF.usuarios',compact('users'))->stream('subdirector.pdf');
+                $users=DB::table('users')->where('tipo_usuario','=',"subdirector")->get();
+                $pdf= PDF::loadView('PDF.usuarios',compact('users'));
                 break;
             case 'administrador':
-                $users=DB::table('users')->where('tipo_usuario','=',tipo_usuario)->get();
-                return PDF::loadView('PDF.usuarios',compact('users'))->stream('administradores.pdf');
+                $users=DB::table('users')->where('tipo_usuario','=',"administrador")->get();
+                $pdf= PDF::loadView('PDF.usuarios',compact('users'));
                 break;
             default:
                 $users=DB::table('users')->get();
-                return PDF::loadView('PDF.usuarios',compact('users'))->stream('archivo.pdf');
+                $pdf= PDF::loadView('PDF.usuarios',compact('users'));
                 # code...
                 break;
         }
@@ -218,23 +247,17 @@ class pdfController extends Controller
         // return view('PDF.usuarios',compact('users'));
 
 
-
-
-
-
         $path = public_path('pdf/');
         $fileName =  time().'.'. 'pdf' ;
         $pdf->save($path . '/' . $fileName);
 
         $pdf = public_path('pdf/'.$fileName);
 
-        
 
         return response()->download($pdf);
 
-        return json_encode(['status'=>400,'info'=>'desscargar pdf']);
+        return json_encode(['status'=>400,'info'=>'descargar pdf']);
 
-        // https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
 
     }
 
@@ -255,7 +278,41 @@ class pdfController extends Controller
            ];
 
         dd($searchArray);
-
-
     }
+
+
+    public function evaluacion(Request $request){
+
+        $id_cuestionario=$request->get('id_cuestionario');
+
+        // $id_cuestionario=8;
+        
+        $preguntas = DB::table('preguntas')->get();
+
+        $cuestionario=DB::table('cuestionario')
+        ->leftJoin('carreras','carreras.id_carrera','=','cuestionario.carrera')
+        ->leftJoin('users','users.id','=','cuestionario.id_user_alumno')
+        ->leftJoin('datos_alumnos','datos_alumnos.user_id_alumno','=','cuestionario.id_user_alumno')
+        ->where('id_cuestionario','=',$id_cuestionario)
+        ->select('users.nombre','users.ap_paterno','users.ap_materno', 'datos_alumnos.matricula', 
+                'carreras.carrera','cuestionario.semestre','cuestionario.turno','cuestionario.grupo',
+                'cuestionario.respuestas_cuestionario','cuestionario.observacion')
+        ->get();
+
+
+        
+        // return view('PDF.evaluacion',compact('preguntas','cuestionario'));
+
+        $pdf= PDF::loadView('PDF.evaluacion',compact('preguntas','cuestionario'))->setPaper('a4', 'landscape');
+
+        $path = public_path('pdf/');
+        $fileName =  time().'evaluaciones.'. 'pdf' ;
+        $pdf->save($path . '/' . $fileName);
+        $pdf = public_path('pdf/'.$fileName);
+
+        return response()->download($pdf);
+
+        
+    }
+
 }

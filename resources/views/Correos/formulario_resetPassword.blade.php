@@ -20,6 +20,13 @@
 
 </head>
 
+<style>
+    body{
+        background-color:#F5F3F3;
+    }
+
+</style>
+
 <body>
 
     <?php
@@ -32,51 +39,51 @@
 
 
     <div class="container-fluid">
-
-        <div class="row justify-content-center">
-            <div class="col-sm-12 d-flex justify-content-center align-items-center">
-                 <div class="row col-sm-6 d-flex justify-content-center align-items-center">
-                    <img src="https://tutoriasitss.granbazarmexico.store/imagenes/itss.jpg" style="height:70px;object-fit: cover;" alt="logo">
-                    <strong  class="text-muted" style="font-size: 20px;margin-left:10px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
-                 </div>
-            </div>
-            <div class="d-flex align-items-center flex-column col-sm-12 col-md-6 formulario_registro_user" style="height: 100vh;">
-                <div class="form-group" style="width: 100%">
-                    <h5 class="text-center mt-0 mb-2 font-italic" style="color:#FF7133">
-                        Restablecer su contraseña
-                    </h5>
-                    <div class="form-group" style="width: 100%">
-                        @if(session('status_confirm_error'))
-                            <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
-                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    {{ session('status_confirm_error') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+        <div class="row justify-content-center align-items-center" style="height:100vh;">
+            <div class="d-flex align-items-center flex-column col-sm-12  formulario_registro_user">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-sm-12 d-flex align-items-center">
+                            <img src="{{asset('storage/imagenes/itss.jpg')}}" style="height:70px;object-fit: cover;float: left;" alt="logo">
+                            <strong  class="text-muted" style="font-size: 20px;margin-left:10px;">Instituto Tecnológico Superior de la Región Sierra.</strong>
+                         </div>
+                        <div class="form-group" style="width: 100%">
+                            <h5 class="text-center mt-0 mb-2 font-italic" style="color:#FF7133">
+                                Restablecer su contraseña
+                            </h5>
+                            <div class="form-group" style="width: 100%">
+                                @if(session('status_confirm_error'))
+                                    <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            {{ session('status_confirm_error') }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
                             </div>
-                        @endif
-                        <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
-                    </div>
-                    {{-- col --}}
-                </div>
-                <div class="form-group" style="width: 100%">
-                    Ingrese la dirección de correo electrónico verificada de su cuenta de usuario y le enviaremos un enlace para restablecer la contraseña.
-                </div>
-                <div class="form-group conte_email_validar" style="width: 100%">
-                    <label for="" class="col-form-label">Correo</label>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-user"></i></span>
+                            {{-- col --}}
                         </div>
-                        <input type="email" class="form-control valid_email_express_regular" id="input_val_correo_reset" placeholder="Ingresa tu correo"  aria-describedby="basic-addon1" maxlength="50">
-                        <div class="content_error_validate_email"></div>
+                        <div class="form-group" style="width: 100%">
+                            Ingrese la dirección de correo electrónico verificada de su cuenta de usuario y le enviaremos un enlace para restablecer la contraseña.
+                        </div>
+                        <div class="form-group conte_email_validar" style="width: 100%">
+                            <label for="" class="col-form-label">Correo</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="email" class="form-control valid_email_express_regular" id="input_val_correo_reset" placeholder="Ingresa tu correo"  aria-describedby="basic-addon1" maxlength="50">
+                                <div class="content_error_validate_email"></div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn" id="btn_reset_password" style="display:block;width:100%;margin-top:30px; margin-bottom:20px; background-color:#FF7133;color:white">Restablecer Contraseña</button>
+                        <button type="button" class="btn btn-ligth btn-block" id="btn_regresar_iniciar_session" style="display: none">Volver para iniciar sesión</button>
                     </div>
                 </div>
-
-                <button type="button" class="btn" id="btn_reset_password" style="display:block;width:100%;margin-top:30px; margin-bottom:20px; background-color:#FF7133;color:white">Restablecer Contraseña</button>
-                <button type="button" class="btn btn-ligth btn-block" id="btn_regresar_iniciar_session" style="display: none">Volver para iniciar sesión</button>
-
             </div>
         </div>
     </div>

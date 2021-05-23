@@ -61,7 +61,7 @@
                         <div class="error_select_tutor"></div>
                     </div>
                     <div class="col-sm-12 col-md-4 form-group">
-                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"><strong>Fecha</strong></label>
+                        <label for=""class="form-label label_filter d-flex justify-content-between align-items-center"><strong>Periodo</strong></label>
                         <input type="date" name="fechaEvaluacion" id="fechaEvaluacion" class="form-control" />
                     </div>
 
@@ -89,7 +89,7 @@
                                     <input type="radio" name="" class="" id="pregunta_1">
                                 </td>
                                 <td>
-                                    <p>Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes.</p>
+                                    <p>Realiza el diagnóstico del tutorado y detecta áreas de atención en estudiantes.</p>
                                 </td>
                             </tr>
                             <tr>
@@ -98,7 +98,7 @@
                                 </td>
                                 <td>
                                     <p>
-                                        Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
+                                        Realiza el diagnóstico del tutorado y detecta áreas de atención en estudiantes,lleva acabo sesiones
                                         planeadas individuales o grupales.
                                         canaliza estudiantes
                                     </p>
@@ -119,10 +119,10 @@
                                 </td>
                                 <td>
                                     <p>
-                                        Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
-                                        planeadas individuales o grupales canaliza estudiantes
+                                        Realiza el diagnóstico del tutorado, detecta áreas de atención en el estudiantes lleva acabo sesiones
+                                        planeadas individuales o grupales canaliza estudiantes.
                                         </br>
-                                        Entrega reportes con evidencias de las actividades desarollada en el programa de accción tutorial en tiempo y forma
+                                        Entrega reportes con evidencias de las actividades desarolladas en el programa de accción tutorial en tiempo y forma.
                                     </p>
                                 </td>
                             </tr>
@@ -132,7 +132,7 @@
                                 </td>
                                 <td>
                                 <p>
-                                    Realiza el diagnóstico del tutorado y detecta área de atención en estudiantes,lleva acabo sessiones
+                                    Realiza el diagnóstico del tutorado, detecta área de atención en estudiantes,lleva acabo sesiones
                                     planeadas individuales o grupales canaliza estudiantes
                                     </br>
                                     Entrega reportes con evidencias de las actividades desarollada en el programa de accción tutorial en tiempo y forma

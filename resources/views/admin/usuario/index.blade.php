@@ -121,9 +121,12 @@
                                         {{-- <a class="btn btn-danger float-right" href="{{url('/pdf/usuarios/all_todos_users')}}" id="generar_pdf_users" target="_blank">
                                             Generar PDF <i class="far fa-file-pdf"></i>
                                         </a> --}}
-                                        <a class="btn btn-danger float-right" href="{{url('/generar_pdf/all_todos_users')}}" target="_blank" id="generar_pdf_users">
+                                        {{-- <a class="btn btn-danger float-right" href="{{url('/generar_pdf/all_todos_users')}}" target="_blank" id="generar_pdf_users">
                                             Generar PDF<i class="far fa-file-pdf"></i>
-                                        </a>
+                                        </a> --}}
+                                        <button class="btn btn-danger float-right" type="button" id="download-pdf">
+                                            Generar PDF<i class="far fa-file-pdf"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -264,7 +267,7 @@
 
 <script>
 
-    $(".download-pdf").click(function(e){
+    $("#download-pdf").click(function(e){
         e.preventDefault();
 
         let usuario=$('#tipo_usuario_search option:selected').val();
@@ -272,12 +275,17 @@
 
         if(usuario=="alumno"){
             FormData_filtro=new FormData($('#form_filtro_alumno')[0]);
+        }else if(usuario=="tutor"){
+
+            FormData_filtro=new FormData();
+            let carrera=$('#filtro_carrera_tutor option:selected').val();
+            FormData_filtro.append('filtro_carrera_escolar',carrera);
         }else{
             FormData_filtro=new FormData();
         }
 
         object_form_FILTRO_BUSQUEDA={
-        'usuario':usuario
+           'usuario':usuario
         };
 
 
@@ -286,30 +294,35 @@
             object_form_FILTRO_BUSQUEDA[entry[0]]=entry[1];
         }
 
+        console.log(object_form_FILTRO_BUSQUEDA);
+        // return false;
+
         let this_text=$(this).html();
         let this_element=$(this);
 
             $.ajax({
                         url :'/generar_pdf',
-                        type: "GET",
+                        type: "POST",
                         headers:{"X-CSRF-Token": csrf_token},
                         data: object_form_FILTRO_BUSQUEDA,
                         xhrFields: {
-                        responseType: 'blob'
+                           responseType: 'blob'
+                        //    responseType: 'json'
                         },
                         beforeSend:function(){
                             $('.conte_loader_MyStyle').css({display:'flex'});
                             $(this_element).html('Generando PDF <i class="fas fa-sync fa-spin"></i> .......').attr('disabled','disabled');
                         }
                 }).done(function(respuesta){
-                        console.log(respuesta);
+                        // console.log(respuesta);
                         $(this_element).html(this_text).removeAttr('disabled');
                         $('.conte_loader_MyStyle').css({display:'none'});
 
-                        var blob = new Blob([respuesta]);
+                        var blob = new Blob([respuesta],{ type: 'application/pdf' });
                         var link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download =`${usuario}.pdf`;
+                        var downloadUrl= window.URL.createObjectURL(blob);
+                        link.href=downloadUrl;
+                        link.target="_blank"
                         link.click();
 
                 }).fail(function(jqXHR,textStatus) {
@@ -334,7 +347,7 @@
         }
 
         let tipo_user=$('#tipo_usuario_search option:selected').val();
-        $('#generar_pdf_users').attr('href',`/generar_pdf/${tipo_user}`);
+        // $('#generar_pdf_users').attr('href',`/generar_pdf/${tipo_user}`);
 
     });
 

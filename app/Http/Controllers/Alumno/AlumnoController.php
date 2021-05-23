@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\RedirectResponse\RedirectResponse\redirect;
+
 
 class AlumnoController extends Controller
 {
@@ -14,6 +16,9 @@ class AlumnoController extends Controller
 
         $user=auth()->user();
         $id_user_logueado=$user->id;
+
+        $nombre=$user->nombre;
+        return redirect("/account_settings/{$nombre}");
 
         $MisDatos= DB::table('users')
         ->leftJoin('datos_alumnos','users.id', '=', 'datos_alumnos.user_id_alumno')

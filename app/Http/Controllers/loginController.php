@@ -52,14 +52,14 @@ class loginController extends Controller
 
     public function handleProviderCallback(Request $request, $driver)
     {
-        
+
 
         if($request->get('error')){
             return redirect()->route('inicio');
         }
 
         $userSocialite = Socialite::driver($driver)->user();
-        
+
         // dd($userSocialite);
 
 
@@ -70,12 +70,12 @@ class loginController extends Controller
         $userData = DB::table('users as us')
                     ->where('us.email','=',$correRedsocial)
                     ->get();
-        
+
 
         $id_usuario="";
 
         if(count($userData)<=0){
-            
+
             $social_profile = DB::table('social_profiles')
                    ->where('name','=',$driver)
                    ->where('email','=',$userSocialite->getEmail())
@@ -92,13 +92,13 @@ class loginController extends Controller
             $id_usuario=$userData[0]->{'id'};
         }
 
-        
+
 
         // dd($id_usuario);
 
         //if(!$social_profile){
 
-          
+
                     // if(!$user){
                     //     $user = User::create([
                     //         'name' => $userSocialite->getName(),
@@ -114,7 +114,7 @@ class loginController extends Controller
                     // ]);
         //}
 
-       
+
 
         $user = User::where('id', $id_usuario)->first();
 
@@ -146,7 +146,7 @@ class loginController extends Controller
         // return redirect()->route('home');
     }
 
-   
+
 
     public function cerrarSesion(){
 
@@ -279,7 +279,7 @@ class loginController extends Controller
         $user->{'gmail'}=$user->email;
 
         foreach ($dataSocialiteProfile as $key => $redSocial) {
-            
+
             if($redSocial->name=="facebook"){
                 $user->{'facebook'}=$redSocial->email;
             }
@@ -295,7 +295,7 @@ class loginController extends Controller
 
 
     public function change_cuentas_social(Request $request){
-        
+
         $data=$request->all();
         $user=auth()->user();
         $MENSAJE_ERROR="";
@@ -307,7 +307,7 @@ class loginController extends Controller
         if($data['gmail_socialite']==""){
             $MENSAJE_ERROR.="<li>Si no cuentas con cuenta de Gmail ,ingresa el correo con el que te diste de alta.</li>";
         }
-        
+
         if($MENSAJE_ERROR!=""){
             return json_encode(['status'=>400,'info'=>$MENSAJE_ERROR]);
         }
@@ -318,7 +318,7 @@ class loginController extends Controller
              $social_profiles = DB::table('social_profiles')->count();
 
             //  return json_encode(['status'=>200,'info'=>'Registro de cuenta exitoso']);
-            
+
             $data['facebook_socialite']=trim($data['facebook_socialite']);
             $data['gmail_socialite']=trim($data['gmail_socialite']);
 
@@ -462,6 +462,7 @@ class loginController extends Controller
 
 
     public function enviarCorreo_resetPassword(Request $request){
+
         $data=$request->all();
         // return json_encode(['status'=>200]);
 
@@ -474,6 +475,9 @@ class loginController extends Controller
 
         }
 
+        // return json_encode(['status'=>200,'data'=>$data_user]);
+
+
         $data['nombre']=$data_user[0]->{'nombre'};
         $data['ap_paterno']=$data_user[0]->{'ap_paterno'};
         $data['ap_materno']=$data_user[0]->{'ap_materno'};
@@ -485,12 +489,17 @@ class loginController extends Controller
 
             $token=md5($data['nombre'].'token_reset_password_correo'.$data['ap_paterno'].$data['ap_materno'].$data['curp']);
             $data['id_generado_user']=base64_encode($data['id_generado_user'].'---'.$token);
+
+            // return json_encode(['status'=>200,'data'=>$data,'token'=>$token]);
+
             Mail::to($data['correo'])->send(new MessageResetPassword($data));
 
             return json_encode(['status'=>200]);
 
         } catch (\Throwable $th) {
+
             return json_encode(['status'=>400,'info'=>'Lo sentimos, ha ocurrido un error,intentelo de nuevo']);
+
         }
     }
 

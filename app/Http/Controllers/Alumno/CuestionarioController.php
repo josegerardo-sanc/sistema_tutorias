@@ -148,7 +148,11 @@ class CuestionarioController extends Controller
                     'fecha_created_cuestionario' => $FECHA_REGISTER,
                     'id_user_alumno' =>$id_user_logueado,
                     'id_user_tutor' =>$id_user_tutor,
-                    'periodo' =>$periodo
+                    'periodo' =>$periodo,
+                    'carrera' =>$MisDatos[0]->carrera,
+                    'semestre' =>$MisDatos[0]->semestre,
+                    'turno' =>$MisDatos[0]->turno,
+                    'grupo' =>$MisDatos[0]->grupo
                 ]
             );
             DB::commit();
@@ -198,6 +202,13 @@ class CuestionarioController extends Controller
         ->where('cuestionario.tipo_cuestionario','=',"individual")
         ->get();
 
+        
+        $MisDatos= DB::table('users')
+        ->join('datos_alumnos','users.id', '=', 'datos_alumnos.user_id_alumno')
+        ->where('users.tipo_usuario','=','alumno')
+        ->where('users.id','=',$id_user_logueado)
+        ->get();
+
         if(count($cuestionario)>0){
             return json_encode([
             'status'=>400,
@@ -225,7 +236,11 @@ class CuestionarioController extends Controller
                     'fecha_created_cuestionario' => $FECHA_REGISTER,
                     'id_user_alumno' =>$id_user_logueado,
                     'id_user_tutor' =>$id_user_tutor,
-                    'periodo' =>$periodo
+                    'periodo' =>$periodo,
+                    'carrera' =>$MisDatos[0]->carrera,
+                    'semestre' =>$MisDatos[0]->semestre,
+                    'turno' =>$MisDatos[0]->turno,
+                    'grupo' =>$MisDatos[0]->grupo
                 ]
             );
             DB::commit();
