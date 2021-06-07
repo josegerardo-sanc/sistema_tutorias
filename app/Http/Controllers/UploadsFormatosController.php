@@ -84,9 +84,6 @@ class UploadsFormatosController extends Controller
 
     }
 
-
-
-
     public function SubirFormato(Request $request){
 
         if($_FILES['archivo_file_input']!="undefined"||$_FILES['archivo_file_input']!=null){

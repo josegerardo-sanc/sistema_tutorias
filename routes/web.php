@@ -26,14 +26,18 @@ Route::get('/', function () {
 Route::get('login/{driver}', 'loginController@redirectToProvider');
 Route::get('login/{driver}/callback', 'loginController@handleProviderCallback');
 
+Route::get('/seguimientoActividad/tutorial/','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorial');
+Route::get('/downloadFormato/{id}', 'UploadsFormatosController@download_archivo');
+Route::post('/pdftutor','PDF\pdfController@Evaluaciontutor');
+// graficar
+Route::get('/evaluacion','Admin\evaluaciones\evaluacionController@index');
+// Route::get('/seguimientoActividad/tutorial/','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorial');
+Route::post('/seguimientoActividad/tutorial/enviarData','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorialStore');
+Route::post('/obtenerlistaSegumiento/tutorial','Admin\evaluaciones\evaluacionController@obtenerlistaSegumiento');
 
 Route::group(['middleware' => ['role:Administrador','auth']], function () {
 
-    // graficar
-    Route::get('/evaluacion','Admin\evaluaciones\evaluacionController@index');
-    Route::get('/seguimientoActividad/tutorial/','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorial');
-    Route::post('/seguimientoActividad/tutorial/enviarData','Admin\evaluaciones\evaluacionController@seguimientoActividadTutorialStore');
-    Route::post('/obtenerlistaSegumiento/tutorial','Admin\evaluaciones\evaluacionController@obtenerlistaSegumiento');
+
 
     // carreras
 
@@ -54,7 +58,7 @@ Route::group(['middleware' => ['role:Administrador','auth']], function () {
     Route::get('/formatos', 'UploadsFormatosController@formatosIndex');
     Route::post('/subirFormato', 'UploadsFormatosController@SubirFormato');
     Route::post('/DeleteFormato', 'UploadsFormatosController@DeleteArchivo');
-    Route::get('/downloadFormato/{id}', 'UploadsFormatosController@download_archivo');
+    // Route::get('/downloadFormato/{id}', 'UploadsFormatosController@download_archivo');
 
     // REPORTES ENVIADOS POR LOS TUTORES
     Route::get('/reportes/reportes_enviados', 'UploadsFormatosController@reportes_enviados');

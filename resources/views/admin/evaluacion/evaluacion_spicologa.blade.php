@@ -43,8 +43,14 @@
                     <div class="col-sm-12 form-group">
                         <label class="form-label label_filter d-flex justify-content-between align-items-center">Carrera <strong class="carreras_select_textError"></strong></label>
                         <select id="selected_options_evaluaciones" class="form-control">
-                            <option value="1"  selected>Registrar Evaluación</option>
-                            <option value="2">Consultar evaluación ó evaluaciones</option>
+                            @role('Administrador')
+                               <option value="1" selected>Registrar Evaluación</option>
+                                <option value="2">Consultar evaluación ó evaluaciones</option>
+                            @endrole
+                            @role('Subdirector')
+                                <option value="2" selected>Consultar evaluación ó evaluaciones</option>
+                            @endrole
+
                         </select>
                     </div>
                     <div class="col-sm-12 col-md-4 form-group">
@@ -69,10 +75,15 @@
                         <button class="btn btn-primary float-right  mt-4 mb-4" id="btn_consultar_evaluaciones" style="display: none">
                             Consultar
                         </button>
+                        <button class="btn btn-danger float-right  mt-4 mb-4" type="button" id="download-pdf" style="">
+                            Generar PDF<i class="far fa-file-pdf"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
         <div class="row" id="mostrar_titulo_conte">
             <div class="col-sm-12 card">
@@ -81,6 +92,7 @@
                     <li class="text-muted text-left" style="font-size:20px;">Periodo <strong style="color:black;" id="cicloEscolar_selecionado"></strong></li>
                     <li class="text-muted text-left" style="font-size:20px;" style="display: none" id="item_li_tutor">Tutor <strong style="color:black;" id="tutor_seleccionado"></strong></li>
                 </ul>
+                @role('Administrador')
                 <div class="card-body" id="contenedor_evaluacion_option_1">
                     <table class="table table-responsive">
                         <tbody>
@@ -150,6 +162,7 @@
                         <button class="btn btn-success btn-block" id="btn_guardar_evaluacion">Guardar</button>
                     </div>
                 </div>
+                @endrole
                 <div class="card-body" id="contenedor_busqueda_personalizada">
 
                 </div>
@@ -168,6 +181,59 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 
 <script>
+$("#download-pdf").click(function(e){
+        e.preventDefault();
+
+    let carreras=$('#carreras').val();
+    let init_selecte_tutores=$('#init_selecte_tutores').val();
+    let fechaEvaluacion=$('#fechaEvaluacion').val();
+    const this_element=$(this);
+    let this_text=$(this).html();
+
+    let object_form_FILTRO_BUSQUEDA={
+        "carreras":carreras,
+        "init_selecte_tutores":init_selecte_tutores,
+        "fechaEvaluacion":fechaEvaluacion
+    }
+
+    console.log(object_form_FILTRO_BUSQUEDA);
+
+    $.ajax({
+            url :'/pdftutor',
+            type: "POST",
+            headers:{"X-CSRF-Token": csrf_token},
+            data: object_form_FILTRO_BUSQUEDA,
+            xhrFields: {
+                responseType: 'blob'
+            //    responseType: 'json'
+            },
+            beforeSend:function(){
+                $('.conte_loader_MyStyle').css({display:'flex'});
+                $(this_element).html('Generando PDF <i class="fas fa-sync fa-spin"></i> .......').attr('disabled','disabled');
+            }
+        }).done(function(respuesta){
+                console.log(respuesta);
+
+                $(this_element).html(this_text).removeAttr('disabled');
+                $('.conte_loader_MyStyle').css({display:'none'});
+                // return false;
+                var blob = new Blob([respuesta],{ type: 'application/pdf' });
+                var link = document.createElement('a');
+                var downloadUrl= window.URL.createObjectURL(blob);
+                link.href=downloadUrl;
+                link.target="_blank"
+                link.click();
+
+        }).fail(function(jqXHR,textStatus) {
+            console.log(jqXHR);
+            $('.conte_loader_MyStyle').css({display:'none'});
+            $(this_element).html(this_text).removeAttr('disabled');
+            // ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
+
+        })
+
+    });
+    // pdf
 
 $('#btn_reset_carrera_default').on('click',function(){
     $('#carreras').val(0)
@@ -354,6 +420,16 @@ $('#fechaEvaluacion').on('change',function(){
 
 });
 
+
+let OpcionSelected=$('#selected_options_evaluaciones').val();
+if(OpcionSelected==2){
+    $('#btn_consultar_evaluaciones').css({'display':''});
+    $('#mostrarInformacinBusqueda').css({'display':''});
+    $('#item_li_tutor').css({'display':''});
+    setTimeout(() => {
+        $('#mostrarInformacinBusqueda').css({'display':'none'});
+    },5000);
+}
 
 $('#selected_options_evaluaciones').on('change',function(){
 

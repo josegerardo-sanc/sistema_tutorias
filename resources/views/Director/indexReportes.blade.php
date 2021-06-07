@@ -88,11 +88,11 @@
                                 <div>
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-default md-btn-flat active">
-                                            <input type="radio" name="file-manager-view" value="file-manager-col-view" checked>
+                                            <input type="radio" name="file-manager-view" value="file-manager-col-view">
                                             <span class="ion ion-md-apps"></span>
                                         </label>
                                         <label class="btn btn-default md-btn-flat">
-                                            <input type="radio" name="file-manager-view" value="file-manager-row-view">
+                                            <input type="radio" name="file-manager-view" value="file-manager-row-view" id="click_views" checked>
                                             <span class="ion ion-md-menu"></span>
                                         </label>
                                     </div>
@@ -459,9 +459,13 @@ $('.init_selecte_tutores').each(function() {
                                             >
                                             <div class="file-item-select-bg bg-primary"></div>
                                             <div class="file-item-icon far fa-folder text-secondary"></div>
-                                            <a href="javascript:void(0)" class="file-item-name">
-                                                ${iterator.titulo.length>10?iterator.titulo.substring(0,15)+"..":iterator.titulo}
-                                                <span class="badge ${backgrond_badge}">${extencion_archivo}</span>
+                                            <a href="javascript:void(0)" class="file-item-name p-1">
+                                                <strong>${iterator.titulo}
+                                                   <span class="badge ${backgrond_badge}">${extencion_archivo}</span>
+                                                </strong>
+                                                <div style="width:100%">
+                                                    <strong>Descrpción:</strong> ${iterator.descripcion}
+                                                </div>
                                             </a>
                                             <div class="file-item-changed">${iterator.fecha_created_archivo}</div>
                                             <div class="file-item-actions btn-group">
@@ -485,7 +489,7 @@ $('.init_selecte_tutores').each(function() {
                         </div>`);
                 }
             }
-
+            $('#click_views').click();
             $("html,body").animate({ scrollTop: 0 }, 600);
 
         }).fail(function(jqXHR,textStatus) {

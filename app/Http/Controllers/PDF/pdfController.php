@@ -280,13 +280,53 @@ class pdfController extends Controller
         dd($searchArray);
     }
 
+    public function Evaluaciontutor(Request $request){
+
+        // return response()->json($request);
+
+        $carreras=$request->get('carreras');
+        $id_user=$request->get('init_selecte_tutores');
+        $periodo=$request->get('fechaEvaluacion');
+
+        $periodo=$periodo!=null?$periodo:date('Y-m-d H:i:s');
+
+        $fecha = date("Y-m-d", strtotime($periodo));
+        $fecha_explode = explode("-", $fecha);
+
+        $periodo = "";
+        if (abs($fecha_explode['1']) >= 8) {
+            $periodo = "Agosto-Diciembre";
+
+        } else {
+            $periodo = "Febrero-Julio";
+
+        }
+
+        $data=DB::table('evaluacion_tutor_spicologa as seg')
+                ->leftJoin('users','users.id','=','seg.id_user')
+                ->where('id_user',$id_user)
+                ->where('periodo',$periodo)
+                ->where('id_carrera',$carreras)
+                ->get();
+
+        // return response()->json(['data'=>$data,'periodo'=>$periodo]);
+
+        $pdf= PDF::loadView('PDF.evaluaciontutor',compact('data'))->setPaper('a4', 'landscape');
+
+        $path = public_path('pdf/');
+        $fileName =  time().'.'. 'pdf' ;
+        $pdf->save($path . '/' . $fileName);
+        $pdf = public_path('pdf/'.$fileName);
+        return response()->download($pdf);
+    }
+
 
     public function evaluacion(Request $request){
 
         $id_cuestionario=$request->get('id_cuestionario');
 
         // $id_cuestionario=8;
-        
+
         $preguntas = DB::table('preguntas')->get();
 
         $cuestionario=DB::table('cuestionario')
@@ -294,13 +334,13 @@ class pdfController extends Controller
         ->leftJoin('users','users.id','=','cuestionario.id_user_alumno')
         ->leftJoin('datos_alumnos','datos_alumnos.user_id_alumno','=','cuestionario.id_user_alumno')
         ->where('id_cuestionario','=',$id_cuestionario)
-        ->select('users.nombre','users.ap_paterno','users.ap_materno', 'datos_alumnos.matricula', 
+        ->select('users.nombre','users.ap_paterno','users.ap_materno', 'datos_alumnos.matricula',
                 'carreras.carrera','cuestionario.semestre','cuestionario.turno','cuestionario.grupo',
                 'cuestionario.respuestas_cuestionario','cuestionario.observacion')
         ->get();
 
 
-        
+
         // return view('PDF.evaluacion',compact('preguntas','cuestionario'));
 
         $pdf= PDF::loadView('PDF.evaluacion',compact('preguntas','cuestionario'))->setPaper('a4', 'landscape');
@@ -312,7 +352,6 @@ class pdfController extends Controller
 
         return response()->download($pdf);
 
-        
     }
 
 }

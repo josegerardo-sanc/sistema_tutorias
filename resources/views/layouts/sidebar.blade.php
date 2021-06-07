@@ -233,6 +233,12 @@
                     <div>Reportes</div>
                 </a>
             </li>
+            <li class="sidenav-item">
+                <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
+                    <i class="sidenav-icon fas fa-tasks"></i>
+                    <div>Seguimiento actividad tutorial</div>
+                </a>
+            </li>
         @endrole
 
 

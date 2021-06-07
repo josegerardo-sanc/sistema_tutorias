@@ -42,7 +42,7 @@ class FormatosController extends Controller
             abort(403,"No se encontro el archivo solicitado.");
         }
 
-        dd($datos_file);
+        // dd($datos_file);
 
         $name_file_original=json_decode($datos_file[0]->{'datos_tipo_archivo'},true);
 
