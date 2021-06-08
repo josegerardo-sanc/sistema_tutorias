@@ -82,13 +82,13 @@
                         $respuesta=json_decode($data[0]->{'respuestas_evaluacion'},true);
                     ?>
                     <tr>
-                        <td><strong>{{$respuesta['pregunta_1']==true?"Si":"No"}}</strong></td>
+                        <td><strong>{{$respuesta['pregunta_1']=="true"?"Si":"No"}}</strong></td>
                         <td>
                             <p>Realiza el diagnóstico del tutorado y detecta áreas de atención en estudiantes.</p>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>{{$respuesta['pregunta_2']==true?"Si":"No"}}</strong></td>
+                        <td><strong>{{$respuesta['pregunta_2']=="true"?"Si":"No"}}</strong></td>
                         <td>
                             <p>
                                 Realiza el diagnóstico del tutorado y detecta áreas de atención en estudiantes,lleva acabo sesiones
@@ -99,12 +99,12 @@
 
                     </tr>
                     <tr>
-                        <td><strong>{{$respuesta['pregunta_3']==true?"Si":"No"}}</strong></td>
+                        <td><strong>{{$respuesta['pregunta_3']=="true"?"Si":"No"}}</strong></td>
                         <td> <p>Entrega los resportes en tiempo y forma</p></td>
 
                     </tr>
                     <tr>
-                        <td><strong>{{$respuesta['pregunta_4']==true?"Si":"No"}}</strong></td>
+                        <td><strong>{{$respuesta['pregunta_4']=="true"?"Si":"No"}}</strong></td>
                         <td><p>
                             Realiza el diagnóstico del tutorado, detecta áreas de atención en el estudiantes lleva acabo sesiones
                             planeadas individuales o grupales canaliza estudiantes.
@@ -113,7 +113,7 @@
                         </p></td>
                     </tr>
                     <tr>
-                        <td><strong>{{$respuesta['pregunta_5']==true?"Si":"No"}}</strong></td>
+                        <td><strong>{{$respuesta['pregunta_5']=="true"?"Si":"No"}}</strong></td>
                         <td>
                             Realiza el diagnóstico del tutorado, detecta área de atención en estudiantes,lleva acabo sesiones
                                     planeadas individuales o grupales canaliza estudiantes

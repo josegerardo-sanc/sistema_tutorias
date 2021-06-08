@@ -212,8 +212,7 @@ $("#download-pdf").click(function(e){
                 $(this_element).html('Generando PDF <i class="fas fa-sync fa-spin"></i> .......').attr('disabled','disabled');
             }
         }).done(function(respuesta){
-                console.log(respuesta);
-
+                // console.log(respuesta);
                 $(this_element).html(this_text).removeAttr('disabled');
                 $('.conte_loader_MyStyle').css({display:'none'});
                 // return false;
