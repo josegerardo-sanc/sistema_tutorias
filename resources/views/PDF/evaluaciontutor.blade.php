@@ -72,6 +72,8 @@
             <div>
                 <strong>Nombre :</strong> {{ucwords($data[0]->{'nombre'}." ".$data[0]->{'ap_paterno'}." ".$data[0]->{'ap_materno'})}}
                 </br>
+                <strong>Carrera  :</strong>{{$name_carrera}}  <strong>Periodo</strong> {{$periodo_new}}
+                </br>
             </div>
             <table class="table">
 

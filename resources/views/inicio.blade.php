@@ -137,7 +137,10 @@
                 <div style="margin-bottom:5px;"></div>
                 <div class="form-group" style="width: 100%">
                     <div class="d-flex justify-content-between flex-wrap">
-                        <img src="{{asset('storage/imagenes/itss.jpg')}}" style="height:70px;object-fit: cover;" alt="logo">
+                        <div>
+                           <img src="{{asset('storage/imagenes/itss.jpg')}}" style="height:70px;object-fit: cover;" alt="logo">
+                           <img src="{{asset('storage/imagenes/logo2.png')}}" style="height:70px;object-fit: cover;" alt="logo2">
+                        </div>
                         <div class="d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
                                <i class="fab fa-facebook"></i>
@@ -155,7 +158,7 @@
                             Tecnológico Nacional de México
                         </h3>
                         <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Instituto Tecnológico Superior de la Región Sierra</span>
-                        <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Sudirección académica y coordinación de tutorías</span>
+                        <span class=" font-italic text-justify d-flex justify-content-center text-primary text_responsive">Subdirección académica y coordinación de tutorías</span>
 
                         {{-- <h5 class="text-center mt-4 mb-2 font-italic" style="color:#B16A26">
                             Iniciar sesión

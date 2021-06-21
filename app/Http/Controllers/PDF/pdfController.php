@@ -309,9 +309,18 @@ class pdfController extends Controller
                 ->where('id_carrera',$carreras)
                 ->get();
 
+        $name_carrera=DB::table('carreras')->where('id_carrera',$carreras)->get();
+
+
+        if(count($name_carrera)>0){
+            $name_carrera=$name_carrera[0]->{'carrera'};
+        }
+
         // return response()->json(['data'=>$data,'periodo'=>$periodo]);
 
-        $pdf= PDF::loadView('PDF.evaluaciontutor',compact('data'))->setPaper('a4', 'landscape');
+        $periodo_new=date('Y')." ".$periodo;
+
+        $pdf= PDF::loadView('PDF.evaluaciontutor',compact('data','periodo_new','name_carrera'))->setPaper('a4', 'landscape');
 
         $path = public_path('pdf/');
         $fileName =  time().'.'. 'pdf' ;
