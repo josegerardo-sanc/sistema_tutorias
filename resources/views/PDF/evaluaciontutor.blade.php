@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Evaluacion Tutor</title>
+    <title>Evaluación departamental de tutorias</title>
 </head>
 <style>
     body{
@@ -68,7 +68,7 @@
             </tr>
         </table>
          @if (count($data)>0)
-            <h5>Evaluación Segumiento Tutor</h5>
+            <h5>Evaluación departamental de tutorias</h5>
             <div>
                 <strong>Nombre :</strong> {{ucwords($data[0]->{'nombre'}." ".$data[0]->{'ap_paterno'}." ".$data[0]->{'ap_materno'})}}
                 </br>
