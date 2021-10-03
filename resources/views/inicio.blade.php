@@ -377,7 +377,7 @@
                             if(ruta==""){
                                 ruta="/";
                             }
-                            //window.location.href = ruta;
+                            window.location.href = ruta;
 
                             //nota debes de redireccionar dependiendo del usuario
                         }
