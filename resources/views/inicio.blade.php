@@ -293,7 +293,9 @@
         }
 
 
-        $('#btn_IniciarSesion').on('click',function(){
+        $('#btn_IniciarSesion').on('click',function(e){
+            e.preventDefault();
+            
             let USUARIO_CURP=$('#CURP').val();
             let CLAVE_USUARIO=$('#CLAVE_USUARIO').val();
             let Permanecer_registrado=false;
