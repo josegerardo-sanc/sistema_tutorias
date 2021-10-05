@@ -184,7 +184,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-user"></i></span>
                         </div>
-                        <input value="GAPE950418HTCRRD00" type="text" class="form-control input_curp_validar" id="CURP" placeholder="Ingresa tu curp" aria-label="CURP" aria-describedby="basic-addon1" maxlength="20">
+                        <input type="text" class="form-control input_curp_validar" id="CURP" placeholder="Ingresa tu curp" aria-label="CURP" aria-describedby="basic-addon1" maxlength="20">
                     </div>
                     <div class="content_error_curp"></div>
                 </div>
@@ -199,7 +199,7 @@
                             <i class="fas fa-key"></i>
                           </span>
                         </div>
-                        <input value="password" type="password" class="form-control" id="CLAVE_USUARIO" placeholder="Ingresa tu clave" aria-label="CLAVE" aria-describedby="basic-addon1" maxlength="30">
+                        <input type="password" class="form-control" id="CLAVE_USUARIO" placeholder="Ingresa tu clave" aria-label="CLAVE" aria-describedby="basic-addon1" maxlength="30">
                         <div class="input-group-append">
                             <span class="input-group-text" id="verPassword" style="background-color:white">
                                 <i class="far fa-eye-slash"></i>
@@ -377,8 +377,8 @@
                             if(ruta==""){
                                 ruta="/";
                             }
-                            //window.location.href = ruta;
-                            window.open(ruta, '_blank');
+                            window.location.href = ruta;
+
                             //nota debes de redireccionar dependiendo del usuario
                         }
 
