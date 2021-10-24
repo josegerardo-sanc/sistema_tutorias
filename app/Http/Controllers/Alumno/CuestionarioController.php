@@ -162,9 +162,9 @@ class CuestionarioController extends Controller
                 'info'=>'<i class="fas fa-database"></i> Registro sastifactorio.</br>Muchas gracias por tu participación'
             ]);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
              DB::rollBack();
-            return json_encode(['status'=>400,'info'=>'Se produjo un problema de comunicación con el servidor. recargue la pagina F5']);
+            return json_encode(['status'=>400,'info'=>'Se produjo un problema de comunicación con el servidor. recargue la pagina F5'.e]);
         }
     }
 

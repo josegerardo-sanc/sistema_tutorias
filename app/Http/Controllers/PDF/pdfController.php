@@ -130,7 +130,7 @@ class pdfController extends Controller
 
                 $carrera=$request->get('filtro_carrera_escolar');
 
-                    if($carrera!=null){
+                    if(!empty($carrera)&&$carrera!=0){
                         $users=DB::table('users')
                         ->leftJoin('asignacion','users.id','=','asignacion.user_id_asignado')
                         ->leftJoin('carreras','carreras.id_carrera','=','asignacion.carrera')

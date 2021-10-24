@@ -23,6 +23,10 @@ class Cuestionario extends Migration
             $table->string('id_user_alumno');
             $table->string('id_user_tutor');
             $table->enum('periodo',['FEBRERO-JULIO','AGOSTO-DICIEMBRE']);
+            $table->string('carrera');
+            $table->string('semestre');
+            $table->string('turno');
+            $table->string('grupo');
 
         });
     }

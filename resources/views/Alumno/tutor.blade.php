@@ -45,35 +45,24 @@
             <div class="card">
                 <div class="card-body p-5">
                     <div class="row">
-                        <div class="col-sm-6 pb-4">
+                        <div class="col-sm-12 pb-4">
                             <div class="media align-items-center mb-4">
-                                <a href="index.html" class="navbar-brand app-brand demo py-0 mr-4">
                                     <span class="app-brand-logo demo">
                                         {{-- <img src="assets/img/logo-dark.png" alt="Brand Logo" class="img-fluid"> --}}
                                         <img  src="{{asset('storage').'/Recursos_sistema/itss.jpg'}}" style="height:80px;object-fit: cover;" alt="logo">
                                     </span>
-                                    <span class="app-brand-text demo font-weight-bold text-dark ml-2">Instituto Tecnológico Superior de la Región Sierra.</span>
-                                </a>
+                                    <span class="app-brand-text demo font-weight-bold text-dark ml-2" style="word-break: break-all;">Instituto Tecnológico Superior de la Región Sierra.</span>
                             </div>
                             {{-- <div class="mb-1">Office 154, 330 North Brand Boulevard</div>
                             <div class="mb-1">Glendale, CA 91203, USA</div>
                             <div>+0 (123) 456 7891, +9 (876) 543 2198</div> --}}
                         </div>
-                        <div class="col-sm-6 text-right pb-4">
-                            {{--
-                            <div class="mb-1">Date:
-                                <strong class="font-weight-semibold">January 12, 2015</strong>
-                            </div>
-                            <div>Due date:
-                                <strong class="font-weight-semibold">May 12, 2015</strong>
-                            </div> --}}
-                            <h6 class="text-big text-large font-weight-bold mb-3">Tutor</h6>
-                            <img  src="{{asset('storage').'/'.$tutor[0]->photo}}" style="height:100px;object-fit: cover;border-radius:7px;" alt="imagenPerfil">
-                        </div>
                     </div>
                     <hr class="mb-4">
                     <div class="row">
-
+                        <div class="col-sm-12 d-flex justify-content-end p-3">
+                            <img  src="{{asset('storage').'/'.$tutor[0]->photo}}" style="height:100px;object-fit: cover;border-radius:7px;" alt="imagenPerfil">
+                        </div>
                         <div class="col-sm-12 col-md-12">
                             <div class="row col-sm-12">
                                 <div class="col-sm-12 font-weight-bold mb-2"><i class="sidenav-icon fas fa-user"></i> Datos:</div>
@@ -107,8 +96,8 @@
                                        {{$tutor[0]->name_carrera}}
                                     </th>
                                     <th class="py-3">
-                                        {{$tutor[0]->semestre}} °
                                         <strong style="color:#FF5733">Semestre</strong>
+                                        {{$tutor[0]->semestre}} °
 
                                     </th>
                                     <th class="py-3">

@@ -90,16 +90,16 @@
                 <div>Grafica de evaluación tutor</div>
             </a>
         </li>
+        @endrole
+        
+        @hasanyrole('Administrador||Director')
         <li class="sidenav-item">
             <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
                 <i class="sidenav-icon fas fa-tasks"></i>
                 <div>Seguimiento actividad tutorial</div>
             </a>
         </li>
-
         @endrole
-
-
         {{-- otro modulo --}}
 
         @hasanyrole('Administrador||Tutor')
@@ -277,7 +277,7 @@
         </>
         --}}
 
-        @hasanyrole('Subdirector||Tutor||Alumno')
+        @hasanyrole('Subdirector||Tutor||Alumno||Administrador')
         <li class="sidenav-item">
             <a href="#" class="sidenav-link" id="btn_module_canalizacion">
                 <i class="sidenav-icon fas fa-file"></i>

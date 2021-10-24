@@ -60,7 +60,7 @@
         <table>
             <tr>
                 <td>
-                    <img src="https://tutoriasitss.granbazarmexico.store/storage/imagenes/itss.jpg" style="height:70px;object-fit: cover;float: left;" alt="logo">
+                <img src="{{public_path('/itss.jpg')}}" style="height:70px;object-fit: cover;float: left;" alt="logo">
                 </td>
                 <td text-align="center">
                     <strong style="heigth:70px;line-height:70px;font-size:20px;margin-left:10px;">Instituto Tecnológico Superior de la Región Sierra.</strong>

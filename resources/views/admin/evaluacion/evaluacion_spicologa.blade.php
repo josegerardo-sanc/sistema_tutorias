@@ -98,7 +98,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="radio" name="" class="" id="pregunta_1">
+                                    <input type="checkbox" name="" class="" id="pregunta_1">
                                 </td>
                                 <td>
                                     <p>Realiza el diagnóstico del tutorado y detecta áreas de atención en estudiantes.</p>
@@ -106,7 +106,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" name="" class="" id="pregunta_2">
+                                    <input type="checkbox" name="" class="" id="pregunta_2">
                                 </td>
                                 <td>
                                     <p>
@@ -119,7 +119,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" name="" class="" id="pregunta_3">
+                                    <input type="checkbox" name="" class="" id="pregunta_3">
                                 </td>
                                 <td>
                                    <p>Entrega los resportes en tiempo y forma</p>
@@ -127,7 +127,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" name="" class="" id="pregunta_4">
+                                    <input type="checkbox" name="" class="" id="pregunta_4">
                                 </td>
                                 <td>
                                     <p>
@@ -140,7 +140,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" name="" class="" id="pregunta_5">
+                                    <input type="checkbox" name="" class="" id="pregunta_5">
                                 </td>
                                 <td>
                                 <p>
@@ -479,8 +479,8 @@ $("#btn_guardar_evaluacion").on('click',function(){
         'fechaEvaluacion':fecha
     }
 
-    // console.log(objectEvaluacion);
-
+    console.log(objectEvaluacion);
+    //return false;
     EnviarData(objectEvaluacion,$(this))
 
 });

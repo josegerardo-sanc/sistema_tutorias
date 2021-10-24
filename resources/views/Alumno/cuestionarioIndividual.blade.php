@@ -118,8 +118,8 @@
                                                             {{$item->name_carrera}}
                                                             </th>
                                                             <th class="py-3">
-                                                                {{$item->semestre}} °
                                                                 <strong style="color:#FF5733">Semestre</strong>
+                                                                {{$item->semestre}} °
 
                                                             </th>
                                                             <th class="py-3">
