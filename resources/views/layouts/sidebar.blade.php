@@ -190,7 +190,7 @@
                     <li class="sidenav-item">
                         <a href="{{url('/alumnoCuestionario/grupal')}}" class="sidenav-link">
                              <i class="sidenav-icon fas fa-list-ol"></i>
-                            <div>Calificar Tutor Grupal</div>
+                            <div>Evaluar Tutor Grupal</div>
                         </a>
                     </li>
                     <li class="sidenav-item">

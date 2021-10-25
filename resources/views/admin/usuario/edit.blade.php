@@ -262,8 +262,9 @@
                                         <option value="4">4º Semestre</option>
                                         <option value="5">5º Semestre</option>
                                         <option value="6">6º Semestre</option>
-                                        <option value="7">8º Semestre</option>
-                                        <option value="8">9º Semestre</option>
+                                        <option value="7">7º Semestre</option>
+                                        <option value="8">8º Semestre</option>
+                                        <option value="9">9º Semestre</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6 form-group">

@@ -55,6 +55,7 @@
                                 <option value="6">6º Semestre</option>
                                 <option value="7">7º Semestre</option>
                                 <option value="8">8º Semestre</option>
+                                <option value="9">9º Semestre</option>
                             </select>
                         </div>
                         <div class="col-sm-3 form-group">
