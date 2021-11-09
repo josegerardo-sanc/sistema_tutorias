@@ -20,12 +20,12 @@
 
 
     <style>
-
-        body{
+        body {
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
         }
+
         .icon {
             color: white;
             text-decoration: none;
@@ -33,6 +33,7 @@
             display: flex;
             transition: all .5s;
         }
+
         .icon-facebook {
             background: #2E406E;
         }
@@ -50,49 +51,51 @@
         }
 
         .contenedor_imagen_itss {
-                display:block;
+            display: block;
         }
-        .formulario_registro_user{
-             border:1px solid transparent;
-         }
 
-		.text_responsive{
-                font-size: 20px;
+        .formulario_registro_user {
+            border: 1px solid transparent;
         }
-        .text_responsive_tecnologico{
+
+        .text_responsive {
+            font-size: 20px;
+        }
+
+        .text_responsive_tecnologico {
             font-size: 15px;
         }
 
         @media (max-width: 769px) {
-            .text_responsive{
-				 font-size: 15px;
-			 }
-			 .text_responsive_tecnologico{
-				 font-size: 15px;
-			 }
+            .text_responsive {
+                font-size: 15px;
+            }
+
+            .text_responsive_tecnologico {
+                font-size: 15px;
+            }
+
             .contenedor_imagen_itss {
                 display: none;
             }
 
-			#titulo_pagina{
-				display: flex;
-                flex-direction:row-reverse;
-			}
+            #titulo_pagina {
+                display: flex;
+                flex-direction: row-reverse;
+            }
 
         }
 
-        #conte_img{
+        #conte_img {
             background: url('https://tabasco.gob.mx/sites/default/files/styles/dependencias/public/2016-10/1.png?itok=c89W_t3C');
             background-attachment: fixed;
             background-repeat: no-repeat;
-            background-position:100% 50%;
+            background-position: 100% 50%;
             background-size: cover;
             /* filter: invert(10%); */
             -webkit-filter: contrast(130%);
-             filter: contrast(130%);
+            filter: contrast(130%);
         }
-
-
     </style>
 
 </head>
@@ -138,20 +141,20 @@
                 <div class="form-group" style="width: 100%">
                     <div class="d-flex justify-content-between flex-wrap">
                         <div>
-                           <img src="{{asset('storage/imagenes/itss.jpg')}}" style="height:70px;object-fit: cover;" alt="logo">
-                           <img src="{{asset('storage/imagenes/logo2.png')}}" style="height:70px;object-fit: cover;" alt="logo2">
+                            <img src="{{asset('storage/imagenes/itss.jpg')}}" style="height:70px;object-fit: cover;" alt="logo">
+                            <img src="{{asset('storage/imagenes/logo2.png')}}" style="height:70px;object-fit: cover;" alt="logo2">
                         </div>
                         <div class="d-flex justify-content-end align-items-center" style="height:80px">
                             <a href="https://www.facebook.com/pages/Instituto-Tecnologico-Superior-de-la-Region-Sierra/190874770988922?ref=hl" class="icon icon-facebook">
-                               <i class="fab fa-facebook"></i>
+                                <i class="fab fa-facebook"></i>
                             </a>
                             <a href="https://twitter.com/TecSierra" class="icon icon-twitter">
-                               <i class="fab fa-twitter-square "></i>
+                                <i class="fab fa-twitter-square "></i>
                             </a>
                             <a href="https://www.youtube.com/user/ITSSTABASCO" class="icon icon-youtube">
-                               <i class="fab fa-youtube"></i>
+                                <i class="fab fa-youtube"></i>
                             </a>
-                       </div>
+                        </div>
                     </div>
                     <div>
                         <h3 class="mt-4 mb-2 font-italic text-justify d-flex justify-content-center text-primary text_responsive">
@@ -166,14 +169,14 @@
                     </div>
                     <div class="form-group" style="width: 100%">
                         @if(session('status_confirm'))
-                            <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
-                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    {{ session('status_confirm') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <div class="conte_confirm_error " style="width: 100%;padding:0px;margin:5px 0px;">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ session('status_confirm') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                                </button>
                             </div>
+                        </div>
                         @endif
                         <div class="conte_mensaje" style="width: 100%;padding:0px;margin:15px 0px;"></div>
                     </div>
@@ -182,40 +185,40 @@
                     <div class="clearfix"></div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-user"></i></span>
+                            <span class="input-group-text" id="basic-addon1" style="background-color:white"><i class="fas fa-user"></i></span>
                         </div>
                         <input type="text" class="form-control input_curp_validar" id="CURP" placeholder="Ingresa tu curp" aria-label="CURP" aria-describedby="basic-addon1" maxlength="20">
                     </div>
                     <div class="content_error_curp"></div>
                 </div>
                 <div class="form-group" style="width: 100%">
-                        <label class="col-form-label d-flex justify-content-between align-items-end mb-1">
-                            <span>Clave de acceso</span>
-                            <a href="{{url('/recuperar/password')}}" class="d-block small">¿Se te olvidó tu contraseña?</a>
-                        </label>
+                    <label class="col-form-label d-flex justify-content-between align-items-end mb-1">
+                        <span>Clave de acceso</span>
+                        <a href="{{url('/recuperar/password')}}" class="d-block small">¿Se te olvidó tu contraseña?</a>
+                    </label>
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                          <span class="input-group-text"  style="background-color:white">
-                            <i class="fas fa-key"></i>
-                          </span>
+                            <span class="input-group-text" style="background-color:white">
+                                <i class="fas fa-key"></i>
+                            </span>
                         </div>
                         <input type="password" class="form-control" id="CLAVE_USUARIO" placeholder="Ingresa tu clave" aria-label="CLAVE" aria-describedby="basic-addon1" maxlength="30">
                         <div class="input-group-append">
                             <span class="input-group-text" id="verPassword" style="background-color:white">
                                 <i class="far fa-eye-slash"></i>
                             </span>
-                         </div>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end form-group" style="width:100%; margin-bottom:50px;">
                     <label class="custom-control custom-checkbox m-0">
-                            <input type="checkbox" class="custom-control-input" name="Permanecer_registrado" id="Permanecer_registrado">
-                            <span class="custom-control-label">Permanecer registrado</span>
+                        <input type="checkbox" class="custom-control-input" name="Permanecer_registrado" id="Permanecer_registrado">
+                        <span class="custom-control-label">Permanecer registrado</span>
                     </label>
                 </div>
                 <button type="button" class="btn btn-primary btn-block" id="btn_IniciarSesion">Iniciar Sesión</button>
+                <!--
                 <div style="margin-bottom: 30px;"></div>
-
                 </hr>
                 <a class="btn btn-block" style="background-color: #2E406E;color:white" href="{{url('login/facebook')}}">
                     <i class="fab fa-facebook-square"></i> Facebook
@@ -224,7 +227,7 @@
                      <img src="{{asset('storage/Recursos_sistema/gmail.svg')}}" alt="gmail">
                      Google
                 </a>
-
+                -->
             </div>
         </div>
     </div>
@@ -239,86 +242,92 @@
     <script src="{{asset('js/helpers/helpersCurpAPI.js')}}"></script>
 
     <script>
-        let csrf_token=$('meta[name="csrf-token"]').attr('content');
-        const headers_config={"Content-Type": "application/json","Accept": "application/json","X-Requested-With": "XMLHttpRequest","X-CSRF-Token":csrf_token};
+        let csrf_token = $('meta[name="csrf-token"]').attr('content');
+        const headers_config = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRF-Token": csrf_token
+        };
 
-        $("#verPassword").on('click',function(){
+        $("#verPassword").on('click', function() {
             console.log(document.getElementById('CLAVE_USUARIO').type)
-            if(document.getElementById('CLAVE_USUARIO').type=="text"){
+            if (document.getElementById('CLAVE_USUARIO').type == "text") {
                 $(this).html(`<i class="far fa-eye-slash"></i>`);
-                document.getElementById('CLAVE_USUARIO').type="password";
-            }else{
+                document.getElementById('CLAVE_USUARIO').type = "password";
+            } else {
                 $(this).html(`<i class="far fa-eye"></i>`);
-                document.getElementById('CLAVE_USUARIO').type="text"
+                document.getElementById('CLAVE_USUARIO').type = "text"
             }
         });
 
-        $('#USUARIO_NUMERO').on('keyup',function(e){
-                e.preventDefault();
-                var usuarioNumero=$(this).val();
+        $('#USUARIO_NUMERO').on('keyup', function(e) {
+            e.preventDefault();
+            var usuarioNumero = $(this).val();
 
-                usuarioNumero=usuarioNumero.toUpperCase();
-                $(this).val(usuarioNumero);
+            usuarioNumero = usuarioNumero.toUpperCase();
+            $(this).val(usuarioNumero);
         });
 
-        $('#CURP').on('keypress',function(e){
+        $('#CURP').on('keypress', function(e) {
             var code = (e.keyCode ? e.keyCode : e.which);
-            if(code==13){
+            if (code == 13) {
                 callSesion_login();
             }
         });
-        $('#CLAVE_USUARIO').on('keypress',function(e){
+        $('#CLAVE_USUARIO').on('keypress', function(e) {
             var code = (e.keyCode ? e.keyCode : e.which);
-            if(code==13){
+            if (code == 13) {
                 callSesion_login();
             }
         });
 
-        function callSesion_login(){
+        function callSesion_login() {
             $('.conte_confirm_error').html('');
 
-            let USUARIO_CURP=$('#CURP').val();
-            let CLAVE_USUARIO=$('#CLAVE_USUARIO').val();
+            let USUARIO_CURP = $('#CURP').val();
+            let CLAVE_USUARIO = $('#CLAVE_USUARIO').val();
 
-            if(USUARIO_CURP==""){
+            if (USUARIO_CURP == "") {
                 $('#CURP').focus();
             }
-            if(CLAVE_USUARIO==""){
+            if (CLAVE_USUARIO == "") {
                 $('#CLAVE_USUARIO').focus();
             }
 
-            if(USUARIO_CURP!="" && CLAVE_USUARIO!=""){
+            if (USUARIO_CURP != "" && CLAVE_USUARIO != "") {
                 $('#btn_IniciarSesion').click();
             }
         }
 
 
-        $('#btn_IniciarSesion').on('click',function(e){
+        $('#btn_IniciarSesion').on('click', function(e) {
             e.preventDefault();
 
-            let USUARIO_CURP=$('#CURP').val();
-            let CLAVE_USUARIO=$('#CLAVE_USUARIO').val();
-            let Permanecer_registrado=false;
-            if($('#Permanecer_registrado').is(':checked')){
-                Permanecer_registrado=true;
+            let USUARIO_CURP = $('#CURP').val();
+            let CLAVE_USUARIO = $('#CLAVE_USUARIO').val();
+            let Permanecer_registrado = false;
+            if ($('#Permanecer_registrado').is(':checked')) {
+                Permanecer_registrado = true;
             }
 
-            let objectData={
-                'USUARIO_CURP':USUARIO_CURP,
-                'CLAVE_USUARIO':CLAVE_USUARIO,
-                'Permanecer_registrado':Permanecer_registrado
+            let objectData = {
+                'USUARIO_CURP': USUARIO_CURP,
+                'CLAVE_USUARIO': CLAVE_USUARIO,
+                'Permanecer_registrado': Permanecer_registrado
             };
 
-            let this_element=$(this);
+            let this_element = $(this);
             $('.conte_mensaje').html('');
-            $.ajax(
-                {
-                url :'/IniciarSesion',
-                type:'POST',
-                headers:{"X-CSRF-Token": csrf_token},
-                data :objectData,
-                beforeSend:function(){
-                     $(this_element).html('<i class="fas fa-sync fa-spin"></i> Procesando.......').attr('disabled','disabled');
+            $.ajax({
+                    url: '/IniciarSesion',
+                    type: 'POST',
+                    headers: {
+                        "X-CSRF-Token": csrf_token
+                    },
+                    data: objectData,
+                    beforeSend: function() {
+                        $(this_element).html('<i class="fas fa-sync fa-spin"></i> Procesando.......').attr('disabled', 'disabled');
 
                     }
 
@@ -327,25 +336,25 @@
                     console.log(respuesta);
 
                     $(this_element).html('Iniciar Sesión').removeAttr('disabled');
-                    var data=JSON.parse(respuesta);
+                    var data = JSON.parse(respuesta);
                     console.log(data);
 
 
-                    if(data.status=="400"){
+                    if (data.status == "400") {
                         $('.conte_mensaje').html(
-                        `<div class='alert alert-danger alert-dismissible fade show'>
+                            `<div class='alert alert-danger alert-dismissible fade show'>
                             ${data.info}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>`);
                     }
-                    if(data.status=="200"){
-                        if(data.data.length>0){
+                    if (data.status == "200") {
+                        if (data.data.length > 0) {
                             console.log(data.data)
 
-                            let datos=data.data[0];
+                            let datos = data.data[0];
 
                             $('.conte_mensaje').html(
-                           `<div div class='alert alert-warning alert-dismissible fade show'>
+                                `<div div class='alert alert-warning alert-dismissible fade show'>
                                 <ul style="list-style:none;margin:0px;padding:0px;">
                                     <li><i class="fas fa-thumbs-up"></i>  Bienvenido ${datos.nombre} ${datos.ap_paterno}</li>
                                 </ul>
@@ -354,28 +363,24 @@
 
                             $(this_element).html('<i class="fas fa-sync fa-spin"></i> Redireccionando.......');
 
-                            let ruta="";
-                            let tipo_usuario=data.data[0].tipo_usuario;
+                            let ruta = "";
+                            let tipo_usuario = data.data[0].tipo_usuario;
 
-                            if(tipo_usuario=="tutor"){
-                                ruta="/tutor"
-                            }else if(tipo_usuario=="asesor"){
-                                 ruta="/asesor"
+                            if (tipo_usuario == "tutor") {
+                                ruta = "/tutor"
+                            } else if (tipo_usuario == "asesor") {
+                                ruta = "/asesor"
+                            } else if (tipo_usuario == "alumno") {
+                                ruta = "/alumno"
+                            } else if (tipo_usuario == "director") {
+                                ruta = "/director"
+                            } else if (tipo_usuario == "subdirector") {
+                                ruta = "/subdirector"
+                            } else if (tipo_usuario == "administrador") {
+                                ruta = "/Admin/user"
                             }
-                            else if(tipo_usuario=="alumno"){
-                                 ruta="/alumno"
-                            }
-                            else if(tipo_usuario=="director"){
-                                    ruta="/director"
-                            }
-                            else if(tipo_usuario=="subdirector"){
-                                    ruta="/subdirector"
-                            }
-                            else if(tipo_usuario=="administrador"){
-                                ruta="/Admin/user"
-                            }
-                            if(ruta==""){
-                                ruta="/";
+                            if (ruta == "") {
+                                ruta = "/";
                             }
                             window.location.href = ruta;
 
@@ -383,12 +388,14 @@
                         }
 
                     }
-                    $("html, body").animate({ scrollTop: 0 }, 600);
+                    $("html, body").animate({
+                        scrollTop: 0
+                    }, 600);
 
-                }).fail(function(jqXHR,textStatus) {
+                }).fail(function(jqXHR, textStatus) {
 
                     console.error(jqXHR.responseJSON);
-                    ajax_fails(jqXHR.status,textStatus,jqXHR.responseText,jqXHR.responseJSON.message);
+                    ajax_fails(jqXHR.status, textStatus, jqXHR.responseText, jqXHR.responseJSON.message);
                     $(this_element).html('Iniciar Sesión').removeAttr('disabled');
 
                 })

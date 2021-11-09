@@ -1,12 +1,11 @@
 <style>
-
-    li.sidenav-item>a{
-        color:#9A5614 !important;
-    }
-    li.sidenav-item>a:hover{
-        color:#D19356 !important;
+    li.sidenav-item>a {
+        color: #9A5614 !important;
     }
 
+    li.sidenav-item>a:hover {
+        color: #D19356 !important;
+    }
 </style>
 
 
@@ -18,7 +17,7 @@
             {{-- <img src="assets/img/logo.png" alt="Logo" class="img-fluid"> --}}
             <i class="fab fa-tumblr"></i>
         </span>
-        <a href="index.html" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Tutoría</a>
+        <!--<a href="#" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Tutoría</a>-->
         <a href="javascript:" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
             <i class="ion ion-md-menu align-middle"></i>
         </a>
@@ -66,7 +65,7 @@
             <ul class="sidenav-menu">
                 <li class="sidenav-item">
                     <a href="{{url('/Admin/Asignacion/create')}}" class="sidenav-link">
-                         <i class="sidenav-icon fas fa-hands-helping"></i>
+                        <i class="sidenav-icon fas fa-hands-helping"></i>
                         <div>Asignación grupal</div>
                     </a>
                 </li>
@@ -91,7 +90,7 @@
             </a>
         </li>
         @endrole
-        
+
         @hasanyrole('Administrador||Director')
         <li class="sidenav-item">
             <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
@@ -103,18 +102,18 @@
         {{-- otro modulo --}}
 
         @hasanyrole('Administrador||Tutor')
-            @role('Tutor')
-            <li class="sidenav-divider mb-1"></li>
-            <li class="sidenav-header small font-weight-semibold">Tutor</li>
-            <li class="sidenav-item">
-                <a href="{{url('/tutor')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-list-ol"></i>
-                    <div>Mis Alumnos</div>
-                </a>
-            </li>
-            @endrole
+        @role('Tutor')
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">Tutor</li>
+        <li class="sidenav-item">
+            <a href="{{url('/tutor')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-list-ol"></i>
+                <div>Mis Alumnos</div>
+            </a>
+        </li>
+        @endrole
 
-            <li class="sidenav-item open">
+        <li class="sidenav-item open">
             <a href="javascript:" class="sidenav-link sidenav-toggle">
                 <i class="sidenav-icon fas fa-file-upload"></i>
                 <div>Archivos</div>
@@ -124,126 +123,126 @@
             </a>
             <ul class="sidenav-menu">
                 @role('Tutor')
-                    <li class="sidenav-item">
-                        <a href="{{url('/reportes')}}" class="sidenav-link">
-                            <i class="sidenav-icon fas fa-file"></i>
-                            <div>Reportes</div>
-                        </a>
-                    </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/reportes')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-file"></i>
+                        <div>Reportes</div>
+                    </a>
+                </li>
                 @endrole
                 @role('Tutor')
-                    <li class="sidenav-item">
-                        <a href="{{url('/formatosTutores')}}" class="sidenav-link">
-                            <i class="sidenav-icon fas fa-file"></i>
-                            <div>Formatos Tutores</div>
-                        </a>
-                    </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/formatosTutores')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-file"></i>
+                        <div>Formatos Tutores</div>
+                    </a>
+                </li>
                 @endrole
                 @role('Administrador')
-                    <li class="sidenav-item">
-                        <a href="{{url('/formatos')}}" class="sidenav-link">
-                            <i class="sidenav-icon fas fa-file"></i>
-                            <div>Formatos</div>
-                        </a>
-                    </li>
-                    <li class="sidenav-item">
-                        <a href="{{url('reportes/reportes_enviados')}}" class="sidenav-link">
-                            <i class="sidenav-icon fas fa-file"></i>
-                            <div>Reporte de tutores</div>
-                        </a>
-                    </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/formatos')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-file"></i>
+                        <div>Formatos</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="{{url('reportes/reportes_enviados')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-file"></i>
+                        <div>Reporte de tutores</div>
+                    </a>
+                </li>
                 @endrole
             </ul>
         </li>
         @endhasanyrole
 
         @role('Alumno')
-            <li class="sidenav-divider mb-1"></li>
-            <li class="sidenav-header small font-weight-semibold">Alumno</li>
-            <li class="sidenav-item">
-                <a href="{{url('/alumno/miTutor')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-list-ol"></i>
-                    <div>Mi Tutor</div>
-                </a>
-            </li>
-            {{-- <li class="sidenav-item">
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">Alumno</li>
+        <li class="sidenav-item">
+            <a href="{{url('/alumno/miTutor')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-list-ol"></i>
+                <div>Mi Tutor</div>
+            </a>
+        </li>
+        {{-- <li class="sidenav-item">
                 <a href="{{url('/alumno')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-list-ol"></i>
-                    <div>Mis compañeros</div>
-                </a>
-            </li> --}}
-            <li class="sidenav-item">
-                <a href="{{url('/formatosAlumnos')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-file"></i>
-                    <div>Formatos</div>
-                </a>
-            </li>
-            <li class="sidenav-item open">
-                <a href="javascript:" class="sidenav-link sidenav-toggle">
-                    <i class="sidenav-icon fas fa-user-edit"></i>
-                    <div>Cuestionario</div>
-                    {{-- <div class="pl-1 ml-auto">
+        <i class="sidenav-icon fas fa-list-ol"></i>
+        <div>Mis compañeros</div>
+        </a>
+        </li> --}}
+        <li class="sidenav-item">
+            <a href="{{url('/formatosAlumnos')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Formatos</div>
+            </a>
+        </li>
+        <li class="sidenav-item open">
+            <a href="javascript:" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon fas fa-user-edit"></i>
+                <div>Cuestionario</div>
+                {{-- <div class="pl-1 ml-auto">
                         <div class="badge badge-danger">Hot</div>
                     </div> --}}
-                </a>
-                <ul class="sidenav-menu">
-                    <li class="sidenav-item">
-                        <a href="{{url('/alumnoCuestionario/grupal')}}" class="sidenav-link">
-                             <i class="sidenav-icon fas fa-list-ol"></i>
-                            <div>Evaluar Tutor Grupal</div>
-                        </a>
-                    </li>
-                    <li class="sidenav-item">
-                        <a href="{{url('/alumnoCuestionario/individual')}}" class="sidenav-link">
-                            <i class="sidenav-icon fas fa-list-ol"></i>
-                            <div>Evaluar tutor</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            </a>
+            <ul class="sidenav-menu">
+                <li class="sidenav-item">
+                    <a href="{{url('/alumnoCuestionario/grupal')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-list-ol"></i>
+                        <div>Evaluar Tutor Grupal</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="{{url('/alumnoCuestionario/individual')}}" class="sidenav-link">
+                        <i class="sidenav-icon fas fa-list-ol"></i>
+                        <div>Evaluar tutor</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         @endrole
         @role('Director')
-            <li class="sidenav-divider mb-1"></li>
-            <li class="sidenav-header small font-weight-semibold">Director</li>
-            <li class="sidenav-item">
-                <a href="{{url('/director/formatos')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-file"></i>
-                    <div>Formatos</div>
-                </a>
-            </li>
-            <li class="sidenav-item">
-                <a href="{{url('/director')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-file"></i>
-                    <div>Reportes</div>
-                </a>
-            </li>
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">Director</li>
+        <li class="sidenav-item">
+            <a href="{{url('/director/formatos')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Formatos</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="{{url('/director')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Reportes</div>
+            </a>
+        </li>
         @endrole
         @role('Subdirector')
-            <li class="sidenav-divider mb-1"></li>
-            <li class="sidenav-header small font-weight-semibold">SubDirector</li>
-            <li class="sidenav-item">
-                <a href="{{url('/subdirector/formatos')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-file"></i>
-                    <div>Formatos</div>
-                </a>
-            </li>
-            <li class="sidenav-item">
-                <a href="{{url('/subdirector')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-file"></i>
-                    <div>Reportes</div>
-                </a>
-            </li>
-            <li class="sidenav-item">
-                <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
-                    <i class="sidenav-icon fas fa-tasks"></i>
-                    <div>Seguimiento actividad tutorial</div>
-                </a>
-            </li>
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">SubDirector</li>
+        <li class="sidenav-item">
+            <a href="{{url('/subdirector/formatos')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Formatos</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="{{url('/subdirector')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-file"></i>
+                <div>Reportes</div>
+            </a>
+        </li>
+        <li class="sidenav-item">
+            <a href="{{url('/seguimientoActividad/tutorial/')}}" class="sidenav-link">
+                <i class="sidenav-icon fas fa-tasks"></i>
+                <div>Seguimiento actividad tutorial</div>
+            </a>
+        </li>
         @endrole
 
 
         @role('Administrador')
-         {{-- <li class="sidenav-item">
+        {{-- <li class="sidenav-item">
             <a href="#" class="sidenav-link" id="btn_module_canalizacion">
                 <i class="sidenav-icon fas fa-file"></i>
                 <div>Canalización</div>
@@ -290,10 +289,8 @@
 </div>
 
 <script>
-
-   document.getElementById('btn_module_canalizacion').addEventListener('click',function(e){
+    document.getElementById('btn_module_canalizacion').addEventListener('click', function(e) {
         e.preventDefault();
         alert("Por el momento este módulo no está disponible.");
-   });
-
+    });
 </script>
