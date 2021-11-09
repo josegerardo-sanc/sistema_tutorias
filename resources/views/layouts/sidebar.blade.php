@@ -13,10 +13,12 @@
 <div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-white logo-dark">
     <!-- Brand demo (see assets/css/demo/demo.css) -->
     <div class="app-brand demo" style="background-color: #9A5614;color:white !important;">
+        <!--
         <span class="app-brand-logo demo" style="color:#ffff;font-size:20px;">
             {{-- <img src="assets/img/logo.png" alt="Logo" class="img-fluid"> --}}
             <i class="fab fa-tumblr"></i>
         </span>
+        -->
         <!--<a href="#" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Tutoría</a>-->
         <a href="javascript:" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
             <i class="ion ion-md-menu align-middle"></i>
